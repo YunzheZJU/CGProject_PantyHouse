@@ -16,25 +16,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Draw.cpp">
-      <Filter>资源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>资源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>资源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="System.cpp">
-      <Filter>资源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>资源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Util.cpp">
-      <Filter>资源文件</Filter>
+      <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="glum.cpp">
-      <Filter>资源文件</Filter>
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="System.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

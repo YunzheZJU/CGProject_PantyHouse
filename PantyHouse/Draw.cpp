@@ -8,7 +8,7 @@ GLMmodel* model[100];
 //Initiate objects
 void initObj()
 {
-	model[0] = glmReadOBJ("PantyHouse03.obj");
+	model[0] = glmReadOBJ("models/PantyHouse03.obj");
 }
 
 

@@ -3,6 +3,8 @@
 
 #include "head.h"
 
+#pragma warning(disable:4996)
+
 int textureObjectCnt = 0;
 GLuint textureObjects[400];
 char texFileName[400][50];

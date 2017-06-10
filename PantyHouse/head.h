@@ -39,6 +39,9 @@ using namespace std;
 // Define Pi in math
 #define PI 3.1415926
 
+// Define BITMAP_ID
+#define BITMAP_ID 0x4D42
+
 /*
 TODO:Define global variables
 Here I use an extern struct to avoid duplicated defination of these variables.
