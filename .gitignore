@@ -49,7 +49,6 @@ artifacts/
 *_i.h
 *.ilk
 *.meta
-*.obj
 *.pch
 *.pdb
 *.pgc
@@ -240,3 +239,11 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+# System files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Screenshot images
+#images/
