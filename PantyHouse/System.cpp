@@ -3,6 +3,8 @@
 
 #include "head.h"
 
+#pragma warning(disable:4996)
+
 void init() {
 	// Initiate color
 	glColor3f(1.0f, 1.0f, 1.0f);	// Maybe this is not important
@@ -39,8 +41,8 @@ void redraw() {
 		scene.camera_target[X], scene.camera_target[Y], scene.camera_target[Z],
 		0, 1, 0);							// Define the view model
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	callList();								// Draw Scene with display List
+	showSysStatus();
 
 	glutSwapBuffers();
 }
@@ -73,38 +75,71 @@ void processMouse(int button, int state, int x, int y) {
 void processNormalKey(unsigned char k, int x, int y) {
 	// TODO:processNormalKey()
 
-	switch (k)
-	{
+	switch (k) {
+	// 退出程序
+	case 27:
+	case 'Q':
+	case 'q': {
+		cout << "Bye." << endl;
+		exit(0);
+		break;
+	}
+	// 摄像机移动
+	case 'A':
 	case 'a': {
-		scene.camera[X] += 0.1f;
-		scene.camera_target[X] += 0.1f;
+		scene.camera_polar[A] -= 0.1;
+		updateCamera();
+		cout << fixed << setprecision(1) << "A pressed.\n\tPosition of camera is set to (" <<
+			scene.camera[X] << ", " << scene.camera[Y] << ", " << scene.camera[Z] << ")." << endl;
+		strcpy(scene.message, "A pressed. Watch carefully!");
 		break;
 	}
+	case 'D':
 	case 'd': {
-		scene.camera[X] -= 0.1f;
-		scene.camera_target[X] -= 0.1f;
+		scene.camera_polar[A] += 0.1;
+		updateCamera();
+		cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera is set to (" <<
+			scene.camera[X] << ", " << scene.camera[Y] << ", " << scene.camera[Z] << ")." << endl;
+		strcpy(scene.message, "D pressed. Watch carefully!");
 		break;
 	}
+	case 'W':
 	case 'w': {
-		scene.camera[Y] -= 0.1f;
-		scene.camera_target[Y] -= 0.1f;
+		scene.camera_target[Y] += 0.05;
+		scene.camera[Y] += 0.05;
+		cout << fixed << setprecision(1) << "W pressed.\n\tPosition of camera is set to (" <<
+			scene.camera[X] << ", " << scene.camera[Y] << ", " << scene.camera[Z] << ")." << endl;
+		strcpy(scene.message, "W pressed. Watch carefully!");
 		break;
 	}
+	case 'S':
 	case 's': {
-		scene.camera[Y] += 0.1f;
-		scene.camera_target[Y] += 0.1f;
+		scene.camera_target[Y] -= 0.05;
+		scene.camera[Y] -= 0.05;
+		cout << fixed << setprecision(1) << "S pressed.\n\tPosition of camera is set to (" <<
+			scene.camera[X] << ", " << scene.camera[Y] << ", " << scene.camera[Z] << ")." << endl;
+		strcpy(scene.message, "S pressed. Watch carefully!");
 		break;
 	}
+	case 'Z':
 	case 'z': {
-		scene.camera[Z] -= 0.1f;
-		scene.camera_target[Z] -= 0.1f;
+		scene.camera_polar[R] *= 0.95;
+		updateCamera();
+		cout << fixed << setprecision(1) << "Z pressed.\n\tPosition of camera is set to (" <<
+			scene.camera[X] << ", " << scene.camera[Y] << ", " << scene.camera[Z] << ")." << endl;
+		strcpy(scene.message, "Z pressed. Camera is moved...nearer!");
 		break;
 	}
+	case 'C':
 	case 'c': {
-		scene.camera[Z] += 0.1f;
-		scene.camera_target[Z] += 0.1f;
+		scene.camera_polar[R] *= 1.05;
+		updateCamera();
+		cout << fixed << setprecision(1) << "C pressed.\n\tPosition of camera is set to (" <<
+			scene.camera[X] << ", " << scene.camera[Y] << ", " << scene.camera[Z] << ")." << endl;
+		strcpy(scene.message, "C pressed. Camera is moved...farther!");
 		break;
 	}
+
 	}
 }
 

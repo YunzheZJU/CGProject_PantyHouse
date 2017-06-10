@@ -14,6 +14,7 @@
 #include <fstream>
 #include <string>
 #include <stdlib.h>
+#include <iomanip>
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -36,6 +37,10 @@ using namespace std;
 #define Y 1
 #define Z 2
 
+// Define abbreviate for "radius" and "angle"
+#define R 0
+#define A 1
+
 // Define Pi in math
 #define PI 3.1415926
 
@@ -49,8 +54,12 @@ Thus I must use "scene.XXX" every where.
 Please reconstruct these codes to more C++ like ones.
 */
 typedef struct {
-	GLfloat camera[3] = { 0, 0, 5 };			// Position of camera
+	// Initiate message string to be shown
+	char message[70] = "Welcome!";				// Message string to be shown
+
+	GLfloat camera[3] = { 0, 2, 4 };			// Position of camera
 	GLfloat camera_target[3] = { 0, 0, 0 };		// Position of target of camera
+	GLfloat camera_polar[2] = { 4, 0 };			// Polar coordinates of camera
 
 	// Initiate list num for display list
 	GLint List = 0;								// List num of display list
@@ -77,6 +86,9 @@ GLint genTableList();
 // These functions are defined in Texture.cpp
 void initTexture();
 void readMTL(char * fileName);
+unsigned char *loadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader);
+void loadTexture(int i, char* filename, bool type);
+void loadObjectTextures();
 
 // These functions are defined in Light.cpp
 void initLight();
@@ -84,6 +96,8 @@ void initLight();
 // These functions are defined in Util.cpp
 void callList();
 void updateList();
+void updateCamera();
+void showSysStatus();
 
 // These functions are defined in System.cpp
 void init();

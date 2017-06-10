@@ -3,7 +3,7 @@
 #define GLOBAL_H_
 #include"glm.h"
 // Define model list
-extern GLMmodel* model[100];
+extern GLMmodel* model[10];
 
 extern int textureObjectCnt ;
 extern GLuint textureObjects[400];

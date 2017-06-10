@@ -6,11 +6,18 @@
 #pragma warning(disable:4996)
 
 int textureObjectCnt = 0;
+
 GLuint textureObjects[400];
+
 char texFileName[400][50];
+
 unsigned int textureVideo[30];
 
 void initTexture() {
+	// Read texture from .mtl
+	readMTL("models/Cushion.mtl");
+	loadObjectTextures();
+
 	// Genarate signatures for textures
 	glGenTextures(4, scene.texture);
 	// TODO:Generate textures from source images
@@ -87,7 +94,6 @@ unsigned char *loadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
 	return bitmapImage;
 }
 
-
 void loadTexture(int i, char* filename, bool type) {
 	BITMAPINFOHEADER bitmapInfoHeader;
 	unsigned char*   bitmapData;
@@ -98,7 +104,6 @@ void loadTexture(int i, char* filename, bool type) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
 }
-
 
 void loadObjectTextures()
 {

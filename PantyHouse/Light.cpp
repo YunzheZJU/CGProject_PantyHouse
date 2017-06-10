@@ -3,17 +3,21 @@
 
 #include "head.h"
 
+GLfloat gray[] = { 0.4f, 0.4f, 0.4f, 1.0f };
+GLfloat white[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+GLfloat light_pos[] = { 10.0f, 10.0f, 10.0f, 1.0f };
+
 void initLight() {
 	glEnable(GL_NORMALIZE);
 	// You should comment the next two lines if there is no light in the scene.
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
-	GLfloat gray[] = { 0.4, 0.4, 0.4, 1.0 };
-	GLfloat light_pos[] = { 10, 10, 10, 1 };
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, gray);
+	// Initiate Light 0
 	glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, gray);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, white);
 	glEnable(GL_LIGHT0);
+	// Set global ambient light
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, gray);
 	// Set mirror reflection target to camera instead of infinity
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 	// Apply mirror reflection after texturing

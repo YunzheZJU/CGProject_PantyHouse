@@ -3,21 +3,21 @@ illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
-map_Kd checker1-polySurface6.bmp
+map_Kd textures/checker1-polySurface6.bmp
 Ni 1.00
 newmtl _Cushion_Small_0002:lambert4SG
 illum 4
-Kd 0.00 0.00 0.00
+Kd 0.50 0.50 0.50
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
-map_Kd _Cushion_Small_0002_file1-_Cushion_Small_0002_pCube1.bmp
+map_Kd textures/_Cushion_Small_0002.bmp
 Ni 1.00
 newmtl _Cushion_Small_0002:lambert8SG
 illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
-map_Kd checker2-_Sofa1_pCube3.bmp
+map_Kd textures/checker2-_Sofa1_pCube3.bmp
 Ni 1.00
 newmtl initialShadingGroup
 illum 4
@@ -42,7 +42,7 @@ illum 4
 Kd 0.00 0.00 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
-map_Kd uvtest.jpg
+map_Kd textures/uvtest.jpg
 Ni 1.00
 newmtl lambert5SG
 illum 4
