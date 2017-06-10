@@ -3,6 +3,15 @@
 
 #include "head.h"
 
+GLMmodel* model[100];
+
+//Initiate objects
+void initObj()
+{
+	model[0] = glmReadOBJ("PantyHouse03.obj");
+}
+
+
 void drawObject() {
 	// TODO:drawObject
 	// !!Disable the lighting before you test with these code!!

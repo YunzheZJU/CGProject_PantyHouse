@@ -9,11 +9,23 @@
 #pragma once
 
 // TODO:Include related head files and IO classes
+#include <Windows.h>
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <stdlib.h>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <vector>
+#include <memory.h>
 
 // Include glew.h and glut.h
 #include <gl/glew.h>
 #include <gl/glut.h>
+#include"glm.h"
+#include"global.h"
 
 // Using namespace std for cin and cout
 using namespace std;
@@ -55,11 +67,13 @@ enum {
 
 // TODO:Claim every function in cpp files here
 // These functions are defined in Draw.cpp
+void initObj();
 void drawObject();
 GLint genTableList();
 
 // These functions are defined in Texture.cpp
 void initTexture();
+void readMTL(char * fileName);
 
 // These functions are defined in Light.cpp
 void initLight();

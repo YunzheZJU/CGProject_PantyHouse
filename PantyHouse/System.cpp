@@ -10,6 +10,8 @@ void init() {
 	initTexture();
 	// Initiate menu
 	initMenu();
+	//Initiate objects
+	initObj();
 	// Initiate display list
 	scene.List = genTableList();
 	// Initiate lighting
@@ -70,6 +72,40 @@ void processMouse(int button, int state, int x, int y) {
 
 void processNormalKey(unsigned char k, int x, int y) {
 	// TODO:processNormalKey()
+
+	switch (k)
+	{
+	case 'a': {
+		scene.camera[X] += 0.1f;
+		scene.camera_target[X] += 0.1f;
+		break;
+	}
+	case 'd': {
+		scene.camera[X] -= 0.1f;
+		scene.camera_target[X] -= 0.1f;
+		break;
+	}
+	case 'w': {
+		scene.camera[Y] -= 0.1f;
+		scene.camera_target[Y] -= 0.1f;
+		break;
+	}
+	case 's': {
+		scene.camera[Y] += 0.1f;
+		scene.camera_target[Y] += 0.1f;
+		break;
+	}
+	case 'z': {
+		scene.camera[Z] -= 0.1f;
+		scene.camera_target[Z] -= 0.1f;
+		break;
+	}
+	case 'c': {
+		scene.camera[Z] += 0.1f;
+		scene.camera_target[Z] += 0.1f;
+		break;
+	}
+	}
 }
 
 void processSpecialKey(int k, int x, int y) {
