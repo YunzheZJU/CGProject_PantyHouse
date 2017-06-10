@@ -15,8 +15,9 @@ void initObj()
 void drawObject() {
 	// TODO:drawObject
 	// !!Disable the lighting before you test with these code!!
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glutSolidTeapot(1.0);
+	//glColor3f(1.0f, 1.0f, 1.0f);
+	glScalef(0.01, 0.01, 0.01);
+	glmDraw(model[0], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
 }
 
 GLint genTableList() {
