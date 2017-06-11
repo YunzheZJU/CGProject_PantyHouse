@@ -9,15 +9,16 @@ int textureObjectCnt = 0;
 
 GLuint textureObjects[400];
 
-char texFileName[400][50];
+char texFileName[400][100];
 
 unsigned int textureVideo[30];
 
 void initTexture() {
 	// Read texture from .mtl
-	readMTL("models/Cushion.mtl");
+	readMTL("models/texturetest01.mtl");
+	cout << "readMTL OK." << endl;
 	loadObjectTextures();
-
+	cout << "loadObjectTextures OK." << endl;
 	// Genarate signatures for textures
 	glGenTextures(4, scene.texture);
 	// TODO:Generate textures from source images
@@ -43,9 +44,8 @@ void readMTL(char * fileName) {
 			string st = s.substr(7);
 			st[st.length()/* - 1*/] = '\0';
 			strcpy_s(texFileName[textureObjectCnt], st.c_str());
-			//cout<< texFileName[textureObjectCnt] <<endl;
+			cout<< texFileName[textureObjectCnt] <<endl;
 			textureObjectCnt++;
-
 		}
 	}
 

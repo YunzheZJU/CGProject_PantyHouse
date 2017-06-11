@@ -1,0 +1,24 @@
+newmtl _Cushion_Large_0001:blinn1SG2
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd _Cushion_Large_0001_ramp1-_Cushion_Large_0001_pCube1.bmp
+Ni 1.00
+Ks 0.50 0.50 0.50
+newmtl _Cushion_Large_0001:blinn1SG3
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd _Cushion_Small_0002_file1-_Cushion_Small_0002_pCube1.bmp
+Ni 1.00
+Ks 0.50 0.50 0.50
+newmtl _Cushion_Large_0001:blinn17SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd file126-Cushion_Small_2_pCube1.bmp
+Ni 1.00
+Ks 0.50 0.50 0.50

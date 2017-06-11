@@ -10,12 +10,15 @@ void init() {
 	glColor3f(1.0f, 1.0f, 1.0f);	// Maybe this is not important
 	// Initiate texture
 	initTexture();
+	cout << "initTexture OK." << endl;
 	// Initiate menu
 	initMenu();
 	//Initiate objects
 	initObj();
+	cout << "initObj OK." << endl;
 	// Initiate display list
 	scene.List = genTableList();
+	cout << "genTableList OK." << endl;
 	// Initiate lighting
 	initLight();
 }

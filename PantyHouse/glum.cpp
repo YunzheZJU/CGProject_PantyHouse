@@ -1777,10 +1777,10 @@ glmDrawGroup(GLMmodel* model, int g, GLuint mode)
 	glBegin(GL_TRIANGLES);
 	//group = model->groups;
 	group = model->groups;
-	for (int i = 0; i<g; i++)
-	{
-		group = group->next;
-	}
+	//for (int i = 0; i<g; i++)
+	//{
+	//	group = group->next;
+	//}
 	//group = model->groups;
 	//while (group)
 

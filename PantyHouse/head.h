@@ -25,8 +25,8 @@
 // Include glew.h and glut.h
 #include <gl/glew.h>
 #include <gl/glut.h>
-#include"glm.h"
-#include"global.h"
+#include "glm.h"
+#include "global.h"
 
 // Using namespace std for cin and cout
 using namespace std;
@@ -46,6 +46,15 @@ using namespace std;
 
 // Define BITMAP_ID
 #define BITMAP_ID 0x4D42
+
+// Define model list
+extern GLMmodel* model[10];
+
+// Define variables for texturing
+extern int textureObjectCnt;
+extern GLuint textureObjects[400];
+extern char texFileName[400][100];
+extern unsigned int textureVideo[30];
 
 /*
 TODO:Define global variables
