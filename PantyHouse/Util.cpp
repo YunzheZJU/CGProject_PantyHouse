@@ -23,35 +23,39 @@ void updateCamera(GLfloat* camera, GLfloat* target, GLfloat* polar) {
 void updateCameraTarget(GLfloat* camera, GLfloat* target, GLfloat* polar) {
 	int i;
 	float tempangle;
-	cout << sqrt(pow(3.0, 2.0) + pow(4.0, 2.0)) << endl;
 	polar[R] = sqrt(pow((camera[X] - target[X]), 2.0) + pow((camera[Z] - target[Z]), 2.0));
 	tempangle = atan2(abs(camera[X] - target[X]), abs(camera[Z] - target[Z]));
-	for (i = 1; i; i++) {
-		if ((polar[A] >= 0 && polar[A] - i * 2 * PI < 0) || (polar[A] < 0 && polar[A] + i * 2 * PI >= 0)) {
-			break;
+	if (abs(camera[X] - target[X]) < 0.0001) {
+		if (camera[Z] > target[Z]) {
+			polar[A] = 0;
+		}
+		else if (camera[Z] < target[Z]) {
+			polar[A] = PI;
 		}
 		else {
-			polar[A] >= 0 ? (polar[A] -= i * 2 * PI) : (polar[A] += i * 2 * PI);
-			cout << polar[A] << endl;
+			cout << "Error occurred in polar[A]" << endl;
 		}
 	}
-	if (polar[A] < 0.03) {
-		polar[A] = 2 * PI - tempangle;
+	else if (camera[X] > target[X]) {
+		if (camera[Z] > target[Z]) {
+			polar[A] = tempangle;
+		}
+		else if(camera[Z] < target[Z]) {
+			polar[A] = PI - tempangle;
+		}
+		else {
+			polar[A] = PI / 2;
+		}
 	}
-	if (polar[A] - PI * 0.5 < 0) {
-		polar[A] = tempangle;
-	}
-	else if (polar[A] - PI < 0) {
-		polar[A] = PI - tempangle;
-	}
-	else if (polar[A] - PI *1.5 < 0) {
-		polar[A] = PI + tempangle;
-	}
-	else if (polar[A] - PI * 2 < 0) {
-		polar[A] = 2 * PI - tempangle;
-	}
-	else {
-		cout << "Error in polar[A]" << endl;
-		polar[A] = 0;
+	else if (camera[X] < target[X]) {
+		if (camera[Z] > target[Z]) {
+			polar[A] = -tempangle;
+		}
+		else if (camera[Z] < target[Z]) {
+			polar[A] = tempangle - PI;
+		}
+		else {
+			polar[A] = -PI / 2;
+		}
 	}
 }
