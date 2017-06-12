@@ -26,7 +26,6 @@
 #include <gl/glew.h>
 #include <gl/glut.h>
 #include "glm.h"
-#include "global.h"
 
 // Using namespace std for cin and cout
 using namespace std;

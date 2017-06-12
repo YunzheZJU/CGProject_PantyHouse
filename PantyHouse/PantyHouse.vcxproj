@@ -156,7 +156,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="glm.h" />
-    <ClInclude Include="global.h" />
     <ClInclude Include="head.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
