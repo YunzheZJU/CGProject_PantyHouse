@@ -6,7 +6,6 @@
 #pragma warning(disable:4996)
 
 GLint listcode = 0;							// Listcode for display list
-char message[70] = "Welcome!";				// Message string to be shown
 GLfloat camera[3] = { 0, 150, 400 };			// Position of camera
 GLfloat camera_target[3] = { 0, 150, 0 };		// Position of target of camera
 GLfloat camera_polar[2] = { 400, 0 };			// Polar coordinates of camera
@@ -18,6 +17,7 @@ char fpstext[50];
 char cameraposition[100];
 char targetposition[100];
 char camerapolar[100];
+char message[70] = "Welcome!";				// Message string to be shown
 
 void init() {
 	// Initiate color
@@ -212,6 +212,13 @@ void processNormalKey(unsigned char k, int x, int y) {
 			}
 			break;
 		}
+		// фад╩╫ьм╪
+		case 'X':
+		case 'x':
+			screenshot();
+			cout << "s pressed. Screenshot Saved." << endl;
+			strcpy(message, "S pressed. Screenshot is Saved.");
+			break;
 	}
 }
 

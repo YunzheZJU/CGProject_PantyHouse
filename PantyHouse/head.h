@@ -62,6 +62,46 @@ enum {
 	EXIT
 };
 
+typedef struct tagBITMAPFILEHEADERnew {
+
+	unsigned char bfType[2];
+
+	unsigned char bfSize[4];
+
+	unsigned char bfReserved1[2];
+
+	unsigned char bfReserved2[2];
+
+	unsigned char bfOffBits[4];
+
+} BITMAPFILEHEADERnew;
+
+typedef struct tagBITMAPINFOHEADERnew {
+
+	unsigned char biSize[4];
+
+	unsigned char biWidth[4];
+
+	unsigned char biHeight[4];
+
+	unsigned char biPlanes[2];
+
+	unsigned char biBitCount[2];
+
+	unsigned char biCompression[4];
+
+	unsigned char biSizeImage[4];
+
+	unsigned char biXPelsPerMeter[4];
+
+	unsigned char biYPelsPerMeter[4];
+
+	unsigned char biClrUsed[4];
+
+	unsigned char biClrImportant[4];
+
+} BITMAPINFOHEADERnew;
+
 // TODO:Claim every function in cpp files here
 // These functions are defined in Draw.cpp
 void initObj();
@@ -84,6 +124,8 @@ void callList(GLint listcode);
 void updateList(GLint listcode);
 void updateCamera(GLfloat* camera, GLfloat* target, GLfloat* polar);
 void updateCameraTarget(GLfloat* camera, GLfloat* target, GLfloat* polar);
+void LongToByte(unsigned long value, unsigned char * outResult);
+void screenshot(void);
 
 // These functions are defined in System.cpp
 void init();
