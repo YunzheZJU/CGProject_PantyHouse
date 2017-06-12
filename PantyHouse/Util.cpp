@@ -35,6 +35,9 @@ void updateCameraTarget(GLfloat* camera, GLfloat* target, GLfloat* polar) {
 			cout << polar[A] << endl;
 		}
 	}
+	if (polar[A] < 0.03) {
+		polar[A] = 2 * PI - tempangle;
+	}
 	if (polar[A] - PI * 0.5 < 0) {
 		polar[A] = tempangle;
 	}
@@ -51,5 +54,4 @@ void updateCameraTarget(GLfloat* camera, GLfloat* target, GLfloat* polar) {
 		cout << "Error in polar[A]" << endl;
 		polar[A] = 0;
 	}
-	//updateCamera(camera, target, polar);
 }

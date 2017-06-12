@@ -206,7 +206,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 		break;
 	}
 	}
-	cout << camera_polar[A] << ", " << camera_polar[R] << endl;
+	cout << fixed << setprecision(4) << camera_polar[A] << ", " << camera_polar[R] << endl;
 }
 
 void processSpecialKey(int k, int x, int y) {
