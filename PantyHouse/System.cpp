@@ -5,6 +5,9 @@
 
 #pragma warning(disable:4996)
 
+// Listcode for display list
+GLint listcode = 0;
+
 void init() {
 	// Initiate color
 	glColor3f(1.0f, 1.0f, 1.0f);	// Maybe this is not important
@@ -17,7 +20,7 @@ void init() {
 	initObj();
 	cout << "initObj OK." << endl;
 	// Initiate display list
-	scene.List = genDisplayList();
+	listcode = genDisplayList();
 	cout << "genDisplayList OK." << endl;
 	// Initiate lighting
 	initLight();
@@ -44,7 +47,9 @@ void redraw() {
 		scene.camera_target[X], scene.camera_target[Y], scene.camera_target[Z],
 		0, 1, 0);							// Define the view model
 
-	callList();								// Draw Scene with display List
+	callList(listcode);								// Draw Scene with display List
+	//drawLights();
+	//drawtarget();
 	showSysStatus();
 
 	glutSwapBuffers();
@@ -80,9 +85,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 
 	switch (k) {
 	// ÍË³ö³ÌÐò
-	case 27:
-	case 'Q':
-	case 'q': {
+	case 27: {
 		cout << "Bye." << endl;
 		exit(0);
 		break;
@@ -124,25 +127,24 @@ void processNormalKey(unsigned char k, int x, int y) {
 		strcpy(scene.message, "S pressed. Watch carefully!");
 		break;
 	}
-	case 'Z':
-	case 'z': {
+	case 'Q':
+	case 'q': {
 		scene.camera_polar[R] *= 0.95;
 		updateCamera();
-		cout << fixed << setprecision(1) << "Z pressed.\n\tPosition of camera is set to (" <<
+		cout << fixed << setprecision(1) << "Q pressed.\n\tPosition of camera is set to (" <<
 			scene.camera[X] << ", " << scene.camera[Y] << ", " << scene.camera[Z] << ")." << endl;
-		strcpy(scene.message, "Z pressed. Camera is moved...nearer!");
+		strcpy(scene.message, "Q pressed. Camera is moved...nearer!");
 		break;
 	}
-	case 'C':
-	case 'c': {
+	case 'E':
+	case 'e': {
 		scene.camera_polar[R] *= 1.05;
 		updateCamera();
-		cout << fixed << setprecision(1) << "C pressed.\n\tPosition of camera is set to (" <<
+		cout << fixed << setprecision(1) << "E pressed.\n\tPosition of camera is set to (" <<
 			scene.camera[X] << ", " << scene.camera[Y] << ", " << scene.camera[Z] << ")." << endl;
-		strcpy(scene.message, "C pressed. Camera is moved...farther!");
+		strcpy(scene.message, "E pressed. Camera is moved...farther!");
 		break;
 	}
-
 	}
 }
 

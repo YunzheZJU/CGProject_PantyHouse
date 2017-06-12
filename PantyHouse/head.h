@@ -69,9 +69,6 @@ typedef struct {
 	GLfloat camera_target[3] = { 0, 0, 0 };		// Position of target of camera
 	GLfloat camera_polar[2] = { 4, 0 };			// Polar coordinates of camera
 
-	// Initiate list num for display list
-	GLint List = 0;								// List num of display list
-
 	// Array for storing signatures of different textures
 	unsigned int texture[4];
 }Myscene;
@@ -102,8 +99,8 @@ void loadObjectTextures();
 void initLight();
 
 // These functions are defined in Util.cpp
-void callList();
-void updateList();
+void callList(GLint listcode);
+void updateList(GLint listcode);
 void updateCamera();
 void showSysStatus();
 

@@ -7,12 +7,12 @@
 #pragma warning(disable:4996)
 
 // TODO:You can move these two function to Draw.cpp or System.cpp
-void callList() {
-	glCallList(scene.List);
+void callList(GLint listcode) {
+	glCallList(listcode);
 }
 
-void updateList() {
-	scene.List = genDisplayList();
+void updateList(GLint listcode) {
+	listcode = genDisplayList();
 }
 
 void updateCamera() {
