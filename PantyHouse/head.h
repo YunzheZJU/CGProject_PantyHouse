@@ -89,7 +89,7 @@ enum {
 // These functions are defined in Draw.cpp
 void initObj();
 void drawObject();
-GLint genTableList();
+GLint genDisplayList();
 
 // These functions are defined in Texture.cpp
 void initTexture();

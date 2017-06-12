@@ -18,7 +18,7 @@ void initObj() {
 
 void drawObject() {
 	// TODO:drawObject
-	glColor3f(1.0f, 0.0f, 1.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);
 	glScalef(0.01, 0.01, 0.01);
 	cout << textureObjectCnt << endl;
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -34,7 +34,7 @@ void drawObject() {
 	glmDraw(model[5], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
 }
 
-GLint genTableList() {
+GLint genDisplayList() {
 	GLint lid = glGenLists(1);
 
 	glNewList(lid, GL_COMPILE);

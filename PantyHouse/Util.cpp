@@ -12,7 +12,7 @@ void callList() {
 }
 
 void updateList() {
-	scene.List = genTableList();
+	scene.List = genDisplayList();
 }
 
 void updateCamera() {

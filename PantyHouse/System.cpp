@@ -17,8 +17,8 @@ void init() {
 	initObj();
 	cout << "initObj OK." << endl;
 	// Initiate display list
-	scene.List = genTableList();
-	cout << "genTableList OK." << endl;
+	scene.List = genDisplayList();
+	cout << "genDisplayList OK." << endl;
 	// Initiate lighting
 	initLight();
 }
