@@ -14,14 +14,10 @@ char texFileName[400][100];
 unsigned int textureVideo[30];
 
 void initTexture() {
-	// Read texture from .mtl
 	readMTL("models/texturetest01.mtl");
 	cout << "readMTL OK." << endl;
 	loadObjectTextures();
 	cout << "loadObjectTextures OK." << endl;
-	// Genarate signatures for textures
-	glGenTextures(4, scene.texture);
-	// TODO:Generate textures from source images
 
 	// Uncomment if you want to enable multitexturing
 	//glActiveTextureARB = (PFNGLCLIENTACTIVETEXTUREARBPROC)wglGetProcAddress("glActiveTextureARB");
@@ -29,6 +25,7 @@ void initTexture() {
 	//glClientActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)wglGetProcAddress("glClientActiveTextureARB");
 }
 
+// Read texture scr from .mtl file into texFileName and count textureObjectCnt
 void readMTL(char * fileName) {
 	ifstream fin(fileName);
 
@@ -51,8 +48,8 @@ void readMTL(char * fileName) {
 
 }
 
-unsigned char *loadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader)
-{
+// Load texture from bitmap file scr into memory
+unsigned char *loadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader) {
 	FILE *filePtr;  // 文件指针
 	BITMAPFILEHEADER bitmapFileHeader;  // bitmap文件头
 	unsigned char   *bitmapImage;       // bitmap图像数据
@@ -94,6 +91,7 @@ unsigned char *loadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
 	return bitmapImage;
 }
 
+// Load texture from bitmap file scr into textureObjects
 void loadTexture(int i, char* filename, bool type) {
 	BITMAPINFOHEADER bitmapInfoHeader;
 	unsigned char*   bitmapData;
@@ -105,9 +103,9 @@ void loadTexture(int i, char* filename, bool type) {
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
 }
 
-void loadObjectTextures()
-{
-	glGenTextures(textureObjectCnt, textureObjects);        // 
+// Generate textures from texFileName into textureObjects
+void loadObjectTextures() {
+	glGenTextures(textureObjectCnt, textureObjects);
 
 	for (int i = 0; i<textureObjectCnt; i++)
 		loadTexture(i, texFileName[i], false);

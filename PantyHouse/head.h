@@ -55,26 +55,6 @@ extern GLuint textureObjects[400];
 extern char texFileName[400][100];
 extern unsigned int textureVideo[30];
 
-/*
-TODO:Define global variables
-Here I use an extern struct to avoid duplicated defination of these variables.
-Thus I must use "scene.XXX" every where.
-Please reconstruct these codes to more C++ like ones.
-*/
-typedef struct {
-	// Initiate message string to be shown
-	char message[70] = "Welcome!";				// Message string to be shown
-
-	GLfloat camera[3] = { 0, 2, 4 };			// Position of camera
-	GLfloat camera_target[3] = { 0, 0, 0 };		// Position of target of camera
-	GLfloat camera_polar[2] = { 4, 0 };			// Polar coordinates of camera
-
-	// Array for storing signatures of different textures
-	unsigned int texture[4];
-}Myscene;
-
-extern Myscene scene;
-
 // TODO:Define classes
 
 // TODO:Define enum for menu items
@@ -87,6 +67,7 @@ enum {
 void initObj();
 void drawObject();
 GLint genDisplayList();
+void drawTarget(GLfloat* center, GLfloat radius);
 
 // These functions are defined in Texture.cpp
 void initTexture();
@@ -101,8 +82,8 @@ void initLight();
 // These functions are defined in Util.cpp
 void callList(GLint listcode);
 void updateList(GLint listcode);
-void updateCamera();
-void showSysStatus();
+void updateCamera(GLfloat* camera, GLfloat* target, GLfloat* polar);
+void updateCameraTarget(GLfloat* camera, GLfloat* target, GLfloat* polar);
 
 // These functions are defined in System.cpp
 void init();
@@ -115,3 +96,4 @@ void updateView();
 void processMouse(int button, int state, int x, int y);
 void processNormalKey(unsigned char k, int x, int y);
 void processSpecialKey(int k, int x, int y);
+void showSysStatus();

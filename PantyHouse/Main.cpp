@@ -7,8 +7,6 @@
 // Uncomment if you want to enable multitexturing
 //#pragma comment (lib, "glew32.lib")
 
-Myscene scene;
-
 int main(int argc, char *argv[]) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE | GLUT_MULTISAMPLE);

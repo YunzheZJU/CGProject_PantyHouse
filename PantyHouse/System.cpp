@@ -5,8 +5,12 @@
 
 #pragma warning(disable:4996)
 
-// Listcode for display list
-GLint listcode = 0;
+GLint listcode = 0;							// Listcode for display list
+char message[70] = "Welcome!";				// Message string to be shown
+GLfloat camera[3] = { 0, 150, 400 };			// Position of camera
+GLfloat camera_target[3] = { 0, 150, 0 };		// Position of target of camera
+GLfloat camera_polar[2] = { 400, 0 };			// Polar coordinates of camera
+GLboolean bcamera = GL_TRUE;
 
 void init() {
 	// Initiate color
@@ -43,13 +47,13 @@ void redraw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();						// Reset The Current Modelview Matrix
 
-	gluLookAt(scene.camera[X], scene.camera[Y], scene.camera[Z],
-		scene.camera_target[X], scene.camera_target[Y], scene.camera_target[Z],
+	gluLookAt(camera[X], camera[Y], camera[Z],
+		camera_target[X], camera_target[Y], camera_target[Z],
 		0, 1, 0);							// Define the view model
 
-	callList(listcode);								// Draw Scene with display List
+	drawTarget(camera_target, 2);
+	callList(listcode);						// Draw Scene with display List
 	//drawLights();
-	//drawtarget();
 	showSysStatus();
 
 	glutSwapBuffers();
@@ -71,7 +75,7 @@ void updateView() {
 	glMatrixMode(GL_PROJECTION);			// Select The Projection Matrix
 	glLoadIdentity();						// Reset The Projection Matrix
 
-	gluPerspective(45.0f, 1.7778f, 0.1f, 100.0f);	// 1.7778 = 1280 / 720
+	gluPerspective(45.0f, 1.7778f, 0.1f, 1000.0f);	// 1.7778 = 1280 / 720
 
 	glMatrixMode(GL_MODELVIEW);				// Select The Modelview Matrix
 }
@@ -90,64 +94,162 @@ void processNormalKey(unsigned char k, int x, int y) {
 		exit(0);
 		break;
 	}
+	// 切换摄像机本体/焦点控制
+	case 'Z':
+	case 'z': {
+		strcpy(message, "Z pressed. Switch camera control!");
+		bcamera = !bcamera;
+		break;
+	}
 	// 摄像机移动
 	case 'A':
 	case 'a': {
-		scene.camera_polar[A] -= 0.1;
-		updateCamera();
-		cout << fixed << setprecision(1) << "A pressed.\n\tPosition of camera is set to (" <<
-			scene.camera[X] << ", " << scene.camera[Y] << ", " << scene.camera[Z] << ")." << endl;
-		strcpy(scene.message, "A pressed. Watch carefully!");
+		strcpy(message, "A pressed. Watch carefully!");
+		if (bcamera) {
+			camera_polar[A] -= 0.1;
+			updateCamera(camera, camera_target, camera_polar);
+			cout << fixed << setprecision(1) << "A pressed.\n\tPosition of camera is set to (" <<
+				camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
+		}
+		else {
+			camera_target[X] -= 10;
+			updateCameraTarget(camera, camera_target, camera_polar);
+			cout << fixed << setprecision(1) << "A pressed.\n\tPosition of camera target is set to (" <<
+				camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+		}
 		break;
 	}
 	case 'D':
 	case 'd': {
-		scene.camera_polar[A] += 0.1;
-		updateCamera();
-		cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera is set to (" <<
-			scene.camera[X] << ", " << scene.camera[Y] << ", " << scene.camera[Z] << ")." << endl;
-		strcpy(scene.message, "D pressed. Watch carefully!");
+		strcpy(message, "D pressed. Watch carefully!");
+		if (bcamera) {
+			camera_polar[A] += 0.1;
+			updateCamera(camera, camera_target, camera_polar);
+			cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera is set to (" <<
+				camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
+		}
+		else {
+			camera_target[X] += 10;
+			updateCameraTarget(camera, camera_target, camera_polar);
+			cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera target is set to (" <<
+				camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+		}
 		break;
 	}
 	case 'W':
 	case 'w': {
-		scene.camera_target[Y] += 0.05;
-		scene.camera[Y] += 0.05;
-		cout << fixed << setprecision(1) << "W pressed.\n\tPosition of camera is set to (" <<
-			scene.camera[X] << ", " << scene.camera[Y] << ", " << scene.camera[Z] << ")." << endl;
-		strcpy(scene.message, "W pressed. Watch carefully!");
+		strcpy(message, "W pressed. Watch carefully!");
+		if (bcamera) {
+			camera[Y] += 5;
+			cout << fixed << setprecision(1) << "W pressed.\n\tPosition of camera is set to (" <<
+				camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
+		}
+		else {
+			camera_target[Y] += 10;
+			updateCameraTarget(camera, camera_target, camera_polar);
+			cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera target is set to (" <<
+				camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+		}
 		break;
 	}
 	case 'S':
 	case 's': {
-		scene.camera_target[Y] -= 0.05;
-		scene.camera[Y] -= 0.05;
-		cout << fixed << setprecision(1) << "S pressed.\n\tPosition of camera is set to (" <<
-			scene.camera[X] << ", " << scene.camera[Y] << ", " << scene.camera[Z] << ")." << endl;
-		strcpy(scene.message, "S pressed. Watch carefully!");
+		strcpy(message, "S pressed. Watch carefully!");
+		if (bcamera) {
+			camera[Y] -= 5;
+			cout << fixed << setprecision(1) << "S pressed.\n\tPosition of camera is set to (" <<
+				camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
+			strcpy(message, "S pressed. Watch carefully!");
+		}
+		else {
+			camera_target[Y] -= 10;
+			updateCameraTarget(camera, camera_target, camera_polar);
+			cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera target is set to (" <<
+				camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+		}
 		break;
 	}
 	case 'Q':
 	case 'q': {
-		scene.camera_polar[R] *= 0.95;
-		updateCamera();
-		cout << fixed << setprecision(1) << "Q pressed.\n\tPosition of camera is set to (" <<
-			scene.camera[X] << ", " << scene.camera[Y] << ", " << scene.camera[Z] << ")." << endl;
-		strcpy(scene.message, "Q pressed. Camera is moved...nearer!");
+		if (bcamera) {
+			strcpy(message, "Q pressed. Camera is moved...nearer!");
+			camera_polar[R] *= 0.95;
+			updateCamera(camera, camera_target, camera_polar);
+			cout << fixed << setprecision(1) << "Q pressed.\n\tPosition of camera is set to (" <<
+				camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
+		}
+		else {
+			strcpy(message, "Q pressed. Camera target is moved...farther!");
+			camera_target[Z] += 5;
+			updateCameraTarget(camera, camera_target, camera_polar);
+			cout << fixed << setprecision(1) << "Q pressed.\n\tPosition of camera target is set to (" <<
+				camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+		}
 		break;
 	}
 	case 'E':
 	case 'e': {
-		scene.camera_polar[R] *= 1.05;
-		updateCamera();
-		cout << fixed << setprecision(1) << "E pressed.\n\tPosition of camera is set to (" <<
-			scene.camera[X] << ", " << scene.camera[Y] << ", " << scene.camera[Z] << ")." << endl;
-		strcpy(scene.message, "E pressed. Camera is moved...farther!");
+		if (bcamera) {
+			strcpy(message, "E pressed. Camera is moved...farther!");
+			camera_polar[R] *= 1.05;
+			updateCamera(camera, camera_target, camera_polar);
+			cout << fixed << setprecision(1) << "E pressed.\n\tPosition of camera is set to (" <<
+				camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
+		}
+		else {
+			strcpy(message, "E pressed. Camera target is moved...nearer!");
+			camera_target[Z] -= 5;
+			updateCameraTarget(camera, camera_target, camera_polar);
+			cout << fixed << setprecision(1) << "Q pressed.\n\tPosition of camera target is set to (" <<
+				camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+		}
 		break;
 	}
 	}
+	cout << camera_polar[A] << ", " << camera_polar[R] << endl;
 }
 
 void processSpecialKey(int k, int x, int y) {
 	// TODO:processSpecialKey()
+}
+
+void showSysStatus() {
+	static int frame = 0, time, timebase = 0;
+	static char fpstext[50];
+
+	frame++;
+	time = glutGet(GLUT_ELAPSED_TIME);
+	if (time - timebase > 1000) {
+		sprintf(fpstext, "FPS:%4.2f",
+			frame * 1000.0 / (time - timebase));
+		timebase = time;
+		frame = 0;
+	}
+
+	char *c;
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);					// 不受灯光影响
+	glMatrixMode(GL_PROJECTION);			// 选择投影矩阵
+	glPushMatrix();							// 保存原矩阵
+	glLoadIdentity();						// 装入单位矩阵
+	glOrtho(-480, 480, -480, 480, -1, 1);	// 设置裁减区域
+	glMatrixMode(GL_MODELVIEW);				// 选择Modelview矩阵
+	glPushMatrix();							// 保存原矩阵
+	glLoadIdentity();						// 装入单位矩阵
+	glPushAttrib(GL_LIGHTING_BIT);
+	glRasterPos2f(-460, 460);
+	for (c = fpstext; *c != '\0'; c++) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
+	}
+	glRasterPos2f(-460, -460);
+	for (c = message; *c != '\0'; c++) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
+	}
+	glPopAttrib();
+	glMatrixMode(GL_PROJECTION);			// 选择投影矩阵
+	glPopMatrix();							// 重置为原保存矩阵
+	glMatrixMode(GL_MODELVIEW);				// 选择Modelview矩阵
+	glPopMatrix();							// 重置为原保存矩阵
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
 }

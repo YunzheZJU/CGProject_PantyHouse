@@ -5,7 +5,7 @@
 
 GLfloat gray[] = { 0.4f, 0.4f, 0.4f, 1.0f };
 GLfloat white[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-GLfloat light_pos[] = { 10.0f, 10.0f, 10.0f, 1.0f };
+GLfloat light_pos[] = { 0.0f, 400.0f, 0.0f, 1.0f };
 
 void initLight() {
 	glEnable(GL_NORMALIZE);
