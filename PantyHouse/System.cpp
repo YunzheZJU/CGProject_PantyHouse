@@ -10,6 +10,7 @@ GLfloat camera[3] = { 0, 150, 400 };			// Position of camera
 GLfloat camera_target[3] = { 0, 150, 0 };		// Position of target of camera
 GLfloat camera_polar[2] = { 400, 0 };			// Polar coordinates of camera
 GLboolean bcamera = GL_TRUE;
+GLboolean bfps = GL_FALSE;
 int windowwidth = 1280;
 int windowheight = 720;
 char message[70] = "Welcome!";				// Message string to be shown
@@ -25,11 +26,12 @@ void init() {
 	//Initiate objects
 	initObj();
 	cout << "initObj OK." << endl;
+	// Initiate lighting
+	initLight();
+	cout << "initLight OK." << endl;
 	// Initiate display list
 	listcode = genDisplayList();
 	cout << "genDisplayList OK." << endl;
-	// Initiate lighting
-	initLight();
 }
 
 void idle() {
@@ -97,78 +99,105 @@ void processNormalKey(unsigned char k, int x, int y) {
 			exit(0);
 			break;
 		}
-		// 切换摄像机本体/焦点控制
+		 // 切换摄像机本体/焦点控制
 		case 'Z':
 		case 'z': {
 			strcpy(message, "Z pressed. Switch camera control!");
 			bcamera = !bcamera;
 			break;
 		}
-		// 摄像机本体/焦点移动
+		// 切换第一人称控制
+		case 'C':
+		case 'c': {
+			strcpy(message, "C pressed. Switch fps control!");
+			bfps = !bfps;
+			break;
+		}
+		// 第一人称移动/摄像机本体移动/焦点移动
 		case 'A':
 		case 'a': {
 			strcpy(message, "A pressed. Watch carefully!");
-			if (bcamera) {
-				camera_polar[A] -= 0.1;
-				updateCamera(camera, camera_target, camera_polar);
-				cout << fixed << setprecision(1) << "A pressed.\n\tPosition of camera is set to (" <<
-					camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
+			if (bfps) {
+				// TODO
 			}
 			else {
-				camera_target[X] -= 10;
-				updateCameraTarget(camera, camera_target, camera_polar);
-				cout << fixed << setprecision(1) << "A pressed.\n\tPosition of camera target is set to (" <<
-					camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+				if (bcamera) {
+					camera_polar[A] -= 0.1;
+					updateCamera(camera, camera_target, camera_polar);
+					cout << fixed << setprecision(1) << "A pressed.\n\tPosition of camera is set to (" <<
+						camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
+				}
+				else if (!bfps) {
+					camera_target[X] -= 10;
+					updateCameraTarget(camera, camera_target, camera_polar);
+					cout << fixed << setprecision(1) << "A pressed.\n\tPosition of camera target is set to (" <<
+						camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+				}
 			}
 			break;
 		}
 		case 'D':
 		case 'd': {
 			strcpy(message, "D pressed. Watch carefully!");
-			if (bcamera) {
-				camera_polar[A] += 0.1;
-				updateCamera(camera, camera_target, camera_polar);
-				cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera is set to (" <<
-					camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
+			if (bfps) {
+				// TODO
 			}
 			else {
-				camera_target[X] += 10;
-				updateCameraTarget(camera, camera_target, camera_polar);
-				cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera target is set to (" <<
-					camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+				if (bcamera) {
+					camera_polar[A] += 0.1;
+					updateCamera(camera, camera_target, camera_polar);
+					cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera is set to (" <<
+						camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
+				}
+				else {
+					camera_target[X] += 10;
+					updateCameraTarget(camera, camera_target, camera_polar);
+					cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera target is set to (" <<
+						camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+				}
 			}
 			break;
 		}
 		case 'W':
 		case 'w': {
 			strcpy(message, "W pressed. Watch carefully!");
-			if (bcamera) {
-				camera[Y] += 5;
-				cout << fixed << setprecision(1) << "W pressed.\n\tPosition of camera is set to (" <<
-					camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
+			if (bfps) {
+				// TODO
 			}
 			else {
-				camera_target[Y] += 10;
-				updateCameraTarget(camera, camera_target, camera_polar);
-				cout << fixed << setprecision(1) << "W pressed.\n\tPosition of camera target is set to (" <<
-					camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+				if (bcamera) {
+					camera[Y] += 5;
+					cout << fixed << setprecision(1) << "W pressed.\n\tPosition of camera is set to (" <<
+						camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
+				}
+				else {
+					camera_target[Y] += 10;
+					updateCameraTarget(camera, camera_target, camera_polar);
+					cout << fixed << setprecision(1) << "W pressed.\n\tPosition of camera target is set to (" <<
+						camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+				}
 			}
 			break;
 		}
 		case 'S':
 		case 's': {
 			strcpy(message, "S pressed. Watch carefully!");
-			if (bcamera) {
-				camera[Y] -= 5;
-				cout << fixed << setprecision(1) << "S pressed.\n\tPosition of camera is set to (" <<
-					camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
-				strcpy(message, "S pressed. Watch carefully!");
+			if (bfps) {
+				// TODO
 			}
 			else {
-				camera_target[Y] -= 10;
-				updateCameraTarget(camera, camera_target, camera_polar);
-				cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera target is set to (" <<
-					camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+				if (bcamera) {
+					camera[Y] -= 5;
+					cout << fixed << setprecision(1) << "S pressed.\n\tPosition of camera is set to (" <<
+						camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
+					strcpy(message, "S pressed. Watch carefully!");
+				}
+				else {
+					camera_target[Y] -= 10;
+					updateCameraTarget(camera, camera_target, camera_polar);
+					cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera target is set to (" <<
+						camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+				}
 			}
 			break;
 		}

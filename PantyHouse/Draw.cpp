@@ -11,12 +11,13 @@ void initObj() {
 	model[1] = glmReadOBJ("models/sofaleg.obj");
 	model[2] = glmReadOBJ("models/plantleaf.obj");
 	model[3] = glmReadOBJ("models/shell.obj");
+	model[4] = glmReadOBJ("models/floor1.obj");
+	model[5] = glmReadOBJ("models/floor2.obj");
 }
 
 void drawObject() {
 	glColor3f(1.0f, 1.0f, 1.0f);
 	cout << textureObjectCnt << endl;
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	// Draw models with texture. One texture for one model.
 	//for (int ii = 0; ii < textureObjectCnt; ii++) {
 	//	glEnable(GL_TEXTURE_2D);
@@ -26,10 +27,6 @@ void drawObject() {
 	//	glDisable(GL_TEXTURE_2D);
 	//}
 	// Draw models without texture
-	glPushMatrix();
-	glTranslatef(0.0f, 150.0f, 1.062f);
-	glmDraw(model[3], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-	glPopMatrix();
 	glPushMatrix();
 	glTranslatef(-39.169f, 93.1f, -340.861f);
 	glmDraw(model[0], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
@@ -44,6 +41,18 @@ void drawObject() {
 	glBindTexture(GL_TEXTURE_2D, textureObjects[0]);
 	glmDraw(model[2], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
 	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(0.0f, 150.0f, 1.062f);
+	glmDraw(model[3], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(1.0f, 0.1f, 0.0f);
+	glmDraw(model[4], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(0.0f, 15.0f, -280.914f);
+	glmDraw(model[5], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
 	glPopMatrix();
 }
 
