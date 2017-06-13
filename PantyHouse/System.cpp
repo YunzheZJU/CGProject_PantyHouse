@@ -7,12 +7,15 @@
 
 GLint listcode = 0;							// Listcode for display list
 GLfloat camera[3] = { 0, 150, 400 };			// Position of camera
-GLfloat camera_target[3] = { 0, 150, 0 };		// Position of target of camera
+GLfloat target[3] = { 0, 150, 0 };		// Position of target of camera
+GLfloat target_spherical[2] = { 0, 0 };		// Spherical coordinates of target
 GLfloat camera_polar[2] = { 400, 0 };			// Polar coordinates of camera
 GLboolean bcamera = GL_TRUE;
 GLboolean bfps = GL_FALSE;
+GLboolean bfocus = GL_TRUE;
 int windowwidth = 1280;
 int windowheight = 720;
+int mousex, mousey;
 char message[70] = "Welcome!";				// Message string to be shown
 
 void init() {
@@ -47,15 +50,14 @@ void processMenu(int value) {
 }
 
 void redraw() {
-	// TODO:redraw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();						// Reset The Current Modelview Matrix
 
 	gluLookAt(camera[X], camera[Y], camera[Z],
-		camera_target[X], camera_target[Y], camera_target[Z],
+		target[X], target[Y], target[Z],
 		0, 1, 0);							// Define the view model
 
-	drawTarget(camera_target, 2);
+	drawTarget(target, 2);
 	callList(listcode);						// Draw Scene with display List
 	//drawLights();
 	showSysStatus();
@@ -85,8 +87,31 @@ void updateView() {
 	glMatrixMode(GL_MODELVIEW);				// Select The Modelview Matrix
 }
 
-void processMouse(int button, int state, int x, int y) {
-	// TODO:processMouse()
+void processMouseClick(int button, int state, int x, int y) {
+	// TODO:processMouseClick()
+	cout << "Window position (" << glutGet(GLUT_WINDOW_X) << ", " << glutGet(GLUT_WINDOW_Y) << ")" << endl;
+	SetCursorPos(500, 500);
+}
+
+void processMouseMove(int x, int y) {
+	if (bfocus) {
+		cout << "Mouse moves to (" << x << ", " << y << ")" << endl;
+	}
+	// Reverse mouse moving to center point and track target.
+}
+
+void processFocus(int state) {
+	if (state == GLUT_LEFT) {
+		bfocus = GL_FALSE;
+		cout << "Focus is on other window." << endl;
+	}
+	else if (state == GLUT_ENTERED) {
+		bfocus = GL_TRUE;
+		cout << "Focus is on this window." << endl;
+	}
+	else {
+		cout << state << endl;
+	}
 }
 
 void processNormalKey(unsigned char k, int x, int y) {
@@ -123,15 +148,15 @@ void processNormalKey(unsigned char k, int x, int y) {
 			else {
 				if (bcamera) {
 					camera_polar[A] -= 0.1;
-					updateCamera(camera, camera_target, camera_polar);
+					updateCamera(camera, target, camera_polar);
 					cout << fixed << setprecision(1) << "A pressed.\n\tPosition of camera is set to (" <<
 						camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
 				}
 				else if (!bfps) {
-					camera_target[X] -= 10;
-					updateCameraTarget(camera, camera_target, camera_polar);
+					target[X] -= 10;
+					updateCameraTarget(camera, target, camera_polar);
 					cout << fixed << setprecision(1) << "A pressed.\n\tPosition of camera target is set to (" <<
-						camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+						target[X] << ", " << target[Y] << ", " << target[Z] << ")." << endl;
 				}
 			}
 			break;
@@ -145,15 +170,15 @@ void processNormalKey(unsigned char k, int x, int y) {
 			else {
 				if (bcamera) {
 					camera_polar[A] += 0.1;
-					updateCamera(camera, camera_target, camera_polar);
+					updateCamera(camera, target, camera_polar);
 					cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera is set to (" <<
 						camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
 				}
 				else {
-					camera_target[X] += 10;
-					updateCameraTarget(camera, camera_target, camera_polar);
+					target[X] += 10;
+					updateCameraTarget(camera, target, camera_polar);
 					cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera target is set to (" <<
-						camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+						target[X] << ", " << target[Y] << ", " << target[Z] << ")." << endl;
 				}
 			}
 			break;
@@ -171,10 +196,10 @@ void processNormalKey(unsigned char k, int x, int y) {
 						camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
 				}
 				else {
-					camera_target[Y] += 10;
-					updateCameraTarget(camera, camera_target, camera_polar);
+					target[Y] += 10;
+					updateCameraTarget(camera, target, camera_polar);
 					cout << fixed << setprecision(1) << "W pressed.\n\tPosition of camera target is set to (" <<
-						camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+						target[X] << ", " << target[Y] << ", " << target[Z] << ")." << endl;
 				}
 			}
 			break;
@@ -193,10 +218,10 @@ void processNormalKey(unsigned char k, int x, int y) {
 					strcpy(message, "S pressed. Watch carefully!");
 				}
 				else {
-					camera_target[Y] -= 10;
-					updateCameraTarget(camera, camera_target, camera_polar);
+					target[Y] -= 10;
+					updateCameraTarget(camera, target, camera_polar);
 					cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera target is set to (" <<
-						camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+						target[X] << ", " << target[Y] << ", " << target[Z] << ")." << endl;
 				}
 			}
 			break;
@@ -206,16 +231,16 @@ void processNormalKey(unsigned char k, int x, int y) {
 			if (bcamera) {
 				strcpy(message, "Q pressed. Camera is moved...nearer!");
 				camera_polar[R] *= 0.95;
-				updateCamera(camera, camera_target, camera_polar);
+				updateCamera(camera, target, camera_polar);
 				cout << fixed << setprecision(1) << "Q pressed.\n\tPosition of camera is set to (" <<
 					camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
 			}
 			else {
 				strcpy(message, "Q pressed. Camera target is moving towards +Z!");
-				camera_target[Z] += 5;
-				updateCameraTarget(camera, camera_target, camera_polar);
+				target[Z] += 5;
+				updateCameraTarget(camera, target, camera_polar);
 				cout << fixed << setprecision(1) << "Q pressed.\n\tPosition of camera target is set to (" <<
-					camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+					target[X] << ", " << target[Y] << ", " << target[Z] << ")." << endl;
 			}
 			break;
 		}
@@ -224,16 +249,16 @@ void processNormalKey(unsigned char k, int x, int y) {
 			if (bcamera) {
 				strcpy(message, "E pressed. Camera is moved...farther!");
 				camera_polar[R] *= 1.05;
-				updateCamera(camera, camera_target, camera_polar);
+				updateCamera(camera, target, camera_polar);
 				cout << fixed << setprecision(1) << "E pressed.\n\tPosition of camera is set to (" <<
 					camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
 			}
 			else {
 				strcpy(message, "E pressed. Camera target is moving towards -Z!");
-				camera_target[Z] -= 5;
-				updateCameraTarget(camera, camera_target, camera_polar);
+				target[Z] -= 5;
+				updateCameraTarget(camera, target, camera_polar);
 				cout << fixed << setprecision(1) << "E pressed.\n\tPosition of camera target is set to (" <<
-					camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
+					target[X] << ", " << target[Y] << ", " << target[Z] << ")." << endl;
 			}
 			break;
 		}
@@ -279,7 +304,7 @@ void showSysStatus() {
 	sprintf(cameraposition, "camera position  %2.1f   %2.1f   %2.1f",
 		camera[X], camera[Y], camera[Z]);
 	sprintf(targetposition, "target position     %2.1f   %2.1f   %2.1f",
-		camera_target[X], camera_target[Y], camera_target[Z]);
+		target[X], target[Y], target[Z]);
 	sprintf(camerapolar, "camera polar      %2.3f   %2.3f",
 		camera_polar[A], camera_polar[R]);
 

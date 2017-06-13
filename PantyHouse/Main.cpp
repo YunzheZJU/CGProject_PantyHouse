@@ -17,7 +17,9 @@ int main(int argc, char *argv[]) {
 
 	glutDisplayFunc(redraw);
 	glutReshapeFunc(reshape);
-	glutMouseFunc(processMouse);
+	glutMouseFunc(processMouseClick);
+	glutPassiveMotionFunc(processMouseMove);
+	glutEntryFunc(processFocus);
 	glutKeyboardFunc(processNormalKey);
 	glutSpecialFunc(processSpecialKey);
 	glutIdleFunc(idle);
