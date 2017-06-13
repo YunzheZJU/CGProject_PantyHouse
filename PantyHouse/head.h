@@ -124,8 +124,7 @@ void callList(GLint listcode);
 void updateList(GLint listcode);
 void updateCamera(GLfloat* camera, GLfloat* target, GLfloat* polar);
 void updateCameraTarget(GLfloat* camera, GLfloat* target, GLfloat* polar);
-void LongToByte(unsigned long value, unsigned char * outResult);
-void screenshot(void);
+bool screenshot(int width, int height);
 
 // These functions are defined in System.cpp
 void init();

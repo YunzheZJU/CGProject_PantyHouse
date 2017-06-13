@@ -10,13 +10,8 @@ GLfloat camera[3] = { 0, 150, 400 };			// Position of camera
 GLfloat camera_target[3] = { 0, 150, 0 };		// Position of target of camera
 GLfloat camera_polar[2] = { 400, 0 };			// Polar coordinates of camera
 GLboolean bcamera = GL_TRUE;
-int frame = 0;
-int currenttime;
-int timebase = 0;
-char fpstext[50];
-char cameraposition[100];
-char targetposition[100];
-char camerapolar[100];
+int windowwidth = 1280;
+int windowheight = 720;
 char message[70] = "Welcome!";				// Message string to be shown
 
 void init() {
@@ -71,7 +66,8 @@ void reshape(int width, int height) {
 		height = 1;							// Making Height Equal One
 	}
 	glViewport(width / 2.0 - 640, height / 2.0 - 360, 1280, 720);
-
+	windowwidth = width;
+	windowheight = height;
 	updateView();
 }
 
@@ -108,7 +104,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 			bcamera = !bcamera;
 			break;
 		}
-		// 摄像机移动
+		// 摄像机本体/焦点移动
 		case 'A':
 		case 'a': {
 			strcpy(message, "A pressed. Watch carefully!");
@@ -154,7 +150,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 			else {
 				camera_target[Y] += 10;
 				updateCameraTarget(camera, camera_target, camera_polar);
-				cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera target is set to (" <<
+				cout << fixed << setprecision(1) << "W pressed.\n\tPosition of camera target is set to (" <<
 					camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
 			}
 			break;
@@ -186,7 +182,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 					camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
 			}
 			else {
-				strcpy(message, "Q pressed. Camera target is moved...farther!");
+				strcpy(message, "Q pressed. Camera target is moving towards +Z!");
 				camera_target[Z] += 5;
 				updateCameraTarget(camera, camera_target, camera_polar);
 				cout << fixed << setprecision(1) << "Q pressed.\n\tPosition of camera target is set to (" <<
@@ -204,10 +200,10 @@ void processNormalKey(unsigned char k, int x, int y) {
 					camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
 			}
 			else {
-				strcpy(message, "E pressed. Camera target is moved...nearer!");
+				strcpy(message, "E pressed. Camera target is moving towards -Z!");
 				camera_target[Z] -= 5;
 				updateCameraTarget(camera, camera_target, camera_polar);
-				cout << fixed << setprecision(1) << "Q pressed.\n\tPosition of camera target is set to (" <<
+				cout << fixed << setprecision(1) << "E pressed.\n\tPosition of camera target is set to (" <<
 					camera_target[X] << ", " << camera_target[Y] << ", " << camera_target[Z] << ")." << endl;
 			}
 			break;
@@ -215,9 +211,15 @@ void processNormalKey(unsigned char k, int x, int y) {
 		// 屏幕截图
 		case 'X':
 		case 'x':
-			screenshot();
-			cout << "s pressed. Screenshot Saved." << endl;
-			strcpy(message, "S pressed. Screenshot is Saved.");
+			cout << "X pressed." << endl;
+			if (screenshot(windowwidth, windowheight)) {
+				cout << "Screenshot is saved." << endl;
+				strcpy(message, "X pressed. Screenshot is Saved.");
+			}
+			else {
+				cout << "Screenshot failed." << endl;
+				strcpy(message, "X pressed. Screenshot failed.");
+			}
 			break;
 	}
 }
@@ -227,7 +229,14 @@ void processSpecialKey(int k, int x, int y) {
 }
 
 void showSysStatus() {
+	static int frame = 0;
+	static int currenttime;
+	static int timebase = 0;
+	static char fpstext[50];
 	char *c;
+	char cameraposition[50];
+	char targetposition[50];
+	char camerapolar[50];
 
 	frame++;
 	currenttime = glutGet(GLUT_ELAPSED_TIME);
@@ -237,11 +246,12 @@ void showSysStatus() {
 		timebase = currenttime;
 		frame = 0;
 	}
+
 	sprintf(cameraposition, "camera position  %2.1f   %2.1f   %2.1f",
 		camera[X], camera[Y], camera[Z]);
 	sprintf(targetposition, "target position     %2.1f   %2.1f   %2.1f",
 		camera_target[X], camera_target[Y], camera_target[Z]);
-	sprintf(camerapolar, "camera polar     %2.5f   %2.5f",
+	sprintf(camerapolar, "camera polar      %2.3f   %2.3f",
 		camera_polar[A], camera_polar[R]);
 
 	glDisable(GL_DEPTH_TEST);

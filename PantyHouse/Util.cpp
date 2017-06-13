@@ -6,9 +6,6 @@
 
 #pragma warning(disable:4996)
 
-BITMAPFILEHEADERnew fileHeader;
-BITMAPINFOHEADERnew infoHeader;
-
 void callList(GLint listcode) {
 	glCallList(listcode);
 }
@@ -62,54 +59,72 @@ void updateCameraTarget(GLfloat* camera, GLfloat* target, GLfloat* polar) {
 	}
 }
 
-void LongToByte(unsigned long value, unsigned char * outResult) {
-	int i = 0;
-	for (i = 0; i<4; i++) {
-		outResult[i] = (unsigned char)(value % 16);
-		value = value / 16;
-		outResult[i] += (unsigned char)(value % 16) * 16;
-		value = value / 16;
+bool screenshot(int width, int height) {
+	static int screenshotnum = 1;	// Construct filename
+	char filename[50];				// File name to be written
+	byte* image;					// Store pixels
+	FILE* fp;						// Pointer to the file to be written
+	BITMAPFILEHEADER fileheader;
+	BITMAPINFOHEADER infoheader;
+
+	// 4-bit align
+	int bmpwidth;
+	bmpwidth = width * 3;
+	while (bmpwidth % 4 != 0) {
+		bmpwidth++;
 	}
-	outResult[4] = '\0';
-}
 
-void screenshot(void) {
-	GLint viewPort[4] = { 0 };
-	glGetIntegerv(GL_VIEWPORT, viewPort);
-	GLbyte * buffer = (GLbyte *)malloc(viewPort[2] * viewPort[3] * sizeof(GLbyte) * 3);
-	glReadPixels(viewPort[0], viewPort[1], viewPort[2], viewPort[3],
-		GL_BGR_EXT, GL_UNSIGNED_BYTE, buffer);
-	long fileSize = viewPort[2] * viewPort[3] * 3 + 54;
-	//int i=0;  
+	// Define parameters in fileheader
+	fileheader.bfType = BITMAP_ID;
+	fileheader.bfOffBits = 14 + sizeof(BITMAPINFOHEADER);
+	fileheader.bfReserved1 = fileheader.bfReserved2 = 0;
+	fileheader.bfSize = height * bmpwidth * 8 + fileheader.bfOffBits;
 
-	fileHeader.bfType[0] = 0x42;
-	fileHeader.bfType[1] = 0x4d;
-	LongToByte(fileSize, fileHeader.bfSize);
-	LongToByte(54, fileHeader.bfOffBits);
+	// Define parameters in infoheader
+	infoheader.biXPelsPerMeter = infoheader.biYPelsPerMeter = 0;
+	infoheader.biClrUsed = 0;
+	infoheader.biClrImportant = 0;
+	infoheader.biPlanes = 1;
+	infoheader.biCompression = 0;
+	infoheader.biBitCount = 24;
+	infoheader.biSize = sizeof(BITMAPINFOHEADER);
+	infoheader.biHeight = height;
+	infoheader.biWidth = width;
+	infoheader.biSizeImage = height * bmpwidth;
 
-	LongToByte(sizeof(infoHeader), infoHeader.biSize);
-	LongToByte(viewPort[2], infoHeader.biWidth);
-	LongToByte(viewPort[3], infoHeader.biHeight);
+	// Get enough memory for storing pixels
+	image = (byte *)malloc(sizeof(byte)*infoheader.biSizeImage);
+	if (image == NULL) {
+		free(image);
+		cout << "Fail to get enough memory!" << endl;
+		return false;
+	}
 
-	infoHeader.biPlanes[0] = 0x01;
-	infoHeader.biPlanes[1] = 0x00;
-	infoHeader.biBitCount[0] = 0x18;
-	infoHeader.biBitCount[1] = 0x00;
-	LongToByte(0, infoHeader.biCompression);
+	// Read pixels in window
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glReadPixels(0, 0, width, height, GL_BGR, GL_UNSIGNED_BYTE, image);
 
-	LongToByte((viewPort[2] * viewPort[3]), infoHeader.biSizeImage);
+	// Open a new file
+	sprintf(filename, "images/ScreenShot%03d.bmp", screenshotnum++);
+	fp = fopen(filename, "wb");
+	if (fp == NULL) {
+		cout << "Fail to open a new file!" << endl;
+		free(image);
+		return false;
+	}
 
-	char filename[25] = "images/screenshot.bmp";
-	FILE * fp = fopen(filename, "w+");
-	//cout << "1" << endl;
-	fwrite(&fileHeader, sizeof(fileHeader), 1, fp);
-	//cout << "2" << endl;
-	fwrite(&infoHeader, sizeof(infoHeader), 1, fp);
-	//cout << "3" << endl;
-	fwrite(buffer, 1, (viewPort[2] * viewPort[3] * 3), fp);
-	//cout << "4" << endl;
+	// Write file
+	fwrite(&fileheader.bfType, 2, 1, fp);
+	fwrite(&fileheader.bfSize, 4, 1, fp);
+	fwrite(&fileheader.bfReserved1, 2, 1, fp);
+	fwrite(&fileheader.bfReserved2, 2, 1, fp);
+	fwrite(&fileheader.bfOffBits, 4, 1, fp);
+	fwrite(&infoheader, sizeof(BITMAPINFOHEADER), 1, fp);
+	fwrite(image, infoheader.biSizeImage, 1, fp);
+
+	// Free memory and close file
+	free(image);
 	fclose(fp);
-	//cout << "5" << endl;
 
-	free(buffer);
+	return true;
 }
