@@ -10,6 +10,7 @@ void initObj() {
 	model[0] = glmReadOBJ("models/sofa.obj");
 	model[1] = glmReadOBJ("models/sofaleg.obj");
 	model[2] = glmReadOBJ("models/plantleaf.obj");
+	model[3] = glmReadOBJ("models/shell.obj");
 }
 
 void drawObject() {
@@ -25,6 +26,10 @@ void drawObject() {
 	//	glDisable(GL_TEXTURE_2D);
 	//}
 	// Draw models without texture
+	glPushMatrix();
+	glTranslatef(0.0f, 150.0f, 1.062f);
+	glmDraw(model[3], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+	glPopMatrix();
 	glPushMatrix();
 	glTranslatef(-39.169f, 93.1f, -340.861f);
 	glmDraw(model[0], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
