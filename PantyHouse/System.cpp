@@ -78,7 +78,7 @@ void updateView() {
 	glMatrixMode(GL_PROJECTION);			// Select The Projection Matrix
 	glLoadIdentity();						// Reset The Projection Matrix
 
-	gluPerspective(45.0f, 1.7778f, 0.1f, 1000.0f);	// 1.7778 = 1280 / 720
+	gluPerspective(45.0f, 1.7778f, 0.1f, 2000.0f);	// 1.7778 = 1280 / 720
 
 	glMatrixMode(GL_MODELVIEW);				// Select The Modelview Matrix
 }

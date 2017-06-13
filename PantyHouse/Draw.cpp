@@ -7,12 +7,9 @@ GLMmodel* model[10];
 
 // Initiate objects
 void initObj() {
-	model[0] = glmReadOBJ("models/texturetest01.obj");
-	model[1] = glmReadOBJ("models/texturetest04.obj");
-	model[2] = glmReadOBJ("models/texturetest06.obj");
-	model[3] = glmReadOBJ("models/texturetest07.obj");
-	model[4] = glmReadOBJ("models/texturetest08.obj");
-	model[5] = glmReadOBJ("models/texturetest09.obj");
+	model[0] = glmReadOBJ("models/sofa.obj");
+	model[1] = glmReadOBJ("models/sofaleg.obj");
+	model[2] = glmReadOBJ("models/plantleaf.obj");
 }
 
 void drawObject() {
@@ -20,17 +17,29 @@ void drawObject() {
 	cout << textureObjectCnt << endl;
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	// Draw models with texture. One texture for one model.
-	for (int ii = 0; ii < textureObjectCnt; ii++) {
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, textureObjects[ii]);
-		glmDraw(model[ii], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-		cout << ii << endl;
-		glDisable(GL_TEXTURE_2D);
-	}
+	//for (int ii = 0; ii < textureObjectCnt; ii++) {
+	//	glEnable(GL_TEXTURE_2D);
+	//	glBindTexture(GL_TEXTURE_2D, textureObjects[ii]);
+	//	glmDraw(model[ii], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+	//	cout << ii << endl;
+	//	glDisable(GL_TEXTURE_2D);
+	//}
 	// Draw models without texture
-	glmDraw(model[3], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-	glmDraw(model[4], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-	glmDraw(model[5], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+	glPushMatrix();
+	glTranslatef(-39.169f, 93.1f, -340.861f);
+	glmDraw(model[0], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-39.169f, 43.131f, -340.861f);
+	glmDraw(model[1], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-38.341f, 60.182f, -56.79f);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, textureObjects[0]);
+	glmDraw(model[2], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
 }
 
 GLint genDisplayList() {

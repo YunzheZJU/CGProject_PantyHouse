@@ -1,0 +1,23 @@
+newmtl blinn2SG1
+illum 4
+Kd 1.00 0.95 0.65
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+newmtl blinn7SG1
+illum 4
+Kd 0.26 0.09 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+newmtl plant1:rubberPlantPotted1LeafShaderSG1
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/ramp3-rubberPlantPotted1Leaf.bmp
+Ni 1.00
+Ks 0.31 0.29 0.28
+Ns 10.89

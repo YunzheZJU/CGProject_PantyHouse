@@ -14,7 +14,7 @@ char texFileName[400][100];
 unsigned int textureVideo[30];
 
 void initTexture() {
-	readMTL("models/texturetest01.mtl");
+	readMTL("models/texturetest.mtl");
 	cout << "readMTL OK." << endl;
 	loadObjectTextures();
 	cout << "loadObjectTextures OK." << endl;
