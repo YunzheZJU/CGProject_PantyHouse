@@ -8,14 +8,13 @@
 GLint listcode = 0;							// Listcode for display list
 GLfloat camera[3] = { 0, 150, 400 };			// Position of camera
 GLfloat target[3] = { 0, 150, 0 };		// Position of target of camera
-GLfloat target_spherical[2] = { 0, 0 };		// Spherical coordinates of target
 GLfloat camera_polar[2] = { 400, 0 };			// Polar coordinates of camera
 GLboolean bcamera = GL_TRUE;
 GLboolean bfps = GL_FALSE;
 GLboolean bfocus = GL_TRUE;
-int windowwidth = 1280;
-int windowheight = 720;
-int mousex, mousey;
+int window[2] = { 1280, 720 };
+int windowcenter[2];
+int mouse[2];
 char message[70] = "Welcome!";				// Message string to be shown
 
 void init() {
@@ -70,8 +69,8 @@ void reshape(int width, int height) {
 		height = 1;							// Making Height Equal One
 	}
 	glViewport(width / 2.0 - 640, height / 2.0 - 360, 1280, 720);
-	windowwidth = width;
-	windowheight = height;
+	window[W] = width;
+	window[H] = height;
 	updateView();
 }
 
@@ -97,7 +96,17 @@ void processMouseMove(int x, int y) {
 	if (bfocus) {
 		cout << "Mouse moves to (" << x << ", " << y << ")" << endl;
 	}
-	// Reverse mouse moving to center point and track target.
+	// Track target and reverse mouse moving to center point.
+	// 将新坐标与旧坐标的差值换算为target的坐标变化
+	camera_polar[A] = -(x - mouse[X]) / 2.0;			// 1 degree per 2 pixels
+	camera_polar[T] = -(y - mouse[Y]) / 2.0;
+	y - mouse[Y];
+	// 将新坐标存起来
+	mouse[X] = x;
+	mouse[Y] = y;
+	// 将鼠标放回窗口中心
+	SetCursorPos(windowcenter[X], windowcenter[Y]);
+	updateTarget(target, camera_polar);
 }
 
 void processFocus(int state) {
@@ -136,6 +145,18 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'c': {
 			strcpy(message, "C pressed. Switch fps control!");
 			bfps = !bfps;
+			// 摄像机归零
+			cameraMakeZero(camera, target, camera_polar);
+			// 调整窗口位置
+			int windowmaxx = glutGet(GLUT_WINDOW_X) + window[W];
+			int windowmaxy = glutGet(GLUT_WINDOW_Y) + window[H];
+			if (windowmaxx >= glutGet(GLUT_SCREEN_WIDTH) || windowmaxy >= glutGet(GLUT_SCREEN_HEIGHT)) {
+				glutPositionWindow(glutGet(GLUT_SCREEN_WIDTH) - window[W], glutGet(GLUT_SCREEN_HEIGHT) - window[H]);
+			}
+			// 鼠标位置居中
+			mouse[X] = windowcenter[X] = glutGet(GLUT_WINDOW_X) + window[W] / 2.0;
+			mouse[Y] = windowcenter[Y] = glutGet(GLUT_WINDOW_Y) + window[H] / 2.0;
+			SetCursorPos(windowcenter[X], windowcenter[Y]);
 			break;
 		}
 		// 第一人称移动/摄像机本体移动/焦点移动
@@ -143,7 +164,10 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'a': {
 			strcpy(message, "A pressed. Watch carefully!");
 			if (bfps) {
-				// TODO
+				camera[X] -= cos(camera_polar[A]) * 0.2;
+				camera[Z] += sin(camera_polar[A]) * 0.2;
+				target[X] -= cos(camera_polar[A]) * 0.2;
+				target[Z] += sin(camera_polar[A]) * 0.2;
 			}
 			else {
 				if (bcamera) {
@@ -152,9 +176,9 @@ void processNormalKey(unsigned char k, int x, int y) {
 					cout << fixed << setprecision(1) << "A pressed.\n\tPosition of camera is set to (" <<
 						camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
 				}
-				else if (!bfps) {
+				else {
 					target[X] -= 10;
-					updateCameraTarget(camera, target, camera_polar);
+					updatePolar(camera, target, camera_polar);
 					cout << fixed << setprecision(1) << "A pressed.\n\tPosition of camera target is set to (" <<
 						target[X] << ", " << target[Y] << ", " << target[Z] << ")." << endl;
 				}
@@ -165,7 +189,10 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'd': {
 			strcpy(message, "D pressed. Watch carefully!");
 			if (bfps) {
-				// TODO
+				camera[X] += cos(camera_polar[A]) * 0.2;
+				camera[Z] -= sin(camera_polar[A]) * 0.2;
+				target[X] += cos(camera_polar[A]) * 0.2;
+				target[Z] -= sin(camera_polar[A]) * 0.2;
 			}
 			else {
 				if (bcamera) {
@@ -176,7 +203,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 				}
 				else {
 					target[X] += 10;
-					updateCameraTarget(camera, target, camera_polar);
+					updatePolar(camera, target, camera_polar);
 					cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera target is set to (" <<
 						target[X] << ", " << target[Y] << ", " << target[Z] << ")." << endl;
 				}
@@ -187,7 +214,10 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'w': {
 			strcpy(message, "W pressed. Watch carefully!");
 			if (bfps) {
-				// TODO
+				camera[X] += sin(camera_polar[A]) * 0.2;
+				camera[Z] += cos(camera_polar[A]) * 0.2;
+				target[X] += sin(camera_polar[A]) * 0.2;
+				target[Z] += cos(camera_polar[A]) * 0.2;
 			}
 			else {
 				if (bcamera) {
@@ -197,7 +227,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 				}
 				else {
 					target[Y] += 10;
-					updateCameraTarget(camera, target, camera_polar);
+					updatePolar(camera, target, camera_polar);
 					cout << fixed << setprecision(1) << "W pressed.\n\tPosition of camera target is set to (" <<
 						target[X] << ", " << target[Y] << ", " << target[Z] << ")." << endl;
 				}
@@ -208,7 +238,10 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 's': {
 			strcpy(message, "S pressed. Watch carefully!");
 			if (bfps) {
-				// TODO
+				camera[X] -= sin(camera_polar[A]) * 0.2;
+				camera[Z] -= cos(camera_polar[A]) * 0.2;
+				target[X] -= sin(camera_polar[A]) * 0.2;
+				target[Z] -= cos(camera_polar[A]) * 0.2;
 			}
 			else {
 				if (bcamera) {
@@ -219,7 +252,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 				}
 				else {
 					target[Y] -= 10;
-					updateCameraTarget(camera, target, camera_polar);
+					updatePolar(camera, target, camera_polar);
 					cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera target is set to (" <<
 						target[X] << ", " << target[Y] << ", " << target[Z] << ")." << endl;
 				}
@@ -238,7 +271,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 			else {
 				strcpy(message, "Q pressed. Camera target is moving towards +Z!");
 				target[Z] += 5;
-				updateCameraTarget(camera, target, camera_polar);
+				updatePolar(camera, target, camera_polar);
 				cout << fixed << setprecision(1) << "Q pressed.\n\tPosition of camera target is set to (" <<
 					target[X] << ", " << target[Y] << ", " << target[Z] << ")." << endl;
 			}
@@ -256,7 +289,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 			else {
 				strcpy(message, "E pressed. Camera target is moving towards -Z!");
 				target[Z] -= 5;
-				updateCameraTarget(camera, target, camera_polar);
+				updatePolar(camera, target, camera_polar);
 				cout << fixed << setprecision(1) << "E pressed.\n\tPosition of camera target is set to (" <<
 					target[X] << ", " << target[Y] << ", " << target[Z] << ")." << endl;
 			}
@@ -266,7 +299,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'X':
 		case 'x':
 			cout << "X pressed." << endl;
-			if (screenshot(windowwidth, windowheight)) {
+			if (screenshot(window[W], window[H])) {
 				cout << "Screenshot is saved." << endl;
 				strcpy(message, "X pressed. Screenshot is Saved.");
 			}

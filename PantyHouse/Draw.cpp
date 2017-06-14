@@ -3,9 +3,10 @@
 
 #include "head.h"
 
+// Declare model objects
 GLMmodel* model[10];
 
-// Initiate objects
+// Set model objects
 void initObj() {
 	model[0] = glmReadOBJ("models/sofa.obj");
 	model[1] = glmReadOBJ("models/sofaleg.obj");

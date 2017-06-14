@@ -30,24 +30,23 @@
 // Using namespace std for cin and cout
 using namespace std;
 
-// TODO:Define MACROs
 // Define shortcuts for coordinate in location array
 #define X 0
 #define Y 1
 #define Z 2
 
-// Define abbreviate for "radius" and "angle"
-#define R 0
-#define A 1
+// Define abbreviate
+#define R 0		// Radius
+#define A 1		// Alpha
+#define T 2		// Theta
+#define W 0		// Width
+#define H 1		// Height
 
 // Define Pi in math
 #define PI 3.1415926
 
 // Define BITMAP_ID
 #define BITMAP_ID 0x4D42
-
-// Define model list
-extern GLMmodel* model[10];
 
 // Define variables for texturing
 extern int textureObjectCnt;
@@ -122,8 +121,10 @@ void initLight();
 // These functions are defined in Util.cpp
 void callList(GLint listcode);
 void updateList(GLint listcode);
+void cameraMakeZero(GLfloat* camera, GLfloat* target, GLfloat* polar);
 void updateCamera(GLfloat* camera, GLfloat* target, GLfloat* polar);
-void updateCameraTarget(GLfloat* camera, GLfloat* target, GLfloat* polar);
+void updatePolar(GLfloat* camera, GLfloat* target, GLfloat* polar);
+void updateTarget(GLfloat* camera, GLfloat* target, GLfloat* polar);
 bool screenshot(int width, int height);
 
 // These functions are defined in System.cpp

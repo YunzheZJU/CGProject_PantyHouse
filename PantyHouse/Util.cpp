@@ -1,6 +1,5 @@
 // Utils.cpp
-// Utility functions for changing global variables are defined here
-// Write functions as less as possible in this file!
+// Utility functions for setting variables are defined here
 
 #include "head.h"
 
@@ -14,12 +13,18 @@ void updateList(GLint listcode) {
 	listcode = genDisplayList();
 }
 
+void cameraMakeZero(GLfloat* camera, GLfloat* target, GLfloat* polar) {
+	camera[X] = camera[Z] = target[X] = target[Z] = polar[A] = 0;
+	camera[Y] = target[Y] = 150;
+	camera[Z] = polar[R] = 400;
+}
+
 void updateCamera(GLfloat* camera, GLfloat* target, GLfloat* polar) {
-	camera[X] = target[X] +polar[R] * sin(polar[A]);
+	camera[X] = target[X] + polar[R] * sin(polar[A]);
 	camera[Z] = target[Z] + polar[R] * cos(polar[A]);
 }
 
-void updateCameraTarget(GLfloat* camera, GLfloat* target, GLfloat* polar) {
+void updatePolar(GLfloat* camera, GLfloat* target, GLfloat* polar) {
 	int i;
 	float tempangle;
 	polar[R] = sqrt(pow((camera[X] - target[X]), 2.0) + pow((camera[Z] - target[Z]), 2.0));
@@ -57,6 +62,13 @@ void updateCameraTarget(GLfloat* camera, GLfloat* target, GLfloat* polar) {
 			polar[A] = -PI / 2;
 		}
 	}
+}
+
+void updateTarget(GLfloat* camera, GLfloat* target, GLfloat* polar) {
+	// TODO
+	//target[X] = f(camera[X], polar[A], polar[T]);
+	//target[Y] = g(camera[Y], polar[A], polar[T]);
+	//target[Z] = h(camera[Z], polar[A], polar[T]);
 }
 
 bool screenshot(int width, int height) {
