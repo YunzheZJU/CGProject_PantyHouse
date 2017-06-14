@@ -81,7 +81,7 @@ void drawObject() {
 
 void drawNurbs() {
 	glPushMatrix();
-	glTranslatef(0.0f, 150.0f, 0.0f);
+	glTranslatef(0.0f, 500.0f, 0.0f);
 	glScalef(100.0f, 100.0f, 100.0f);
 	draw_nurbs_surface();
 	glPopMatrix();
