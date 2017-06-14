@@ -6,6 +6,11 @@
 // Declare model objects
 GLMmodel* model[10];
 
+GLUnurbsObj *theNurb;
+
+static GLfloat ctlpoints[4][4][3];
+static GLfloat tcoords[2][2][2] = { 0, 0, 0, 1, 1, 0, 1, 1 };
+
 // Set model objects
 void initObj() {
 	model[0] = glmReadOBJ("models/sofa.obj");
@@ -14,6 +19,23 @@ void initObj() {
 	model[3] = glmReadOBJ("models/shell.obj");
 	model[4] = glmReadOBJ("models/floor1.obj");
 	model[5] = glmReadOBJ("models/floor2.obj");
+}
+
+void init_nurbs_surface() {
+	int u, v;
+
+	for (u = 0; u < 4; u++)
+		for (v = 0; v < 4; v++) {
+			ctlpoints[u][v][0] = 0.95f*(u - 1.5f);
+			ctlpoints[u][v][2] = 0.95f*(v - 1.5f);
+			ctlpoints[u][v][1] = ((rand() % 1000) / 1000.0F - 0.5F)*2.0f;
+		}
+
+	theNurb = gluNewNurbsRenderer();
+	gluNurbsProperty(theNurb, GLU_SAMPLING_TOLERANCE, 10.0);
+	gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_FILL);
+	glEnable(GL_AUTO_NORMAL);
+	glEnable(GL_NORMALIZE);
 }
 
 void drawObject() {
@@ -57,13 +79,24 @@ void drawObject() {
 	glPopMatrix();
 }
 
-GLint genDisplayList() {
+void drawNurbs() {
+	glPushMatrix();
+	glTranslatef(0.0f, 150.0f, 0.0f);
+	glScalef(100.0f, 100.0f, 100.0f);
+	draw_nurbs_surface();
+	glPopMatrix();
+}
+GLint genDisplayList(int type) {
 	GLint lid = glGenLists(1);
 
 	glNewList(lid, GL_COMPILE);
+	if (type == SCENE) {
 		drawObject();
+	}
+	else if (type == NURBS) {
+		drawNurbs();
+	}
 	glEndList();
-
 	return lid;
 }
 
@@ -121,4 +154,15 @@ void drawCrosshair() {
 	glPopMatrix();							// 重置为原保存矩阵
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
+}
+
+void draw_nurbs_surface() {
+	GLfloat knots[8] = { 0.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0 };
+	glEnable(GL_TEXTURE_2D);
+	gluBeginSurface(theNurb);
+
+	gluNurbsSurface(theNurb, 8, knots, 8, knots, 4 * 3, 3, &ctlpoints[0][0][0], 4, 4, GL_MAP2_VERTEX_3);
+
+	gluEndSurface(theNurb);
+	glDisable(GL_TEXTURE_2D);
 }

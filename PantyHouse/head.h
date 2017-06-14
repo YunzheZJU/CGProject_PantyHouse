@@ -61,6 +61,11 @@ enum {
 	EXIT
 };
 
+enum {
+	SCENE, 
+	NURBS
+};
+
 typedef struct tagBITMAPFILEHEADERnew {
 
 	unsigned char bfType[2];
@@ -104,10 +109,12 @@ typedef struct tagBITMAPINFOHEADERnew {
 // TODO:Claim every function in cpp files here
 // These functions are defined in Draw.cpp
 void initObj();
+void init_nurbs_surface();
 void drawObject();
-GLint genDisplayList();
+GLint genDisplayList(int type);
 void drawTarget(GLfloat* center, GLfloat radius);
 void drawCrosshair();
+void draw_nurbs_surface();
 
 // These functions are defined in Texture.cpp
 void initTexture();
@@ -121,7 +128,7 @@ void initLight();
 
 // These functions are defined in Util.cpp
 void callList(GLint listcode);
-void updateList(GLint listcode);
+void updateList(GLint listcode, int type);
 void cameraMakeZero(GLfloat* camera, GLfloat* target, GLfloat* polar);
 void updateCamera(GLfloat* camera, GLfloat* target, GLfloat* polar);
 void updatePolar(GLfloat* camera, GLfloat* target, GLfloat* polar);

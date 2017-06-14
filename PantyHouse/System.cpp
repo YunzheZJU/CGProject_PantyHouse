@@ -5,13 +5,15 @@
 
 #pragma warning(disable:4996)
 
-GLint listcode = 0;							// Listcode for display list
+GLint listcode_scene = 0;							// Listcode of scene for display list
+GLint listcode_nurbs = 0;							// Listcode of nurbs for display list
 GLfloat camera[3] = { 0, 150, 400 };			// Position of camera
 GLfloat target[3] = { 0, 150, 0 };		// Position of target of camera
 GLfloat camera_polar[3] = { 400, 0, 0 };			// Polar coordinates of camera
 GLboolean bcamera = GL_TRUE;
 GLboolean bfocus = GL_TRUE;
 GLboolean bmouse = GL_FALSE;
+GLboolean bnurbs = GL_FALSE;
 int fpsmode = 0;							// 0:off, 1:on, 2:waiting
 int window[2] = { 1280, 720 };
 int windowcenter[2];
@@ -25,14 +27,18 @@ void init() {
 	cout << "initTexture OK." << endl;
 	// Initiate menu
 	initMenu();
-	//Initiate objects
+	// Initiate objects
 	initObj();
 	cout << "initObj OK." << endl;
+	// Initiate NURBS
+	init_nurbs_surface();
+	cout << "init_nurbs_surface OK." << endl;
 	// Initiate lighting
 	initLight();
 	cout << "initLight OK." << endl;
 	// Initiate display list
-	listcode = genDisplayList();
+	listcode_scene = genDisplayList(SCENE);
+	listcode_nurbs = genDisplayList(NURBS);
 	cout << "genDisplayList OK." << endl;
 }
 
@@ -56,12 +62,15 @@ void redraw() {
 		target[X], target[Y], target[Z],
 		0, 1, 0);							// Define the view model
 
-	callList(listcode);						// Draw Scene with display List
+	callList(listcode_scene);						// Draw Scene with display List
 	if (fpsmode == 1) {
 		drawCrosshair();
 	}
 	else {
 		drawTarget(target, 2);
+	}
+	if (bnurbs) {
+		callList(listcode_nurbs);
 	}
 	//drawLights();
 	showSysStatus();
@@ -150,8 +159,6 @@ void processFocus(int state) {
 }
 
 void processNormalKey(unsigned char k, int x, int y) {
-	// TODO:processNormalKey()
-
 	switch (k) {
 		// 退出程序
 		case 27: {
@@ -159,7 +166,14 @@ void processNormalKey(unsigned char k, int x, int y) {
 			exit(0);
 			break;
 		}
-		 // 切换摄像机本体/焦点控制
+		// 绘制NURBS开关
+		case 'N':
+		case 'n': {
+			strcpy(message, "N pressed. Show/Hide NURBS object!");
+			bnurbs = !bnurbs;
+			break;
+		}
+		// 切换摄像机本体/焦点控制
 		case 'Z':
 		case 'z': {
 			strcpy(message, "Z pressed. Switch camera control!");

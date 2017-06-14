@@ -9,8 +9,8 @@ void callList(GLint listcode) {
 	glCallList(listcode);
 }
 
-void updateList(GLint listcode) {
-	listcode = genDisplayList();
+void updateList(GLint listcode, int type) {
+	listcode = genDisplayList(type);
 }
 
 void cameraMakeZero(GLfloat* camera, GLfloat* target, GLfloat* polar) {
