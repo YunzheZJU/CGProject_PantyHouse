@@ -10,11 +10,11 @@ GLfloat camera[3] = { 0, 150, 400 };			// Position of camera
 GLfloat target[3] = { 0, 150, 0 };		// Position of target of camera
 GLfloat camera_polar[3] = { 400, 0, 0 };			// Polar coordinates of camera
 GLboolean bcamera = GL_TRUE;
-GLboolean bfps = GL_FALSE;
 GLboolean bfocus = GL_TRUE;
+GLboolean bmouse = GL_FALSE;
+int fpsmode = 0;							// 0:off, 1:on, 2:waiting
 int window[2] = { 1280, 720 };
 int windowcenter[2];
-//int mouse[2];
 char message[70] = "Welcome!";				// Message string to be shown
 
 void init() {
@@ -95,15 +95,38 @@ void processMouseClick(int button, int state, int x, int y) {
 
 void processMouseMove(int x, int y) {
 	cout << "Mouse moves to (" << x << ", " << y << ")" << endl;
-	if (!bfps) {
-	}
-	else {
+	if (fpsmode) {
 		// Track target and reverse mouse moving to center point.
+		if (fpsmode == 2) {
+			// 鼠标位置居中，为确保在glutPositionWindow()之后执行
+			updateWindowcenter(window, windowcenter);
+			SetCursorPos(windowcenter[X], windowcenter[Y]);
+			fpsmode = 1;
+		}
+		if (x < window[W] * 0.25) {
+			x += window[W] * 0.5;
+			bmouse = !bmouse;
+		}
+		else if (x > window[W] * 0.75) {
+			x -= window[W] * 0.5;
+			bmouse = !bmouse;
+		}
+		if (y < window[H] * 0.25) {
+			y += window[H] * 0.5;
+			bmouse = !bmouse;
+		}
+		else if (y > window[H] * 0.75) {
+			y -= window[H] * 0.5;
+			bmouse = !bmouse;
+		}
 		// 将新坐标与屏幕中心的差值换算为polar的变化
 		camera_polar[A] = -(x - window[W] / 2.0) / 101.9;			// 1 degree per 2 pixels
 		camera_polar[T] = -(y - window[H] / 2.0) / 114.6;
-		// 将鼠标放回窗口中心
-		//SetCursorPos(windowcenter[X], windowcenter[Y]);
+		// 移动光标
+		if (bmouse) {
+			SetCursorPos(glutGet(GLUT_WINDOW_X) + x, glutGet(GLUT_WINDOW_Y) + y);
+			bmouse = !bmouse;
+		}
 		// 更新摄像机目标
 		updateTarget(camera, target, camera_polar);
 	}
@@ -144,14 +167,17 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'C':
 		case 'c': {
 			strcpy(message, "C pressed. Switch fps control!");
-			bfps = !bfps;
+			fpsmode = !fpsmode;
 			// 摄像机归零
 			cameraMakeZero(camera, target, camera_polar);
 			// 调整窗口位置
 			int windowmaxx = glutGet(GLUT_WINDOW_X) + window[W];
 			int windowmaxy = glutGet(GLUT_WINDOW_Y) + window[H];
 			if (windowmaxx >= glutGet(GLUT_SCREEN_WIDTH) || windowmaxy >= glutGet(GLUT_SCREEN_HEIGHT)) {
+				// glutPositionWindow()并不会立即执行！
 				glutPositionWindow(glutGet(GLUT_SCREEN_WIDTH) - window[W], glutGet(GLUT_SCREEN_HEIGHT) - window[H]);
+				fpsmode = 2;
+				break;
 			}
 			// 鼠标位置居中
 			updateWindowcenter(window, windowcenter);
@@ -162,7 +188,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'A':
 		case 'a': {
 			strcpy(message, "A pressed. Watch carefully!");
-			if (bfps) {
+			if (fpsmode) {
 				camera[X] -= cos(camera_polar[A]) * 10;
 				camera[Z] += sin(camera_polar[A]) * 10;
 				target[X] -= cos(camera_polar[A]) * 10;
@@ -187,7 +213,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'D':
 		case 'd': {
 			strcpy(message, "D pressed. Watch carefully!");
-			if (bfps) {
+			if (fpsmode) {
 				camera[X] += cos(camera_polar[A]) * 10;
 				camera[Z] -= sin(camera_polar[A]) * 10;
 				target[X] += cos(camera_polar[A]) * 10;
@@ -212,7 +238,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'W':
 		case 'w': {
 			strcpy(message, "W pressed. Watch carefully!");
-			if (bfps) {
+			if (fpsmode) {
 				camera[X] -= sin(camera_polar[A]) * 10;
 				camera[Z] -= cos(camera_polar[A]) * 10;
 				target[X] -= sin(camera_polar[A]) * 10;
@@ -236,7 +262,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'S':
 		case 's': {
 			strcpy(message, "S pressed. Watch carefully!");
-			if (bfps) {
+			if (fpsmode) {
 				camera[X] += sin(camera_polar[A]) * 10;
 				camera[Z] += cos(camera_polar[A]) * 10;
 				target[X] += sin(camera_polar[A]) * 10;
