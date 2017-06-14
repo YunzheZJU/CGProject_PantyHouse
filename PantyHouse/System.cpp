@@ -80,9 +80,6 @@ void reshape(int width, int height) {
 	updateView();
 }
 
-// I refined updateView() to make the viewport fit camera better.
-// Thus you must make some changes in the text-drawing function.
-// Because it relies on its position against the current window.
 void updateView() {
 	glMatrixMode(GL_PROJECTION);			// Select The Projection Matrix
 	glLoadIdentity();						// Reset The Projection Matrix
@@ -118,11 +115,11 @@ void processMouseMove(int x, int y) {
 			bmouse = !bmouse;
 		}
 		if (y < window[H] * 0.25) {
-			y += window[H] * 0.5;
+			y = window[H] * 0.25;
 			bmouse = !bmouse;
 		}
 		else if (y > window[H] * 0.75) {
-			y -= window[H] * 0.5;
+			y = window[H] * 0.75;
 			bmouse = !bmouse;
 		}
 		// 将新坐标与屏幕中心的差值换算为polar的变化
@@ -202,10 +199,14 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'a': {
 			strcpy(message, "A pressed. Watch carefully!");
 			if (fpsmode) {
+				//saveCamera(camera, target, camera_polar);
 				camera[X] -= cos(camera_polar[A]) * 10;
 				camera[Z] += sin(camera_polar[A]) * 10;
 				target[X] -= cos(camera_polar[A]) * 10;
 				target[Z] += sin(camera_polar[A]) * 10;
+				//if (collapsed) {
+					//loadCamera(camera, target, camera_polar);
+				//}
 			}
 			else {
 				if (bcamera) {
