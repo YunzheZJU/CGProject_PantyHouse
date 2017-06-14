@@ -56,8 +56,13 @@ void redraw() {
 		target[X], target[Y], target[Z],
 		0, 1, 0);							// Define the view model
 
-	drawTarget(target, 2);
 	callList(listcode);						// Draw Scene with display List
+	if (fpsmode == 1) {
+		drawCrosshair();
+	}
+	else {
+		drawTarget(target, 2);
+	}
 	//drawLights();
 	showSysStatus();
 
@@ -101,6 +106,7 @@ void processMouseMove(int x, int y) {
 			// 鼠标位置居中，为确保在glutPositionWindow()之后执行
 			updateWindowcenter(window, windowcenter);
 			SetCursorPos(windowcenter[X], windowcenter[Y]);
+			glutSetCursor(GLUT_CURSOR_NONE);
 			fpsmode = 1;
 		}
 		if (x < window[W] * 0.25) {
@@ -167,21 +173,28 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'C':
 		case 'c': {
 			strcpy(message, "C pressed. Switch fps control!");
-			fpsmode = !fpsmode;
 			// 摄像机归零
 			cameraMakeZero(camera, target, camera_polar);
+			if (!fpsmode) {
 			// 调整窗口位置
-			int windowmaxx = glutGet(GLUT_WINDOW_X) + window[W];
-			int windowmaxy = glutGet(GLUT_WINDOW_Y) + window[H];
-			if (windowmaxx >= glutGet(GLUT_SCREEN_WIDTH) || windowmaxy >= glutGet(GLUT_SCREEN_HEIGHT)) {
-				// glutPositionWindow()并不会立即执行！
-				glutPositionWindow(glutGet(GLUT_SCREEN_WIDTH) - window[W], glutGet(GLUT_SCREEN_HEIGHT) - window[H]);
-				fpsmode = 2;
-				break;
+				int windowmaxx = glutGet(GLUT_WINDOW_X) + window[W];
+				int windowmaxy = glutGet(GLUT_WINDOW_Y) + window[H];
+				if (windowmaxx >= glutGet(GLUT_SCREEN_WIDTH) || windowmaxy >= glutGet(GLUT_SCREEN_HEIGHT)) {
+					// glutPositionWindow()并不会立即执行！
+					glutPositionWindow(glutGet(GLUT_SCREEN_WIDTH) - window[W], glutGet(GLUT_SCREEN_HEIGHT) - window[H]);
+					fpsmode = 2;
+					break;
+				}
+				// 鼠标位置居中
+				updateWindowcenter(window, windowcenter);
+				SetCursorPos(windowcenter[X], windowcenter[Y]);
+				glutSetCursor(GLUT_CURSOR_NONE);
+				fpsmode = 1;
 			}
-			// 鼠标位置居中
-			updateWindowcenter(window, windowcenter);
-			SetCursorPos(windowcenter[X], windowcenter[Y]);
+			else {
+				glutSetCursor(GLUT_CURSOR_RIGHT_ARROW);
+				fpsmode = 0;
+			}
 			break;
 		}
 		// 第一人称移动/摄像机本体移动/焦点移动
@@ -359,40 +372,40 @@ void showSysStatus() {
 		frame = 0;
 	}
 
-	sprintf(cameraposition, "camera position  %2.1f   %2.1f   %2.1f",
+	sprintf(cameraposition, "Camera Position  %2.1f   %2.1f   %2.1f",
 		camera[X], camera[Y], camera[Z]);
-	sprintf(targetposition, "target position     %2.1f   %2.1f   %2.1f",
+	sprintf(targetposition, "Target Position     %2.1f   %2.1f   %2.1f",
 		target[X], target[Y], target[Z]);
-	sprintf(camerapolar, "camera polar      %2.3f   %2.3f",
-		camera_polar[A], camera_polar[R]);
+	sprintf(camerapolar, "Camera Polar      %2.1f   %2.3f   %2.3f",
+		camera_polar[R], camera_polar[A], camera_polar[T]);
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);					// 不受灯光影响
 	glMatrixMode(GL_PROJECTION);			// 选择投影矩阵
 	glPushMatrix();							// 保存原矩阵
 		glLoadIdentity();						// 装入单位矩阵
-		glOrtho(-480, 480, -480, 480, -1, 1);	// 设置裁减区域
+		glOrtho(-640, 640, -360, 360, -1, 1);	// 设置裁减区域
 		glMatrixMode(GL_MODELVIEW);				// 选择Modelview矩阵
 		glPushMatrix();							// 保存原矩阵
 			glLoadIdentity();						// 装入单位矩阵
 			glPushAttrib(GL_LIGHTING_BIT);
-				glRasterPos2f(-460, 452);
+				glRasterPos2f(-620, 340);
 				for (c = fpstext; *c != '\0'; c++) {
 					glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
 				}
-				glRasterPos2f(280, 440);
+				glRasterPos2f(400, 340);
 				for (c = cameraposition; *c != '\0'; c++) {
 					glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *c);
 				}
-				glRasterPos2f(280, 415);
+				glRasterPos2f(400, 305);
 				for (c = targetposition; *c != '\0'; c++) {
 					glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *c);
 				}
-				glRasterPos2f(280, 390);
+				glRasterPos2f(400, 270);
 				for (c = camerapolar; *c != '\0'; c++) {
 					glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *c);
 				}
-				glRasterPos2f(-460, -460);
+				glRasterPos2f(-620, -340);
 				for (c = message; *c != '\0'; c++) {
 					glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
 				}

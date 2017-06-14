@@ -107,6 +107,7 @@ void initObj();
 void drawObject();
 GLint genDisplayList();
 void drawTarget(GLfloat* center, GLfloat radius);
+void drawCrosshair();
 
 // These functions are defined in Texture.cpp
 void initTexture();
