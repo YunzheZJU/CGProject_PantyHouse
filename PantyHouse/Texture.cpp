@@ -11,7 +11,7 @@ GLuint textureObjects[400];
 
 char texFileName[400][100];
 
-unsigned int textureVideo[30];
+unsigned int texturevideo[5];
 
 void initTexture() {
 	readMTL("models/texturetest.mtl");
@@ -23,6 +23,18 @@ void initTexture() {
 	//glActiveTextureARB = (PFNGLCLIENTACTIVETEXTUREARBPROC)wglGetProcAddress("glActiveTextureARB");
 	//glMultiTexCoord2fARB = (PFNGLMULTITEXCOORD2FARBPROC)wglGetProcAddress("glMultiTexCoord2fARB");
 	//glClientActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)wglGetProcAddress("glClientActiveTextureARB");
+}
+
+void initVideo() {
+	glGenTextures(5, texturevideo);
+
+	char videoLoc[30] = ".\\videoframes\\000.bmp";
+	for (int i = 1; i <= 5; i++) {
+		videoLoc[15] = i / 10 + '0';
+		videoLoc[16] = i % 10 + '0';
+		cout << videoLoc << endl;
+		loadTexture(i, videoLoc, true);
+	}
 }
 
 // Read texture scr from .mtl file into texFileName and count textureObjectCnt
@@ -97,7 +109,7 @@ void loadTexture(int i, char* filename, bool type) {
 	unsigned char*   bitmapData;
 	bitmapData = loadBitmapFile(filename, &bitmapInfoHeader);
 	// bind the texture
-	glBindTexture(GL_TEXTURE_2D, type ? textureVideo[i] : textureObjects[i]);
+	glBindTexture(GL_TEXTURE_2D, type ? texturevideo[i] : textureObjects[i]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);

@@ -52,7 +52,7 @@ using namespace std;
 extern int textureObjectCnt;
 extern GLuint textureObjects[400];
 extern char texFileName[400][100];
-extern unsigned int textureVideo[30];
+extern unsigned int texturevideo[5];
 
 // TODO:Define classes
 
@@ -118,6 +118,8 @@ void draw_nurbs_surface();
 
 // These functions are defined in Texture.cpp
 void initTexture();
+void initVideo();
+void drawVideo();
 void readMTL(char * fileName);
 unsigned char *loadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader);
 void loadTexture(int i, char* filename, bool type);

@@ -25,6 +25,9 @@ void init() {
 	// Initiate texture
 	initTexture();
 	cout << "initTexture OK." << endl;
+	// Initiate video
+	initVideo();
+	cout << "initVideo OK" << endl;
 	// Initiate menu
 	initMenu();
 	// Initiate objects
@@ -63,6 +66,7 @@ void redraw() {
 		0, 1, 0);							// Define the view model
 
 	callList(listcode_scene);						// Draw Scene with display List
+	drawVideo();
 	if (fpsmode == 1) {
 		drawCrosshair();
 	}

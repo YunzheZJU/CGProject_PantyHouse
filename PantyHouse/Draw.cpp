@@ -6,7 +6,9 @@
 // Declare model objects
 GLMmodel* model[10];
 
-GLUnurbsObj *theNurb;
+GLUnurbsObj *nurbsobject;
+
+int videoframe = 1;
 
 static GLfloat ctlpoints[4][4][3];
 static GLfloat tcoords[2][2][2] = { 0, 0, 0, 1, 1, 0, 1, 1 };
@@ -19,6 +21,8 @@ void initObj() {
 	model[3] = glmReadOBJ("models/shell.obj");
 	model[4] = glmReadOBJ("models/floor1.obj");
 	model[5] = glmReadOBJ("models/floor2.obj");
+	model[6] = glmReadOBJ("models/TVsurface.obj");
+	model[7] = glmReadOBJ("models/door1.obj");
 }
 
 void init_nurbs_surface() {
@@ -31,9 +35,9 @@ void init_nurbs_surface() {
 			ctlpoints[u][v][1] = ((rand() % 1000) / 1000.0F - 0.5F)*2.0f;
 		}
 
-	theNurb = gluNewNurbsRenderer();
-	gluNurbsProperty(theNurb, GLU_SAMPLING_TOLERANCE, 10.0);
-	gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_FILL);
+	nurbsobject = gluNewNurbsRenderer();
+	gluNurbsProperty(nurbsobject, GLU_SAMPLING_TOLERANCE, 10.0);
+	gluNurbsProperty(nurbsobject, GLU_DISPLAY_MODE, GLU_FILL);
 	glEnable(GL_AUTO_NORMAL);
 	glEnable(GL_NORMALIZE);
 }
@@ -77,6 +81,36 @@ void drawObject() {
 	glTranslatef(0.0f, 15.0f, -280.914f);
 	glmDraw(model[5], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
 	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(337.0f, 0.0f, 20.403f);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, textureObjects[1]);
+	glmDraw(model[7], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+}
+
+void drawVideo() {
+	static int currenttime;
+	static int timebase = 0;
+	currenttime = glutGet(GLUT_ELAPSED_TIME);
+	if (currenttime - timebase > 200) {
+		timebase = currenttime;
+		if (videoframe == 5) {
+			videoframe = 1;
+		}
+		else {
+			videoframe++;
+		}
+	}
+	glPushMatrix();
+		glTranslatef(75.0f, 122.482f, 481.143f);
+		glRotated(180, 0, 1, 0);
+		glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, texturevideo[videoframe]);
+			glmDraw(model[6], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+		glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
 }
 
 void drawNurbs() {
@@ -86,6 +120,7 @@ void drawNurbs() {
 	draw_nurbs_surface();
 	glPopMatrix();
 }
+
 GLint genDisplayList(int type) {
 	GLint lid = glGenLists(1);
 
@@ -159,10 +194,10 @@ void drawCrosshair() {
 void draw_nurbs_surface() {
 	GLfloat knots[8] = { 0.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0 };
 	glEnable(GL_TEXTURE_2D);
-	gluBeginSurface(theNurb);
+	gluBeginSurface(nurbsobject);
 
-	gluNurbsSurface(theNurb, 8, knots, 8, knots, 4 * 3, 3, &ctlpoints[0][0][0], 4, 4, GL_MAP2_VERTEX_3);
+	gluNurbsSurface(nurbsobject, 8, knots, 8, knots, 4 * 3, 3, &ctlpoints[0][0][0], 4, 4, GL_MAP2_VERTEX_3);
 
-	gluEndSurface(theNurb);
+	gluEndSurface(nurbsobject);
 	glDisable(GL_TEXTURE_2D);
 }
