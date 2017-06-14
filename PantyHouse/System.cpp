@@ -8,13 +8,13 @@
 GLint listcode = 0;							// Listcode for display list
 GLfloat camera[3] = { 0, 150, 400 };			// Position of camera
 GLfloat target[3] = { 0, 150, 0 };		// Position of target of camera
-GLfloat camera_polar[2] = { 400, 0 };			// Polar coordinates of camera
+GLfloat camera_polar[3] = { 400, 0, 0 };			// Polar coordinates of camera
 GLboolean bcamera = GL_TRUE;
 GLboolean bfps = GL_FALSE;
 GLboolean bfocus = GL_TRUE;
 int window[2] = { 1280, 720 };
 int windowcenter[2];
-int mouse[2];
+//int mouse[2];
 char message[70] = "Welcome!";				// Message string to be shown
 
 void init() {
@@ -71,6 +71,7 @@ void reshape(int width, int height) {
 	glViewport(width / 2.0 - 640, height / 2.0 - 360, 1280, 720);
 	window[W] = width;
 	window[H] = height;
+	updateWindowcenter(window, windowcenter);
 	updateView();
 }
 
@@ -89,24 +90,23 @@ void updateView() {
 void processMouseClick(int button, int state, int x, int y) {
 	// TODO:processMouseClick()
 	cout << "Window position (" << glutGet(GLUT_WINDOW_X) << ", " << glutGet(GLUT_WINDOW_Y) << ")" << endl;
-	SetCursorPos(500, 500);
+	SetCursorPos(windowcenter[X], windowcenter[Y]);
 }
 
 void processMouseMove(int x, int y) {
-	if (bfocus) {
-		cout << "Mouse moves to (" << x << ", " << y << ")" << endl;
+	cout << "Mouse moves to (" << x << ", " << y << ")" << endl;
+	if (!bfps) {
 	}
-	// Track target and reverse mouse moving to center point.
-	// 将新坐标与旧坐标的差值换算为target的坐标变化
-	camera_polar[A] = -(x - mouse[X]) / 2.0;			// 1 degree per 2 pixels
-	camera_polar[T] = -(y - mouse[Y]) / 2.0;
-	y - mouse[Y];
-	// 将新坐标存起来
-	mouse[X] = x;
-	mouse[Y] = y;
-	// 将鼠标放回窗口中心
-	SetCursorPos(windowcenter[X], windowcenter[Y]);
-	updateTarget(target, camera_polar);
+	else {
+		// Track target and reverse mouse moving to center point.
+		// 将新坐标与屏幕中心的差值换算为polar的变化
+		camera_polar[A] = -(x - window[W] / 2.0) / 101.9;			// 1 degree per 2 pixels
+		camera_polar[T] = -(y - window[H] / 2.0) / 114.6;
+		// 将鼠标放回窗口中心
+		//SetCursorPos(windowcenter[X], windowcenter[Y]);
+		// 更新摄像机目标
+		updateTarget(camera, target, camera_polar);
+	}
 }
 
 void processFocus(int state) {
@@ -154,8 +154,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 				glutPositionWindow(glutGet(GLUT_SCREEN_WIDTH) - window[W], glutGet(GLUT_SCREEN_HEIGHT) - window[H]);
 			}
 			// 鼠标位置居中
-			mouse[X] = windowcenter[X] = glutGet(GLUT_WINDOW_X) + window[W] / 2.0;
-			mouse[Y] = windowcenter[Y] = glutGet(GLUT_WINDOW_Y) + window[H] / 2.0;
+			updateWindowcenter(window, windowcenter);
 			SetCursorPos(windowcenter[X], windowcenter[Y]);
 			break;
 		}
@@ -164,10 +163,10 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'a': {
 			strcpy(message, "A pressed. Watch carefully!");
 			if (bfps) {
-				camera[X] -= cos(camera_polar[A]) * 0.2;
-				camera[Z] += sin(camera_polar[A]) * 0.2;
-				target[X] -= cos(camera_polar[A]) * 0.2;
-				target[Z] += sin(camera_polar[A]) * 0.2;
+				camera[X] -= cos(camera_polar[A]) * 10;
+				camera[Z] += sin(camera_polar[A]) * 10;
+				target[X] -= cos(camera_polar[A]) * 10;
+				target[Z] += sin(camera_polar[A]) * 10;
 			}
 			else {
 				if (bcamera) {
@@ -189,10 +188,10 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'd': {
 			strcpy(message, "D pressed. Watch carefully!");
 			if (bfps) {
-				camera[X] += cos(camera_polar[A]) * 0.2;
-				camera[Z] -= sin(camera_polar[A]) * 0.2;
-				target[X] += cos(camera_polar[A]) * 0.2;
-				target[Z] -= sin(camera_polar[A]) * 0.2;
+				camera[X] += cos(camera_polar[A]) * 10;
+				camera[Z] -= sin(camera_polar[A]) * 10;
+				target[X] += cos(camera_polar[A]) * 10;
+				target[Z] -= sin(camera_polar[A]) * 10;
 			}
 			else {
 				if (bcamera) {
@@ -214,10 +213,10 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'w': {
 			strcpy(message, "W pressed. Watch carefully!");
 			if (bfps) {
-				camera[X] += sin(camera_polar[A]) * 0.2;
-				camera[Z] += cos(camera_polar[A]) * 0.2;
-				target[X] += sin(camera_polar[A]) * 0.2;
-				target[Z] += cos(camera_polar[A]) * 0.2;
+				camera[X] -= sin(camera_polar[A]) * 10;
+				camera[Z] -= cos(camera_polar[A]) * 10;
+				target[X] -= sin(camera_polar[A]) * 10;
+				target[Z] -= cos(camera_polar[A]) * 10;
 			}
 			else {
 				if (bcamera) {
@@ -238,10 +237,10 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 's': {
 			strcpy(message, "S pressed. Watch carefully!");
 			if (bfps) {
-				camera[X] -= sin(camera_polar[A]) * 0.2;
-				camera[Z] -= cos(camera_polar[A]) * 0.2;
-				target[X] -= sin(camera_polar[A]) * 0.2;
-				target[Z] -= cos(camera_polar[A]) * 0.2;
+				camera[X] += sin(camera_polar[A]) * 10;
+				camera[Z] += cos(camera_polar[A]) * 10;
+				target[X] += sin(camera_polar[A]) * 10;
+				target[Z] += cos(camera_polar[A]) * 10;
 			}
 			else {
 				if (bcamera) {

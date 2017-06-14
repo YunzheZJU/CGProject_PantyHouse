@@ -125,6 +125,7 @@ void cameraMakeZero(GLfloat* camera, GLfloat* target, GLfloat* polar);
 void updateCamera(GLfloat* camera, GLfloat* target, GLfloat* polar);
 void updatePolar(GLfloat* camera, GLfloat* target, GLfloat* polar);
 void updateTarget(GLfloat* camera, GLfloat* target, GLfloat* polar);
+void updateWindowcenter(int* window, int* windowcenter);
 bool screenshot(int width, int height);
 
 // These functions are defined in System.cpp

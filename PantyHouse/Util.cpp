@@ -65,10 +65,14 @@ void updatePolar(GLfloat* camera, GLfloat* target, GLfloat* polar) {
 }
 
 void updateTarget(GLfloat* camera, GLfloat* target, GLfloat* polar) {
-	// TODO
-	//target[X] = f(camera[X], polar[A], polar[T]);
-	//target[Y] = g(camera[Y], polar[A], polar[T]);
-	//target[Z] = h(camera[Z], polar[A], polar[T]);
+	target[X] = -polar[R] * cos(polar[T]) * sin(polar[A]) + camera[X];
+	target[Y] = polar[R] * sin(polar[T]) + camera[Y];
+	target[Z] = -polar[R] * cos(polar[T]) * cos(polar[A]) + camera[Z];
+}
+
+void updateWindowcenter(int* window, int* windowcenter) {
+	windowcenter[X] = glutGet(GLUT_WINDOW_X) + window[W] / 2.0;
+	windowcenter[Y] = glutGet(GLUT_WINDOW_Y) + window[H] / 2.0;
 }
 
 bool screenshot(int width, int height) {
