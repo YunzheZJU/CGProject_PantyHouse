@@ -10,7 +10,7 @@ GLint listcode_nurbs = 0;							// Listcode of nurbs for display list
 GLfloat camera[3] = { 0, 150, 400 };			// Position of camera
 GLfloat target[3] = { 0, 150, 0 };		// Position of target of camera
 GLfloat camera_polar[3] = { 400, 0, 0 };			// Polar coordinates of camera
-GLfloat locator[3] = { 0, 0, 400 };
+GLfloat camera_locator[3] = { 0, 0, 400 };
 GLboolean bcamera = GL_TRUE;
 GLboolean bfocus = GL_TRUE;
 GLboolean bmouse = GL_FALSE;
@@ -82,9 +82,9 @@ void redraw() {
 	drawVideo();
 	if (fpsmode == 1) {
 		drawCrosshair();
-		locator[X] = camera[X];
-		locator[Z] = camera[Z];
-		drawLocator(locator, 2);
+		camera_locator[X] = camera[X];
+		camera_locator[Z] = camera[Z];
+		drawLocator(camera_locator, 2);
 	}
 	else {
 		drawLocator(target, 2);
@@ -93,10 +93,7 @@ void redraw() {
 		callList(listcode_nurbs);
 	}
 	// Draw light
-	drawLocator(light_pos0, 5);
-
-	// Draw locator
-	//drawLocator(locator, 2);
+	//drawLocator(light_pos0, 5);
 
 	showSysStatus();
 
@@ -407,15 +404,15 @@ void processNormalKey(unsigned char k, int x, int y) {
 	if (fpsmode == 1) {
 		if (camera[Z] > -66.828) {
 			camera[Y] = 150;
-			locator[Y] = 0;
+			camera_locator[Y] = 0;
 		}
 		else if (camera[Z] < -86.544) {
 			camera[Y] = 180;
-			locator[Y] = 30;
+			camera_locator[Y] = 30;
 		}
 		else if (-86.544 <= camera[Z] && camera[Z] <= -66.828) {
 			camera[Y] = 165;
-			locator[Y] = 15;
+			camera_locator[Y] = 15;
 		}
 	}
 

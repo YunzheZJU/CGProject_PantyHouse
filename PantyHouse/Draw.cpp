@@ -8,7 +8,7 @@ GLMmodel* model[10];
 
 GLUnurbsObj *nurbsobject;
 
-int videoframe = 1;
+int videoframe = 0;
 
 static GLfloat ctlpoints[4][4][3];
 static GLfloat tcoords[2][2][2] = { 0, 0, 0, 1, 1, 0, 1, 1 };
@@ -43,65 +43,44 @@ void init_nurbs_surface() {
 	glEnable(GL_NORMALIZE);
 }
 
-void drawObject() {
+void drawScene() {
 	glColor3f(1.0f, 1.0f, 1.0f);
-	cout << textureObjectCnt << endl;
-	// Draw models with texture. One texture for one model.
-	//for (int ii = 0; ii < textureObjectCnt; ii++) {
-	//	glEnable(GL_TEXTURE_2D);
-	//	glBindTexture(GL_TEXTURE_2D, textureObjects[ii]);
-	//	glmDraw(model[ii], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-	//	cout << ii << endl;
-	//	glDisable(GL_TEXTURE_2D);
-	//}
-	// Draw models without texture
+	cout << "textureObjectCnt: " << textureObjectCnt << endl;
+
+	drawModel(0, 39.169f, -93.1f, 340.861f);
+
+	drawModel(1, 39.169f, -43.131f, 340.861f);
+
+	drawModel(2, 38.341f, -60.182f, 56.79f, 0, GL_REPLACE);
+
+	drawModel(3, 0.0f, -150.0f, -1.062f);
+
+	drawModel(4, -1.0f, -0.1f, 0.0f);
+
+	drawModel(5, 0.0f, -15.0f, 280.914f);
+
+	drawModel(7, -337.0f, 0.0f, -20.403f, 1);
+
+	drawModel(8, 169.754f, -35.096f, -440.152f, 2);
+}
+
+void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, int texturenum, int mode) {
 	glPushMatrix();
-	glTranslatef(-39.169f, 93.1f, -340.861f);
-	glmDraw(model[0], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-	glPopMatrix();
-	glPushMatrix();
-	glTranslatef(-39.169f, 43.131f, -340.861f);
-	glmDraw(model[1], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-	glPopMatrix();
-	glPushMatrix();
-	glTranslatef(-38.341f, 60.182f, -56.79f);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, textureObjects[1]);
-	//GLfloat emission[4] = { 0.9f, 0.9f, 0.2f, 0.0f };
-	//GLfloat noemission[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emission);
-	glmDraw(model[2], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-	//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, noemission);
-	glDisable(GL_TEXTURE_2D);
-	glPopMatrix();
-	glPushMatrix();
-	glTranslatef(0.0f, 150.0f, 1.062f);
-	glmDraw(model[3], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-	glPopMatrix();
-	glPushMatrix();
-	glTranslatef(1.0f, 0.1f, 0.0f);
-	glmDraw(model[4], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-	glPopMatrix();
-	glPushMatrix();
-	glTranslatef(0.0f, 15.0f, -280.914f);
-	glmDraw(model[5], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-	glPopMatrix();
-	glPushMatrix();
-	glTranslatef(337.0f, 0.0f, 20.403f);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, textureObjects[0]);
-	glmDraw(model[7], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-	glDisable(GL_TEXTURE_2D);
-	glPopMatrix();
-	glPushMatrix();
-	glTranslatef(-169.754f, 35.096f, 440.152f);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, textureObjects[2]);
-	glmDraw(model[8], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-	glDisable(GL_TEXTURE_2D);
+	glTranslatef(-x, -y, -z);
+	if (texturenum == -1) {
+		glmDraw(model[modelnum], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+	}
+	else {
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, mode);
+		glEnable(GL_TEXTURE_2D);
+		//GLfloat emission[4] = { 0.9f, 0.9f, 0.2f, 0.0f };
+		//GLfloat noemission[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emission);
+		glBindTexture(GL_TEXTURE_2D, textureObjects[texturenum]);
+		//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, noemission);
+		glmDraw(model[modelnum], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+		glDisable(GL_TEXTURE_2D);
+	}
 	glPopMatrix();
 }
 
@@ -109,10 +88,10 @@ void drawVideo() {
 	static int currenttime;
 	static int timebase = 0;
 	currenttime = glutGet(GLUT_ELAPSED_TIME);
-	if (currenttime - timebase > 200) {
+	if (currenttime - timebase > 1000) {
 		timebase = currenttime;
 		if (videoframe == 5) {
-			videoframe = 1;
+			videoframe = 0;
 		}
 		else {
 			videoframe++;
@@ -121,15 +100,11 @@ void drawVideo() {
 	glPushMatrix();
 		glTranslatef(75.0f, 122.482f, 481.143f);
 		glRotated(180, 0, 1, 0);
-		//GLfloat emission[4] = { 0.9f, 0.9f, 0.2f, 0.0f };
-		//GLfloat noemission[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-		//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emission);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 		glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, texturevideo[videoframe]);
 			glmDraw(model[6], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
 		glDisable(GL_TEXTURE_2D);
-		//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, noemission);
 	glPopMatrix();
 }
 
@@ -146,7 +121,7 @@ GLint genDisplayList(int type) {
 
 	glNewList(lid, GL_COMPILE);
 	if (type == SCENE) {
-		drawObject();
+		drawScene();
 	}
 	else if (type == NURBS) {
 		drawNurbs();

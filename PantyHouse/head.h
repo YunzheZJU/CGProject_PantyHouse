@@ -27,7 +27,7 @@
 #include <gl/glut.h>
 #include "glm.h"
 
-// Using namespace std for cin and cout
+// Using namespace std for cout
 using namespace std;
 
 // Define shortcuts for coordinate in location array
@@ -71,51 +71,11 @@ enum {
 	NURBS
 };
 
-typedef struct tagBITMAPFILEHEADERnew {
-
-	unsigned char bfType[2];
-
-	unsigned char bfSize[4];
-
-	unsigned char bfReserved1[2];
-
-	unsigned char bfReserved2[2];
-
-	unsigned char bfOffBits[4];
-
-} BITMAPFILEHEADERnew;
-
-typedef struct tagBITMAPINFOHEADERnew {
-
-	unsigned char biSize[4];
-
-	unsigned char biWidth[4];
-
-	unsigned char biHeight[4];
-
-	unsigned char biPlanes[2];
-
-	unsigned char biBitCount[2];
-
-	unsigned char biCompression[4];
-
-	unsigned char biSizeImage[4];
-
-	unsigned char biXPelsPerMeter[4];
-
-	unsigned char biYPelsPerMeter[4];
-
-	unsigned char biClrUsed[4];
-
-	unsigned char biClrImportant[4];
-
-} BITMAPINFOHEADERnew;
-
-// TODO:Claim every function in cpp files here
 // These functions are defined in Draw.cpp
 void initObj();
 void init_nurbs_surface();
-void drawObject();
+void drawScene();
+void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, int texturenum = -1, int mode = GL_MODULATE);
 GLint genDisplayList(int type);
 void drawLocator(GLfloat* center, GLfloat radius);
 void drawCrosshair();
