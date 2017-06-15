@@ -48,6 +48,9 @@ using namespace std;
 // Define BITMAP_ID
 #define BITMAP_ID 0x4D42
 
+// Define moving pace in fps mode
+#define PACE 5
+
 // Define variables for texturing
 extern int textureObjectCnt;
 extern GLuint textureObjects[400];
@@ -135,12 +138,14 @@ void initLight1();
 // These functions are defined in Util.cpp
 void callList(GLint listcode);
 void updateList(GLint listcode, int type);
+void initMap();
 void cameraMakeZero(GLfloat* camera, GLfloat* target, GLfloat* polar);
 void updateCamera(GLfloat* camera, GLfloat* target, GLfloat* polar);
-void updatePolar(GLfloat* camera, GLfloat* target, GLfloat* polar);
 void updateTarget(GLfloat* camera, GLfloat* target, GLfloat* polar);
+void updatePolar(GLfloat* camera, GLfloat* target, GLfloat* polar);
 void saveCamera(GLfloat* camera, GLfloat* target, GLfloat* polar);
 void loadCamera(GLfloat* camera, GLfloat* target, GLfloat* polar);
+bool detectCollision(GLfloat* camera);
 void updateWindowcenter(int* window, int* windowcenter);
 bool screenshot(int width, int height);
 

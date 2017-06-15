@@ -10,10 +10,12 @@ GLint listcode_nurbs = 0;							// Listcode of nurbs for display list
 GLfloat camera[3] = { 0, 150, 400 };			// Position of camera
 GLfloat target[3] = { 0, 150, 0 };		// Position of target of camera
 GLfloat camera_polar[3] = { 400, 0, 0 };			// Polar coordinates of camera
+GLfloat locator[3] = { 0, 0, 400 };
 GLboolean bcamera = GL_TRUE;
 GLboolean bfocus = GL_TRUE;
 GLboolean bmouse = GL_FALSE;
 GLboolean bnurbs = GL_FALSE;
+GLboolean bmsaa = GL_FALSE;
 int fpsmode = 0;							// 0:off, 1:on, 2:waiting
 int window[2] = { 1280, 720 };
 int windowcenter[2];
@@ -22,6 +24,8 @@ char message[70] = "Welcome!";				// Message string to be shown
 void init() {
 	// Initiate color
 	glColor3f(1.0f, 1.0f, 1.0f);	// Maybe this is not important
+	// Initiate collision map
+	initMap();
 	// Initiate texture
 	initTexture();
 	cout << "initTexture OK." << endl;
@@ -65,10 +69,22 @@ void redraw() {
 		target[X], target[Y], target[Z],
 		0, 1, 0);							// Define the view model
 
+	if (bmsaa)
+	{
+		glEnable(GL_MULTISAMPLE_ARB);
+	}
+	else
+	{
+		glDisable(GL_MULTISAMPLE_ARB);
+	}
+
 	callList(listcode_scene);						// Draw Scene with display List
 	drawVideo();
 	if (fpsmode == 1) {
 		drawCrosshair();
+		locator[X] = camera[X];
+		locator[Z] = camera[Z];
+		drawLocator(locator, 2);
 	}
 	else {
 		drawLocator(target, 2);
@@ -76,9 +92,11 @@ void redraw() {
 	if (bnurbs) {
 		callList(listcode_nurbs);
 	}
-	// Draw lights
+	// Draw light
 	drawLocator(light_pos0, 5);
-	//drawLocator(spot, 2);
+
+	// Draw locator
+	//drawLocator(locator, 2);
 
 	showSysStatus();
 
@@ -106,9 +124,12 @@ void updateView() {
 }
 
 void processMouseClick(int button, int state, int x, int y) {
-	// TODO:processMouseClick()
-	cout << "Window position (" << glutGet(GLUT_WINDOW_X) << ", " << glutGet(GLUT_WINDOW_Y) << ")" << endl;
-	SetCursorPos(windowcenter[X], windowcenter[Y]);
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+		bmsaa = !bmsaa;
+		cout << "LMB pressed. Switch on/off multisampling anti-alias.\n" << endl;
+		strcpy(message, "LMB pressed. Switch on/off multisampling anti-alias.");
+		glutPostRedisplay();
+	}
 }
 
 void processMouseMove(int x, int y) {
@@ -121,6 +142,7 @@ void processMouseMove(int x, int y) {
 			SetCursorPos(windowcenter[X], windowcenter[Y]);
 			glutSetCursor(GLUT_CURSOR_NONE);
 			fpsmode = 1;
+			return;
 		}
 		if (x < window[W] * 0.25) {
 			x += window[W] * 0.5;
@@ -220,14 +242,14 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'a': {
 			strcpy(message, "A pressed. Watch carefully!");
 			if (fpsmode) {
-				//saveCamera(camera, target, camera_polar);
-				camera[X] -= cos(camera_polar[A]) * 10;
-				camera[Z] += sin(camera_polar[A]) * 10;
-				target[X] -= cos(camera_polar[A]) * 10;
-				target[Z] += sin(camera_polar[A]) * 10;
-				//if (collapsed) {
-					//loadCamera(camera, target, camera_polar);
-				//}
+				saveCamera(camera, target, camera_polar);
+				camera[X] -= cos(camera_polar[A]) * PACE;
+				camera[Z] += sin(camera_polar[A]) * PACE;
+				target[X] -= cos(camera_polar[A]) * PACE;
+				target[Z] += sin(camera_polar[A]) * PACE;
+				if (detectCollision(camera)) {
+					loadCamera(camera, target, camera_polar);
+				}
 			}
 			else {
 				if (bcamera) {
@@ -249,10 +271,14 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'd': {
 			strcpy(message, "D pressed. Watch carefully!");
 			if (fpsmode) {
-				camera[X] += cos(camera_polar[A]) * 10;
-				camera[Z] -= sin(camera_polar[A]) * 10;
-				target[X] += cos(camera_polar[A]) * 10;
-				target[Z] -= sin(camera_polar[A]) * 10;
+				saveCamera(camera, target, camera_polar);
+				camera[X] += cos(camera_polar[A]) * PACE;
+				camera[Z] -= sin(camera_polar[A]) * PACE;
+				target[X] += cos(camera_polar[A]) * PACE;
+				target[Z] -= sin(camera_polar[A]) * PACE;
+				if (detectCollision(camera)) {
+					loadCamera(camera, target, camera_polar);
+				}
 			}
 			else {
 				if (bcamera) {
@@ -274,10 +300,14 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'w': {
 			strcpy(message, "W pressed. Watch carefully!");
 			if (fpsmode) {
-				camera[X] -= sin(camera_polar[A]) * 10;
-				camera[Z] -= cos(camera_polar[A]) * 10;
-				target[X] -= sin(camera_polar[A]) * 10;
-				target[Z] -= cos(camera_polar[A]) * 10;
+				saveCamera(camera, target, camera_polar);
+				camera[X] -= sin(camera_polar[A]) * PACE;
+				camera[Z] -= cos(camera_polar[A]) * PACE;
+				target[X] -= sin(camera_polar[A]) * PACE;
+				target[Z] -= cos(camera_polar[A]) * PACE;
+				if (detectCollision(camera)) {
+					loadCamera(camera, target, camera_polar);
+				}
 			}
 			else {
 				if (bcamera) {
@@ -298,10 +328,14 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 's': {
 			strcpy(message, "S pressed. Watch carefully!");
 			if (fpsmode) {
-				camera[X] += sin(camera_polar[A]) * 10;
-				camera[Z] += cos(camera_polar[A]) * 10;
-				target[X] += sin(camera_polar[A]) * 10;
-				target[Z] += cos(camera_polar[A]) * 10;
+				saveCamera(camera, target, camera_polar);
+				camera[X] += sin(camera_polar[A]) * PACE;
+				camera[Z] += cos(camera_polar[A]) * PACE;
+				target[X] += sin(camera_polar[A]) * PACE;
+				target[Z] += cos(camera_polar[A]) * PACE;
+				if (detectCollision(camera)) {
+					loadCamera(camera, target, camera_polar);
+				}
 			}
 			else {
 				if (bcamera) {
@@ -369,6 +403,22 @@ void processNormalKey(unsigned char k, int x, int y) {
 			}
 			break;
 	}
+	// Go upstairs
+	if (fpsmode == 1) {
+		if (camera[Z] > -66.828) {
+			camera[Y] = 150;
+			locator[Y] = 0;
+		}
+		else if (camera[Z] < -86.544) {
+			camera[Y] = 180;
+			locator[Y] = 30;
+		}
+		else if (-86.544 <= camera[Z] && camera[Z] <= -66.828) {
+			camera[Y] = 165;
+			locator[Y] = 15;
+		}
+	}
+
 }
 
 void processSpecialKey(int k, int x, int y) {

@@ -23,6 +23,7 @@ void initObj() {
 	model[5] = glmReadOBJ("models/floor2.obj");
 	model[6] = glmReadOBJ("models/TVsurface.obj");
 	model[7] = glmReadOBJ("models/door1.obj");
+	model[8] = glmReadOBJ("models/squaredesk.obj");
 }
 
 void init_nurbs_surface() {
@@ -92,6 +93,14 @@ void drawObject() {
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, textureObjects[0]);
 	glmDraw(model[7], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-169.754f, 35.096f, 440.152f);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, textureObjects[2]);
+	glmDraw(model[8], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 }

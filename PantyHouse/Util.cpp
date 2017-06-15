@@ -5,12 +5,49 @@
 
 #pragma warning(disable:4996)
 
+GLfloat cameramatrix[3][3];
+boolean collisionflag[134][200];
+
 void callList(GLint listcode) {
 	glCallList(listcode);
 }
 
 void updateList(GLint listcode, int type) {
 	listcode = genDisplayList(type);
+}
+
+void initMap() {
+	int i = 0;
+	int j = 0;
+	FILE* fp;
+	char c;
+	fp = fopen("map/collapsing table.txt", "r");
+	if (!fp) {
+		cout << "Fail to open collapsing map!";
+		exit(1);
+	}
+	while ((c = fgetc(fp)) != EOF) {
+		switch (c) {
+			case '0': {
+				collisionflag[i][j] = 0;
+				break;
+			}
+			case '1': {
+				collisionflag[i][j] = 1;
+				break;
+			}
+			case '\t': {
+				j++;
+				break;
+			}
+			case '\n': {
+				i++;
+				j = 0;
+				break;
+			}
+		}
+	}
+	fclose(fp);
 }
 
 void cameraMakeZero(GLfloat* camera, GLfloat* target, GLfloat* polar) {
@@ -25,7 +62,6 @@ void updateCamera(GLfloat* camera, GLfloat* target, GLfloat* polar) {
 }
 
 void updatePolar(GLfloat* camera, GLfloat* target, GLfloat* polar) {
-	int i;
 	float tempangle;
 	polar[R] = sqrt(pow((camera[X] - target[X]), 2.0) + pow((camera[Z] - target[Z]), 2.0));
 	tempangle = atan2(abs(camera[X] - target[X]), abs(camera[Z] - target[Z]));
@@ -71,11 +107,38 @@ void updateTarget(GLfloat* camera, GLfloat* target, GLfloat* polar) {
 }
 
 void saveCamera(GLfloat* camera, GLfloat* target, GLfloat* polar) {
-
+	cameramatrix[0][0] = camera[X];
+	cameramatrix[0][1] = camera[Y];
+	cameramatrix[0][2] = camera[Z];
+	cameramatrix[1][0] = target[X];
+	cameramatrix[1][1] = target[Y];
+	cameramatrix[1][2] = target[Z];
+	cameramatrix[2][0] = polar[R];
+	cameramatrix[2][1] = polar[A];
+	cameramatrix[2][2] = polar[T];
 }
 
 void loadCamera(GLfloat* camera, GLfloat* target, GLfloat* polar) {
+	camera[X] = cameramatrix[0][0];
+	camera[Y] = cameramatrix[0][1];
+	camera[Z] = cameramatrix[0][2];
+	target[X] = cameramatrix[1][0];
+	target[Y] = cameramatrix[1][1];
+	target[Z] = cameramatrix[1][2];
+	polar[R] = cameramatrix[2][0];
+	polar[A] = cameramatrix[2][1];
+	polar[T] = cameramatrix[2][2];
+}
 
+bool detectCollision(GLfloat* camera) {
+	int i = (camera[X] + 335) / 5;
+	int j = (501 - camera[Z]) / 5;
+	if (collisionflag[i][j]) {
+		return false;
+	}
+	else {
+		return true;
+	}
 }
 
 void updateWindowcenter(int* window, int* windowcenter) {

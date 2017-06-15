@@ -55,4 +55,12 @@ Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd textures/ramp3-rubberPlantPotted1Leaf.bmp
 Ni 1.00
-Ks 1.00 1.00 1.00
+Ks 0.10 0.10 0.10
+newmtl blinn12SG2
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/squaredesk.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
