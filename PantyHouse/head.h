@@ -108,6 +108,7 @@ void loadCamera(GLfloat* camera, GLfloat* target, GLfloat* polar);
 bool detectCollision(GLfloat* camera);
 void updateWindowcenter(int* window, int* windowcenter);
 bool screenshot(int width, int height);
+void processMusic(int value);
 
 // These functions are defined in System.cpp
 void init();

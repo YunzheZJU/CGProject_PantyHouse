@@ -215,3 +215,12 @@ bool screenshot(int width, int height) {
 
 	return true;
 }
+
+void processMusic(int value) {
+	if (value) {
+		PlaySound(TEXT("music/CandyAMine.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	}
+	else {
+		PlaySound(NULL, NULL, 0);
+	}
+}

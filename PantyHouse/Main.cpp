@@ -4,8 +4,7 @@
 #include "head.h"
 
 #pragma warning(disable:4996)		// Disable warning about Security CRT functions
-// Uncomment if you want to enable multitexturing
-//#pragma comment (lib, "glew32.lib")
+#pragma comment(lib, "winmm.lib")
 
 int main(int argc, char *argv[]) {
 	glutInit(&argc, argv);
@@ -23,6 +22,7 @@ int main(int argc, char *argv[]) {
 	glutKeyboardFunc(processNormalKey);
 	glutSpecialFunc(processSpecialKey);
 	glutIdleFunc(idle);
+	glutTimerFunc(2000, processMusic, 1);
 
 	glutMainLoop();
 	return 0;

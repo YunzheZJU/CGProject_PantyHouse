@@ -16,6 +16,7 @@ GLboolean bfocus = GL_TRUE;
 GLboolean bmouse = GL_FALSE;
 GLboolean bnurbs = GL_FALSE;
 GLboolean bmsaa = GL_FALSE;
+GLboolean bmusic = GL_TRUE;
 int fpsmode = 0;							// 0:off, 1:on, 2:waiting
 int window[2] = { 1280, 720 };
 int windowcenter[2];
@@ -388,7 +389,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 		}
 		// фад╩╫ьм╪
 		case 'X':
-		case 'x':
+		case 'x': {
 			cout << "X pressed." << endl;
 			if (screenshot(window[W], window[H])) {
 				cout << "Screenshot is saved." << endl;
@@ -399,6 +400,17 @@ void processNormalKey(unsigned char k, int x, int y) {
 				strcpy(message, "X pressed. Screenshot failed.");
 			}
 			break;
+		}
+		case 'V':
+		case 'v': {
+			bmusic = !bmusic;
+			if (bmusic) {
+				processMusic(1);
+			}
+			else {
+				processMusic(0);
+			}
+		}
 	}
 	// Go upstairs
 	if (fpsmode == 1) {
