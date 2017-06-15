@@ -67,7 +67,11 @@ void drawObject() {
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, textureObjects[1]);
+	//GLfloat emission[4] = { 0.9f, 0.9f, 0.2f, 0.0f };
+	//GLfloat noemission[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emission);
 	glmDraw(model[2], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+	//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, noemission);
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 	glPushMatrix();
@@ -108,11 +112,15 @@ void drawVideo() {
 	glPushMatrix();
 		glTranslatef(75.0f, 122.482f, 481.143f);
 		glRotated(180, 0, 1, 0);
+		//GLfloat emission[4] = { 0.9f, 0.9f, 0.2f, 0.0f };
+		//GLfloat noemission[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emission);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 		glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, texturevideo[videoframe]);
 			glmDraw(model[6], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
 		glDisable(GL_TEXTURE_2D);
+		//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, noemission);
 	glPopMatrix();
 }
 
@@ -138,7 +146,7 @@ GLint genDisplayList(int type) {
 	return lid;
 }
 
-void drawTarget(GLfloat* center, GLfloat radius) {
+void drawLocator(GLfloat* center, GLfloat radius) {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 	glColor3f(1.0f, 1.0f, 1.0f);

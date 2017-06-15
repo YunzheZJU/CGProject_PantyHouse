@@ -71,12 +71,15 @@ void redraw() {
 		drawCrosshair();
 	}
 	else {
-		drawTarget(target, 2);
+		drawLocator(target, 2);
 	}
 	if (bnurbs) {
 		callList(listcode_nurbs);
 	}
-	//drawLights();
+	// Draw lights
+	drawLocator(light_pos0, 5);
+	//drawLocator(spot, 2);
+
 	showSysStatus();
 
 	glutSwapBuffers();

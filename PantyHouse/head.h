@@ -53,14 +53,16 @@ extern int textureObjectCnt;
 extern GLuint textureObjects[400];
 extern char texFileName[400][100];
 extern unsigned int texturevideo[10];
-
-// TODO:Define classes
+extern GLfloat light_pos0[4];
+extern GLfloat light_pos1[4];
+extern GLfloat spot[4];
 
 // TODO:Define enum for menu items
 enum {
 	EXIT
 };
 
+// Define enum for display list
 enum {
 	SCENE, 
 	NURBS
@@ -112,7 +114,7 @@ void initObj();
 void init_nurbs_surface();
 void drawObject();
 GLint genDisplayList(int type);
-void drawTarget(GLfloat* center, GLfloat radius);
+void drawLocator(GLfloat* center, GLfloat radius);
 void drawCrosshair();
 void draw_nurbs_surface();
 
@@ -127,6 +129,8 @@ void loadObjectTextures();
 
 // These functions are defined in Light.cpp
 void initLight();
+void initLight0();
+void initLight1();
 
 // These functions are defined in Util.cpp
 void callList(GLint listcode);

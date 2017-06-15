@@ -50,10 +50,9 @@ Ni 1.00
 Ks 0.10 0.10 0.10
 newmtl plant1:rubberPlantPotted1LeafShaderSG1
 illum 4
-Kd 1.00 1.00 1.00
+Kd 0.90 0.90 0.90
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd textures/ramp3-rubberPlantPotted1Leaf.bmp
 Ni 1.00
-Ks 0.31 0.29 0.28
-Ns 10.89
+Ks 1.00 1.00 1.00

@@ -1603,6 +1603,7 @@ glmDraw(GLMmodel* model, GLuint mode)
 {
 	GLuint i;
 	GLMgroup* group;
+	GLfloat ambient[4];
 
 	assert(model);
 	assert(model->vertices);
@@ -1655,16 +1656,22 @@ glmDraw(GLMmodel* model, GLuint mode)
 
 	glBegin(GL_TRIANGLES);
 	group = model->groups;
+	ambient[0] = model->materials[group->material].diffuse[0] * 0.2;
+	ambient[1] = model->materials[group->material].diffuse[1] * 0.2;
+	ambient[2] = model->materials[group->material].diffuse[2] * 0.2;
+	ambient[3] = 1.0;
 	while (group) {
 		if (mode & GLM_MATERIAL) {
 			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,
-				model->materials[group->material].ambient);
+				/*model->materials[group->material].ambient*/
+				/*model->materials[group->material].diffuse*/
+				ambient);
 			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,
 				model->materials[group->material].diffuse);
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,
 				model->materials[group->material].specular);
 			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS,
-				model->materials[group->material].shininess);
+				/*model->materials[group->material].shininess*/99);
 		}
 
 		if (mode & GLM_COLOR) {
