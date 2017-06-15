@@ -11,7 +11,7 @@ GLuint textureObjects[400];
 
 char texFileName[400][100];
 
-unsigned int texturevideo[5];
+unsigned int texturevideo[10];
 
 void initTexture() {
 	readMTL("models/texturetest.mtl");
@@ -26,7 +26,7 @@ void initTexture() {
 }
 
 void initVideo() {
-	glGenTextures(5, texturevideo);
+	glGenTextures(10, texturevideo);
 
 	char videoLoc[30] = ".\\videoframes\\000.bmp";
 	for (int i = 1; i <= 5; i++) {
@@ -53,7 +53,7 @@ void readMTL(char * fileName) {
 			string st = s.substr(7);
 			st[st.length()/* - 1*/] = '\0';
 			strcpy_s(texFileName[textureObjectCnt], st.c_str());
-			cout<< texFileName[textureObjectCnt] <<endl;
+			cout << textureObjectCnt  << ": " << texFileName[textureObjectCnt] << endl;
 			textureObjectCnt++;
 		}
 	}

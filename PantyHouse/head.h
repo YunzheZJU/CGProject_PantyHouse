@@ -52,7 +52,7 @@ using namespace std;
 extern int textureObjectCnt;
 extern GLuint textureObjects[400];
 extern char texFileName[400][100];
-extern unsigned int texturevideo[5];
+extern unsigned int texturevideo[10];
 
 // TODO:Define classes
 

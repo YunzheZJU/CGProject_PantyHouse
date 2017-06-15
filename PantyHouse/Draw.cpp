@@ -64,8 +64,9 @@ void drawObject() {
 	glPopMatrix();
 	glPushMatrix();
 	glTranslatef(-38.341f, 60.182f, -56.79f);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, textureObjects[0]);
+	glBindTexture(GL_TEXTURE_2D, textureObjects[1]);
 	glmDraw(model[2], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
@@ -83,8 +84,9 @@ void drawObject() {
 	glPopMatrix();
 	glPushMatrix();
 	glTranslatef(337.0f, 0.0f, 20.403f);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, textureObjects[1]);
+	glBindTexture(GL_TEXTURE_2D, textureObjects[0]);
 	glmDraw(model[7], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
@@ -106,6 +108,7 @@ void drawVideo() {
 	glPushMatrix();
 		glTranslatef(75.0f, 122.482f, 481.143f);
 		glRotated(180, 0, 1, 0);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 		glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, texturevideo[videoframe]);
 			glmDraw(model[6], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
