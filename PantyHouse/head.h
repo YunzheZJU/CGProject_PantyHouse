@@ -13,6 +13,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stdio.h>
 #include <stdlib.h>
 #include <iomanip>
 #include <cmath>
@@ -59,6 +60,7 @@ extern unsigned int texturevideo[10];
 extern GLfloat light_pos0[4];
 extern GLfloat light_pos1[4];
 extern GLfloat spot[4];
+extern GLMmodel* model[10];
 
 // TODO:Define enum for menu items
 enum {
@@ -124,3 +126,4 @@ void processFocus(int state);
 void processNormalKey(unsigned char k, int x, int y);
 void processSpecialKey(int k, int x, int y);
 void showSysStatus();
+void initWrite();

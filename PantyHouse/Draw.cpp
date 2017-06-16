@@ -24,6 +24,7 @@ void initObj() {
 	model[6] = glmReadOBJ("models/TVsurface.obj");
 	model[7] = glmReadOBJ("models/door1.obj");
 	model[8] = glmReadOBJ("models/squaredesk.obj");
+
 }
 
 void init_nurbs_surface() {
@@ -170,10 +171,12 @@ void drawCrosshair() {
 			glPushAttrib(GL_LIGHTING_BIT);
 				glLineWidth(3);
 				glBegin(GL_LINES);
+					glColor3f(1.0f, 0.0f, 0.0f);
 					glVertex2f(-11.0f, 0.0f);
 					glVertex2f(10.0f, 0.0f);
 				glEnd();
 				glBegin(GL_LINES);
+					glColor3f(1.0f, 0.0f, 0.0f);
 					glVertex2f(0.0f, -10.0f);
 					glVertex2f(0.0f, 10.0f);
 				glEnd();

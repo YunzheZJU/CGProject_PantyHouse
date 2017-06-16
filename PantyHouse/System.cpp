@@ -48,6 +48,7 @@ void init() {
 	listcode_scene = genDisplayList(SCENE);
 	listcode_nurbs = genDisplayList(NURBS);
 	cout << "genDisplayList OK." << endl;
+	//initWrite();
 }
 
 void idle() {
@@ -411,6 +412,10 @@ void processNormalKey(unsigned char k, int x, int y) {
 				processMusic(0);
 			}
 		}
+		case '.':
+		{
+			initWrite();
+		}
 	}
 	// Go upstairs
 	if (fpsmode == 1) {
@@ -497,4 +502,29 @@ void showSysStatus() {
 	glPopMatrix();							// 重置为原保存矩阵
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
+}
+
+void initWrite()
+{
+	ifstream file1("models/door1.obj");
+	if (!file1)
+	{
+		cerr << "not open \n";
+	}
+	else
+		cout << "Open success" << endl;
+	ofstream file2;
+	file2.open("output/out.obj", ios::trunc);
+	if (!file2)
+	{
+		cerr << "not open"<<endl;
+	}
+	else
+		cout << "Open success" << endl;
+	while (!file1.eof())
+	{
+		char c[200];
+		file1.getline(c, 999);
+		file2 << c << endl;
+	}
 }

@@ -24,6 +24,8 @@ int main(int argc, char *argv[]) {
 	glutIdleFunc(idle);
 	glutTimerFunc(2000, processMusic, 1);
 
-	glutMainLoop();
+
+	glutMainLoop();	
+	
 	return 0;
 }
