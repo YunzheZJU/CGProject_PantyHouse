@@ -88,3 +88,47 @@ Tf 1.00 1.00 1.00
 map_Kd textures/sofaleg.bmp
 Ni 1.00
 Ks 0.10 0.10 0.10
+newmtl rubberPlantPotted1ShaderSG1
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/ramp1-rubberPlantPotted1Main.bmp
+Ni 1.00
+Ks 0.06 0.05 0.05
+Ns 10.89
+newmtl rubberPlantPotted1FlowerShaderSG1
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/ramp4-rubberPlantPotted1Flower.bmp
+Ni 1.00
+Ks 0.09 0.08 0.08
+Ns 10.89
+newmtl groundCover1LeafShaderSG1
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/ramp2-groundCover1Leaf.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
+Ns 8.25
+newmtl groundCover1ShaderSG1
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/ramp1-groundCover1Main.bmp
+Ni 1.00
+Ks 0.26 0.21 0.20
+Ns 8.25
+newmtl blinn25SG1
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/swing.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
