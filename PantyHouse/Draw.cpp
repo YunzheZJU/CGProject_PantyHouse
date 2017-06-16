@@ -31,6 +31,8 @@ void initObj() {
 	model[13] = glmReadOBJ("models/gardenleaf.obj");
 	model[14] = glmReadOBJ("models/gardenmain.obj");
 	model[15] = glmReadOBJ("models/swing.obj");
+	model[16] = glmReadOBJ("models/window.obj");
+	model[17] = glmReadOBJ("models/garden.obj");
 }
 
 void init_nurbs_surface() {
@@ -82,11 +84,21 @@ void drawScene() {
 	drawModel(14, -275.286f, -15.766f, -322.688f, 9, GL_REPLACE);
 
 	drawModel(15, -371.593f, -101.526f, -358.718f, 10);
+
+	glPushMatrix();
+	drawModel(16, 195.306f, -176.866f, 494.763f, 11, GL_MODULATE, 90);
+	glPopMatrix();
+	drawModel(16, -4.694f, -176.866f, 494.763f, 11, GL_MODULATE, 90);
+	drawModel(16, -204.694f, -176.866f, 494.763f, 11, GL_MODULATE, 90);
+	drawModel(16, -226.863f, -176.866f, -288.768f, 11);
+
+	drawModel(17, -279.52f, -6.474f, -326.062f, 12);
 }
 
-void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, int texturenum, int mode) {
+void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, int texturenum, int mode, GLfloat rotate) {
 	glPushMatrix();
 	glTranslatef(-x, -y, -z);
+	glRotatef(rotate, 0, 1, 0);
 	if (texturenum == -1) {
 		glmDraw(model[modelnum], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
 	}

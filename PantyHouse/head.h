@@ -78,7 +78,7 @@ void initObj();
 void init_nurbs_surface();
 void drawScene();
 void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, 
-	int texturenum = -1, int mode = GL_MODULATE);
+	int texturenum = -1, int mode = GL_MODULATE, GLfloat rotate = 0.0f);
 GLint genDisplayList(int type);
 void drawLocator(GLfloat* center, GLfloat radius);
 void drawCrosshair();
