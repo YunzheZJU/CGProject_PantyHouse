@@ -4,7 +4,7 @@
 #include "head.h"
 
 // Declare model objects
-GLMmodel* model[10];
+GLMmodel* model[50];
 
 GLUnurbsObj *nurbsobject;
 
@@ -18,13 +18,19 @@ void initObj() {
 	model[0] = glmReadOBJ("models/sofa.obj");
 	model[1] = glmReadOBJ("models/sofaleg.obj");
 	model[2] = glmReadOBJ("models/plantleaf.obj");
+	model[11] = glmReadOBJ("models/plantmain.obj");
+	model[12] = glmReadOBJ("models/plantflower.obj");
 	model[3] = glmReadOBJ("models/shell.obj");
 	model[4] = glmReadOBJ("models/floor1.obj");
 	model[5] = glmReadOBJ("models/floor2.obj");
 	model[6] = glmReadOBJ("models/TVsurface.obj");
 	model[7] = glmReadOBJ("models/door1.obj");
 	model[8] = glmReadOBJ("models/squaredesk.obj");
-
+	model[9] = glmReadOBJ("models/glassboard.obj");
+	model[10] = glmReadOBJ("models/shelf.obj");
+	model[13] = glmReadOBJ("models/gardenleaf.obj");
+	model[14] = glmReadOBJ("models/gardenmain.obj");
+	model[15] = glmReadOBJ("models/swing.obj");
 }
 
 void init_nurbs_surface() {
@@ -50,9 +56,11 @@ void drawScene() {
 
 	drawModel(0, 39.169f, -93.1f, 340.861f);
 
-	drawModel(1, 39.169f, -43.131f, 340.861f);
+	drawModel(1, 39.169f, -43.131f, 340.861f, 5);
 
 	drawModel(2, 38.341f, -60.182f, 56.79f, 0, GL_REPLACE);
+	drawModel(11, 35.509f, -48.121f, 61.799f, 6, GL_REPLACE);
+	drawModel(12, 31.38f, -25.635f, 57.706f, 7, GL_REPLACE);
 
 	drawModel(3, 0.0f, -150.0f, -1.062f);
 
@@ -63,6 +71,17 @@ void drawScene() {
 	drawModel(7, -337.0f, 0.0f, -20.403f, 1);
 
 	drawModel(8, 169.754f, -35.096f, -440.152f, 2);
+	drawModel(8, 169.754f, -35.096f, -344.282f, 2);
+	drawModel(8, 169.754f, -35.096f, -248.412f, 2);
+
+	drawModel(9, 128.44f, -43.75f, -43.47f, 3);
+
+	drawModel(10, -315.612f, -130.0f, 300.0f, 4);
+
+	drawModel(13, -279.904f, -21.351f, -323.509f, 8, GL_REPLACE);
+	drawModel(14, -275.286f, -15.766f, -322.688f, 9, GL_REPLACE);
+
+	drawModel(15, -371.593f, -101.526f, -358.718f, 10);
 }
 
 void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, int texturenum, int mode) {
@@ -171,12 +190,10 @@ void drawCrosshair() {
 			glPushAttrib(GL_LIGHTING_BIT);
 				glLineWidth(3);
 				glBegin(GL_LINES);
-					glColor3f(1.0f, 0.0f, 0.0f);
 					glVertex2f(-11.0f, 0.0f);
 					glVertex2f(10.0f, 0.0f);
 				glEnd();
 				glBegin(GL_LINES);
-					glColor3f(1.0f, 0.0f, 0.0f);
 					glVertex2f(0.0f, -10.0f);
 					glVertex2f(0.0f, 10.0f);
 				glEnd();
