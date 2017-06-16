@@ -61,6 +61,8 @@ extern GLfloat light_pos0[4];
 extern GLfloat light_pos1[4];
 extern GLfloat spot[4];
 extern GLMmodel* model[50];
+extern GLfloat currentcolor[4];
+extern GLfloat constantattenuation;
 
 // TODO:Define enum for menu items
 enum {
@@ -108,6 +110,7 @@ void updateTarget(GLfloat* camera, GLfloat* target, GLfloat* polar);
 void updatePolar(GLfloat* camera, GLfloat* target, GLfloat* polar);
 void saveCamera(GLfloat* camera, GLfloat* target, GLfloat* polar);
 void loadCamera(GLfloat* camera, GLfloat* target, GLfloat* polar);
+void updateLight();
 bool detectCollision(GLfloat* camera);
 void updateWindowcenter(int* window, int* windowcenter);
 bool screenshot(int width, int height);

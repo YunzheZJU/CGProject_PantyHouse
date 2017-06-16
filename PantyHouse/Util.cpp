@@ -130,6 +130,13 @@ void loadCamera(GLfloat* camera, GLfloat* target, GLfloat* polar) {
 	polar[T] = cameramatrix[2][2];
 }
 
+void updateLight() {
+	glLightfv(GL_LIGHT0, GL_POSITION, light_pos0);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, currentcolor);
+	glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, constantattenuation);
+	glEnable(GL_LIGHT0);
+}
+
 bool detectCollision(GLfloat* camera) {
 	int i = (camera[X] + 335) / 5;
 	int j = (501 - camera[Z]) / 5;

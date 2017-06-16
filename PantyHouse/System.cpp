@@ -80,6 +80,7 @@ void redraw() {
 		glDisable(GL_MULTISAMPLE_ARB);
 	}
 
+	updateLight();						// 更新光源信息并启用
 	callList(listcode_scene);						// Draw Scene with display List
 	drawVideo();
 	if (fpsmode == 1) {
@@ -95,7 +96,7 @@ void redraw() {
 		callList(listcode_nurbs);
 	}
 	// Draw light
-	//drawLocator(light_pos0, 5);
+	drawLocator(light_pos0, 5);
 
 	showSysStatus();
 
@@ -338,7 +339,9 @@ void processNormalKey(unsigned char k, int x, int y) {
 			}
 			else {
 				if (bcamera) {
-					camera[Y] -= 5;
+					if (camera[Y] >= 10) {
+						camera[Y] -= 5;
+					}
 					cout << fixed << setprecision(1) << "S pressed.\n\tPosition of camera is set to (" <<
 						camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
 					strcpy(message, "S pressed. Watch carefully!");
@@ -388,6 +391,47 @@ void processNormalKey(unsigned char k, int x, int y) {
 			}
 			break;
 		}
+		// 光源颜色分量
+		case 'R':
+		case 'r': {
+			cout << "R pressed." << endl;
+			currentcolor[0] -= 0.1f;
+			if (currentcolor[0] < 0) {
+				currentcolor[0] = 1.0f;
+			}
+			break;
+		}
+		case 'G':
+		case 'g': {
+			cout << "G pressed." << endl;
+			currentcolor[1] -= 0.1f;
+			if (currentcolor[1] < 0) {
+				currentcolor[1] = 1.0f;
+			}
+			break;
+		}
+		case 'B':
+		case 'b': {
+			cout << "B pressed." << endl;
+			currentcolor[2] -= 0.1f;
+			if (currentcolor[2] < 0) {
+				currentcolor[2] = 1.0f;
+			}
+			break;
+		}
+		// 光源强度（衰减）
+		case '+': {
+			cout << "+ pressed." << endl;
+			constantattenuation -= 0.1f;
+			cout << constantattenuation << endl;
+			break;
+		}
+		case '-': {
+			cout << "- pressed." << endl;
+			constantattenuation += 0.1f;
+			cout << constantattenuation << endl;
+			break;
+		}
 		// 屏幕截图
 		case 'X':
 		case 'x': {
@@ -411,10 +455,12 @@ void processNormalKey(unsigned char k, int x, int y) {
 			else {
 				processMusic(0);
 			}
+			break;
 		}
 		case '.':
 		{
 			initWrite();
+			break;
 		}
 	}
 	// Go upstairs
@@ -436,7 +482,18 @@ void processNormalKey(unsigned char k, int x, int y) {
 }
 
 void processSpecialKey(int k, int x, int y) {
-	// TODO:processSpecialKey()
+	switch (k) {
+		case 101: {
+			light_pos0[Y] += 5;
+			break;
+		}
+		case 103: {
+			if (light_pos0[Y] >= 10) {
+				light_pos0[Y] -= 5;
+			}
+			break;
+		}
+	}
 }
 
 void showSysStatus() {

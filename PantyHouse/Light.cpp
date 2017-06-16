@@ -18,6 +18,8 @@ GLfloat light_pos0[4] = { 0.0f, 300.0f, 0.0f, 1.0f };
 GLfloat light_pos1[4] = { 0.0f, 100.0f, 0.0f, 1.0f };
 GLfloat spot[4] = { 226.9f, 150.0f, 124.1f, 1.0f };			// Position of spot light
 GLfloat direction[] = { 0, -1, 0 };
+GLfloat currentcolor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+GLfloat constantattenuation = 1.0f;
 
 void initLight() {
 	glEnable(GL_NORMALIZE);
@@ -43,8 +45,9 @@ void initLight() {
 void initLight0() {
 	glLightfv(GL_LIGHT0, GL_POSITION, light_pos0);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, gray);	// 防止环境色过多影响光照与纹理的混合
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, white);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, currentcolor);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, white);
+	glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, constantattenuation);
 }
 
 void initLight1() {
