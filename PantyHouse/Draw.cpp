@@ -4,7 +4,7 @@
 #include "head.h"
 
 // Declare model objects
-GLMmodel* model[10];
+GLMmodel* model[50];
 
 GLUnurbsObj *nurbsobject;
 
@@ -24,6 +24,8 @@ void initObj() {
 	model[6] = glmReadOBJ("models/TVsurface.obj");
 	model[7] = glmReadOBJ("models/door1.obj");
 	model[8] = glmReadOBJ("models/squaredesk.obj");
+	model[9] = glmReadOBJ("models/glassboard.obj");
+	model[10] = glmReadOBJ("models/shelf.obj");
 }
 
 void init_nurbs_surface() {
@@ -49,7 +51,7 @@ void drawScene() {
 
 	drawModel(0, 39.169f, -93.1f, 340.861f);
 
-	drawModel(1, 39.169f, -43.131f, 340.861f);
+	drawModel(1, 39.169f, -43.131f, 340.861f, 5);
 
 	drawModel(2, 38.341f, -60.182f, 56.79f, 0, GL_REPLACE);
 
@@ -62,6 +64,10 @@ void drawScene() {
 	drawModel(7, -337.0f, 0.0f, -20.403f, 1);
 
 	drawModel(8, 169.754f, -35.096f, -440.152f, 2);
+
+	drawModel(9, 128.44f, -43.75f, -43.47f, 3);
+
+	drawModel(10, -315.612f, -130.0f, 300.0f, 4);
 }
 
 void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, int texturenum, int mode) {
