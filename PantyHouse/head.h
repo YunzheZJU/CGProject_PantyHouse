@@ -60,7 +60,7 @@ extern unsigned int texturevideo[10];
 extern GLfloat light_pos0[4];
 extern GLfloat light_pos1[4];
 extern GLfloat spot[4];
-extern GLMmodel* model[10];
+extern GLMmodel* model[50];
 
 // TODO:Define enum for menu items
 enum {

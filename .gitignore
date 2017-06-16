@@ -247,3 +247,6 @@ Desktop.ini
 
 # Screenshot images
 images/
+
+# Output obj
+output/
