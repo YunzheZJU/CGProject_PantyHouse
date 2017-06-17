@@ -52,47 +52,53 @@ void init_nurbs_surface() {
 	glEnable(GL_NORMALIZE);
 }
 
-void drawScene() {
+void drawScene(bool picking) {
 	glColor3f(1.0f, 1.0f, 1.0f);
 	cout << "textureObjectCnt: " << textureObjectCnt << endl;
-
+	glPushName(SOFA);
 	drawModel(0, 39.169f, -93.1f, 340.861f);
-
 	drawModel(1, 39.169f, -43.131f, 340.861f, 5);
-
+	glPopName();
+	glPushName(PLANT);
 	drawModel(2, 38.341f, -60.182f, 56.79f, 0, GL_REPLACE);
 	drawModel(11, 35.509f, -48.121f, 61.799f, 6, GL_REPLACE);
 	drawModel(12, 31.38f, -25.635f, 57.706f, 7, GL_REPLACE);
-
+	glPopName();
+	glPushName(SHELL);
 	drawModel(3, 0.0f, -150.0f, -1.062f);
-
+	glPopName();
+	glPushName(FLOOR);
 	drawModel(4, -1.0f, -0.1f, 0.0f);
-
 	drawModel(5, 0.0f, -15.0f, 280.914f);
-
+	glPopName();
+	glPushName(DOOR);
 	drawModel(7, -337.0f, 0.0f, -20.403f, 1);
-
+	glPopName();
+	glPushName(SQUAREDESK);
 	drawModel(8, 169.754f, -35.096f, -440.152f, 2);
 	drawModel(8, 169.754f, -35.096f, -344.282f, 2);
 	drawModel(8, 169.754f, -35.096f, -248.412f, 2);
-
+	glPopName();
+	glPushName(GLASSBOARD);
 	drawModel(9, 128.44f, -43.75f, -43.47f, 3);
-
+	glPopName();
+	glPushName(SHELF);
 	drawModel(10, -315.612f, -130.0f, 300.0f, 4);
-
+	glPopName();
+	glPushName(GARDEN);
 	drawModel(13, -279.904f, -21.351f, -323.509f, 8, GL_REPLACE);
 	drawModel(14, -275.286f, -15.766f, -322.688f, 9, GL_REPLACE);
-
+	drawModel(17, -279.52f, -6.474f, -326.062f, 12);
+	glPopName();
+	glPushName(SWING);
 	drawModel(15, -371.593f, -101.526f, -358.718f, 10);
-
-	glPushMatrix();
+	glPopName();
+	glPushName(WINDOW);
 	drawModel(16, 195.306f, -176.866f, 494.763f, 11, GL_MODULATE, 90);
-	glPopMatrix();
 	drawModel(16, -4.694f, -176.866f, 494.763f, 11, GL_MODULATE, 90);
 	drawModel(16, -204.694f, -176.866f, 494.763f, 11, GL_MODULATE, 90);
 	drawModel(16, -226.863f, -176.866f, -288.768f, 11);
-
-	drawModel(17, -279.52f, -6.474f, -326.062f, 12);
+	glPopName();
 }
 
 void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, int texturenum, int mode, GLfloat rotate) {
@@ -153,7 +159,7 @@ GLint genDisplayList(int type) {
 
 	glNewList(lid, GL_COMPILE);
 	if (type == SCENE) {
-		drawScene();
+		drawScene(false);
 	}
 	else if (type == NURBS) {
 		drawNurbs();

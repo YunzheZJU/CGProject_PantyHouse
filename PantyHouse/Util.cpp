@@ -5,6 +5,9 @@
 
 #pragma warning(disable:4996)
 
+#define BUFSIZE 512
+GLuint selectBuf[BUFSIZE];
+
 GLfloat cameramatrix[3][3];
 boolean collisionflag[134][200];
 
@@ -232,3 +235,71 @@ void processMusic(int value) {
 	}
 }
 
+void processpick(GLint* window) {
+	startPicking(window);
+	drawScene(true);
+	stopPicking();
+}
+
+void startPicking(GLint * window){
+	GLint viewport[4];
+
+	glSelectBuffer(BUFSIZE, selectBuf);
+	glRenderMode(GL_SELECT);
+
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+
+	glGetIntegerv(GL_VIEWPORT, viewport);
+	gluPickMatrix(window[X] / 2.0, viewport[3] - window[Y] / 2.0, 10, 10, viewport);
+	gluPerspective(45.0f, 1.7778f, 0.1f, 2000.0f);
+	glMatrixMode(GL_MODELVIEW);
+	glInitNames();
+}
+
+void stopPicking() {
+	int hits;
+
+	// restoring the original projection matrix
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glFlush();
+
+	// returning to normal rendering model
+	hits = glRenderMode(GL_RENDER);
+
+	// if there are hits process them
+	if (hits != 0)
+		processHits(hits, selectBuf);
+}
+
+void processHits(GLint hits, GLuint buffer[]) {
+	unsigned int i, j;
+	GLuint names, *ptr, minZ, *ptrNames = NULL, numberOfNames;
+
+	printf("hits = %d\n", hits);
+	ptr = (GLuint *)buffer;
+	minZ = 0xffffffff;
+
+	for (i = 0; i<hits; i++) {
+		names = *ptr;
+		ptr++;
+
+		if (*ptr < minZ) {
+			numberOfNames = names;
+			minZ = *ptr;
+			ptrNames = ptr + 2;
+		}
+
+		ptr += names + 2;
+	}
+
+	printf("The closest hit names are ");
+	ptr = ptrNames;
+	for (j = 0; j<numberOfNames; j++, ptr++) {
+		printf("%d ", *ptr);
+	}
+	printf("\n");
+}

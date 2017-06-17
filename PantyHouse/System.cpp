@@ -130,6 +130,9 @@ void processMouseClick(int button, int state, int x, int y) {
 		strcpy(message, "LMB pressed. Switch on/off multisampling anti-alias.");
 		glutPostRedisplay();
 	}
+	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN && fpsmode) {
+		processpick(window);
+	}
 }
 
 void processMouseMove(int x, int y) {
