@@ -15,8 +15,9 @@ void callList(GLint listcode) {
 	glCallList(listcode);
 }
 
-void updateList(GLint listcode, int type) {
-	listcode = genDisplayList(type);
+void updateList(GLint* listcode, int type) {
+	*listcode = genDisplayList(type);
+
 }
 
 void initMap() {
@@ -237,7 +238,8 @@ void processMusic(int value) {
 
 void processpick(GLint* window) {
 	startPicking(window);
-	drawScene(true);
+	drawScene();
+	drawDoor();
 	stopPicking();
 }
 
@@ -253,7 +255,7 @@ void startPicking(GLint * window){
 
 	glGetIntegerv(GL_VIEWPORT, viewport);
 	gluPickMatrix(window[X] / 2.0, viewport[3] - window[Y] / 2.0, 10, 10, viewport);
-	gluPerspective(45.0f, 1.7778f, 0.1f, 2000.0f);
+	gluPerspective(45.0f, 1.7778f, 0.1f, 3000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glInitNames();
 }
@@ -283,7 +285,7 @@ void processHits(GLint hits, GLuint buffer[]) {
 	ptr = (GLuint *)buffer;
 	minZ = 0xffffffff;
 
-	for (i = 0; i<hits; i++) {
+	for (i = 0; i < hits; i++) {
 		names = *ptr;
 		ptr++;
 
@@ -302,4 +304,23 @@ void processHits(GLint hits, GLuint buffer[]) {
 		printf("%d ", *ptr);
 	}
 	printf("\n");
+}
+
+void timer(int value) {
+	if (value == OPENING) {
+		openangle += 3;
+	}
+	else if(value == CLOSING) {
+		openangle -= 3;
+	}
+	updateList(&listcode_door, DOOR);
+
+	if (openangle < 90 && openangle >0) {
+		if (bopening) {
+			glutTimerFunc(33, timer, OPENING);
+		}
+		else {
+			glutTimerFunc(33, timer, CLOSING);
+		}
+	}
 }

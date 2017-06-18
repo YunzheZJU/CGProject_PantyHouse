@@ -7,6 +7,7 @@
 
 GLint listcode_scene = 0;							// Listcode of scene for display list
 GLint listcode_nurbs = 0;							// Listcode of nurbs for display list
+GLint listcode_door = 0;							// Listcode of door for display list
 GLfloat camera[3] = { 0, 150, 400 };			// Position of camera
 GLfloat target[3] = { 0, 150, 0 };		// Position of target of camera
 GLfloat camera_polar[3] = { 400, 0, 0 };			// Polar coordinates of camera
@@ -17,6 +18,7 @@ GLboolean bmouse = GL_FALSE;
 GLboolean bnurbs = GL_FALSE;
 GLboolean bmsaa = GL_FALSE;
 GLboolean bmusic = GL_TRUE;
+GLboolean bopening = GL_FALSE;
 int fpsmode = 0;							// 0:off, 1:on, 2:waiting
 int window[2] = { 1280, 720 };
 int windowcenter[2];
@@ -47,8 +49,8 @@ void init() {
 	// Initiate display list
 	listcode_scene = genDisplayList(SCENE);
 	listcode_nurbs = genDisplayList(NURBS);
+	listcode_door = genDisplayList(DOOR);
 	cout << "genDisplayList OK." << endl;
-	//initWrite();
 }
 
 void idle() {
@@ -82,6 +84,7 @@ void redraw() {
 
 	updateLight();						// 更新光源信息并启用
 	callList(listcode_scene);						// Draw Scene with display List
+	callList(listcode_door);						// Draw Scene with display List
 	drawVideo();
 	if (fpsmode == 1) {
 		drawCrosshair();
@@ -119,7 +122,7 @@ void updateView() {
 	glMatrixMode(GL_PROJECTION);			// Select The Projection Matrix
 	glLoadIdentity();						// Reset The Projection Matrix
 
-	gluPerspective(45.0f, 1.7778f, 0.1f, 2000.0f);	// 1.7778 = 1280 / 720
+	gluPerspective(45.0f, 1.7778f, 0.1f, 3000.0f);	// 1.7778 = 1280 / 720
 
 	glMatrixMode(GL_MODELVIEW);				// Select The Modelview Matrix
 }
@@ -315,7 +318,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 			}
 			else {
 				if (bcamera) {
-					camera[Y] += 5;
+					camera[Y] += 10;
 					cout << fixed << setprecision(1) << "W pressed.\n\tPosition of camera is set to (" <<
 						camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
 				}
@@ -344,7 +347,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 			else {
 				if (bcamera) {
 					if (camera[Y] >= 10) {
-						camera[Y] -= 5;
+						camera[Y] -= 10;
 					}
 					cout << fixed << setprecision(1) << "S pressed.\n\tPosition of camera is set to (" <<
 						camera[X] << ", " << camera[Y] << ", " << camera[Z] << ")." << endl;
@@ -450,6 +453,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 			}
 			break;
 		}
+		// 背景音乐
 		case 'V':
 		case 'v': {
 			bmusic = !bmusic;
@@ -461,9 +465,24 @@ void processNormalKey(unsigned char k, int x, int y) {
 			}
 			break;
 		}
+		// 开门动画
+		case 'O':
+		case 'o': {
+			cout << "O pressed." << endl;
+			if (openangle == 0) {
+				bopening = GL_TRUE;
+				glutTimerFunc(33, timer, OPENING);
+			}
+			else if (openangle == 90) {
+				bopening = GL_FALSE;
+				glutTimerFunc(33, timer, CLOSING);
+			}
+			break;
+		}
+		// 输出Obj
 		case '.':
 		{
-			initWrite();
+			exportObj();
 			break;
 		}
 	}
@@ -565,25 +584,22 @@ void showSysStatus() {
 	glEnable(GL_LIGHTING);
 }
 
-void initWrite()
-{
+void exportObj() {
 	ifstream file1("models/door1.obj");
-	if (!file1)
-	{
-		cerr << "not open \n";
+	if (!file1) {
+		cerr << "Cannot open file!" << endl;;
 	}
 	else
 		cout << "Open success" << endl;
 	ofstream file2;
 	file2.open("output/out.obj", ios::trunc);
-	if (!file2)
-	{
-		cerr << "not open"<<endl;
+	if (!file2) {
+		cerr << "Cannot open file!" << endl;;
 	}
-	else
+	else {
 		cout << "Open success" << endl;
-	while (!file1.eof())
-	{
+	}
+	while (!file1.eof()) {
 		char c[200];
 		file1.getline(c, 999);
 		file2 << c << endl;

@@ -64,6 +64,9 @@ extern GLfloat spot[4];
 extern GLMmodel* model[50];
 extern GLfloat currentcolor[4];
 extern GLfloat constantattenuation;
+extern GLboolean bopening;
+extern GLfloat openangle;
+extern GLint listcode_door;
 
 // TODO:Define enum for menu items
 enum {
@@ -73,23 +76,33 @@ enum {
 // Define enum for display list
 enum {
 	SCENE, 
-	NURBS
+	NURBS, 
+	DOOR
 };
 
 // Define emun for pick name
 enum {
-	SOFA, PLANT, SHELL, FLOOR, TV, DOOR, 
+	SOFA, PLANT, SHELL, FLOOR, TV, DOORDOUBLE, 
 	SQUAREDESK, GLASSBOARD, SHELF, GARDEN, 
 	SWING, WINDOW, WALL, SOFATABLE, TABLE, 
-	MILK, STANDINGPLATE, METALSWING, CHECK
+	MILK, STANDINGPLATE, METALSWING, CHECK, 
+	OPEN
+};
+
+enum {
+	OPENING, 
+	CLOSING
 };
 
 // These functions are defined in Draw.cpp
 void initObj();
 void init_nurbs_surface();
-void drawScene(bool picking);
+void drawScene();
 void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, 
 	int texturenum = -1, int mode = GL_MODULATE, GLfloat rotate = 0.0f);
+void drawVideo();
+void drawNurbs();
+void drawDoor();
 GLint genDisplayList(int type);
 void drawLocator(GLfloat* center, GLfloat radius);
 void drawCrosshair();
@@ -129,6 +142,7 @@ void processpick(GLint* window);
 void startPicking(GLint * window);
 void stopPicking();
 void processHits(GLint hits, GLuint buffer[]);
+void timer(int value);
 
 // These functions are defined in System.cpp
 void init();
@@ -144,4 +158,4 @@ void processFocus(int state);
 void processNormalKey(unsigned char k, int x, int y);
 void processSpecialKey(int k, int x, int y);
 void showSysStatus();
-void initWrite();
+void exportObj();

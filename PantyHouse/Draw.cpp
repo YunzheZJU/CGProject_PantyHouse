@@ -13,6 +13,8 @@ int videoframe = 0;
 static GLfloat ctlpoints[4][4][3];
 static GLfloat tcoords[2][2][2] = { 0, 0, 0, 1, 1, 0, 1, 1 };
 
+GLfloat openangle = 0;
+
 // Set model objects
 void initObj() {
 	model[0] = glmReadOBJ("models/sofa.obj");
@@ -21,7 +23,9 @@ void initObj() {
 	model[11] = glmReadOBJ("models/plantmain.obj");
 	model[12] = glmReadOBJ("models/plantflower.obj");
 	model[6] = glmReadOBJ("models/TVsurface.obj");
-	model[7] = glmReadOBJ("models/door1.obj");
+	model[7] = glmReadOBJ("models/door1_1.obj");
+	model[3] = glmReadOBJ("models/door1_2.obj");
+	model[4] = glmReadOBJ("models/door1_3.obj");
 	model[8] = glmReadOBJ("models/squaredesk.obj");
 	model[9] = glmReadOBJ("models/glassboard.obj");
 	model[10] = glmReadOBJ("models/shelf.obj");
@@ -37,6 +41,7 @@ void initObj() {
 	model[22] = glmReadOBJ("models/standingplate.obj");
 	model[23] = glmReadOBJ("models/metal_swing.obj");
 	model[24] = glmReadOBJ("models/check.obj");
+	model[25] = glmReadOBJ("models/open.obj");
 }
 
 void init_nurbs_surface() {
@@ -56,9 +61,9 @@ void init_nurbs_surface() {
 	glEnable(GL_NORMALIZE);
 }
 
-void drawScene(bool picking) {
+void drawScene() {
 	glColor3f(1.0f, 1.0f, 1.0f);
-	cout << "textureObjectCnt: " << textureObjectCnt << endl;
+	//cout << "textureObjectCnt: " << textureObjectCnt << endl;
 	glPushName(SOFA);
 	drawModel(0, 39.169f, -93.1f, 340.861f);
 	drawModel(1, 39.169f, -43.131f, 340.861f, 5);
@@ -67,9 +72,6 @@ void drawScene(bool picking) {
 	drawModel(2, 38.341f, -60.182f, 56.79f, 0, GL_REPLACE);
 	drawModel(11, 35.509f, -48.121f, 61.799f, 6, GL_REPLACE);
 	drawModel(12, 31.38f, -25.635f, 57.706f, 7, GL_REPLACE);
-	glPopName();
-	glPushName(DOOR);
-	drawModel(7, -337.0f, 0.0f, -20.403f, 1);
 	glPopName();
 	glPushName(SQUAREDESK);
 	drawModel(8, 169.754f, -35.096f, -440.152f, 2);
@@ -187,15 +189,32 @@ void drawNurbs() {
 	glPopMatrix();
 }
 
+void drawDoor() {
+	cout << "openangle: " << openangle << endl;
+	glPushName(DOORDOUBLE);
+	drawModel(7, -337.0f, 0.0f, -20.403f, 1);
+	drawModel(3, -337.0f, 0.0f, -100.403f, 1, GL_MODULATE, -openangle);
+	drawModel(4, -337.0f, 0.0f, 60.403f, 1, GL_MODULATE, openangle);
+	glPopName();
+	if (openangle == 0) {
+		glPushName(OPEN);
+		drawModel(25, -340.608f, -146.535f, -28.236f, 19);
+		glPopName();
+	}
+}
+
 GLint genDisplayList(int type) {
 	GLint lid = glGenLists(1);
 
 	glNewList(lid, GL_COMPILE);
 	if (type == SCENE) {
-		drawScene(false);
+		drawScene();
 	}
 	else if (type == NURBS) {
 		drawNurbs();
+	}
+	else if (type == DOOR) {
+		drawDoor();
 	}
 	glEndList();
 	return lid;
