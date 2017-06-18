@@ -20,9 +20,6 @@ void initObj() {
 	model[2] = glmReadOBJ("models/plantleaf.obj");
 	model[11] = glmReadOBJ("models/plantmain.obj");
 	model[12] = glmReadOBJ("models/plantflower.obj");
-	//model[3] = glmReadOBJ("models/shell.obj");
-	model[4] = glmReadOBJ("models/floor1.obj");
-	model[5] = glmReadOBJ("models/floor2.obj");
 	model[6] = glmReadOBJ("models/TVsurface.obj");
 	model[7] = glmReadOBJ("models/door1.obj");
 	model[8] = glmReadOBJ("models/squaredesk.obj");
@@ -34,6 +31,12 @@ void initObj() {
 	model[15] = glmReadOBJ("models/swing.obj");
 	model[16] = glmReadOBJ("models/window.obj");
 	model[18] = glmReadOBJ("models/wall.obj");
+	model[19] = glmReadOBJ("models/sofatable.obj");
+	model[20] = glmReadOBJ("models/table.obj");
+	model[21] = glmReadOBJ("models/milk.obj");
+	model[22] = glmReadOBJ("models/standingplate.obj");
+	model[23] = glmReadOBJ("models/metal_swing.obj");
+	model[24] = glmReadOBJ("models/check.obj");
 }
 
 void init_nurbs_surface() {
@@ -65,13 +68,6 @@ void drawScene(bool picking) {
 	drawModel(11, 35.509f, -48.121f, 61.799f, 6, GL_REPLACE);
 	drawModel(12, 31.38f, -25.635f, 57.706f, 7, GL_REPLACE);
 	glPopName();
-	glPushName(SHELL);
-	//drawModel(3, 0.0f, -150.0f, -1.062f);
-	glPopName();
-	glPushName(FLOOR);
-	//drawModel(4, -1.0f, -0.1f, 0.0f);
-	//drawModel(5, 0.0f, -15.0f, 280.914f);
-	glPopName();
 	glPushName(DOOR);
 	drawModel(7, -337.0f, 0.0f, -20.403f, 1);
 	glPopName();
@@ -101,7 +97,40 @@ void drawScene(bool picking) {
 	drawModel(16, -226.863f, -176.866f, -288.768f, 11);
 	glPopName();
 	glPushName(WALL);
-	drawModel(18, 0.0f, -150.0f, -1.062f, 13);
+	drawModel(18, 0.0f, -150.0f, -1.062f, 13, GL_MODULATE);
+	glPopName();
+	glPushName(SOFATABLE);
+	drawModel(19, -16.732f, -20.0f, -327.229f, 14);
+	glPopName();
+	glPushName(TABLE);
+	drawModel(20, 209.309f, -68.194f, 335.534f, 15);
+	drawModel(20, 39.03f, -68.194f, 335.534f, 15);
+	drawModel(20, -131.25f, -68.194f, 335.534f, 15);
+	glPopName();
+	glPushName(MILK);
+	drawModel(21, 264.654f, -114.421f, 28.376f, 16);
+	drawModel(21, 264.654f, -114.421f, 16.376f, 16);
+	drawModel(21, 264.654f, -114.421f, 4.376f, 16);
+	drawModel(21, 264.654f, -114.421f, -7.624f, 16);
+	drawModel(21, 264.654f, -114.421f, -19.624f, 16);
+	drawModel(21, 264.654f, -114.421f, -31.624f, 16);
+	drawModel(21, 249.654f, -114.421f, 28.376f, 16);
+	drawModel(21, 249.654f, -114.421f, 16.376f, 16);
+	drawModel(21, 249.654f, -114.421f, 4.376f, 16);
+	drawModel(21, 249.654f, -114.421f, -7.624f, 16);
+	drawModel(21, 249.654f, -114.421f, -19.624f, 16);
+	drawModel(21, 249.654f, -114.421f, -31.624f, 16);
+	drawModel(21, 261.443f, -114.421f, -61.348f, 16);
+	drawModel(21, 250.679f, -114.421f, -83.816f, 16, GL_MODULATE, -22.308f);
+	glPopName();
+	glPushName(STANDINGPLATE);
+	drawModel(22, -391.2f, -29.196f, -193.617f, 17, GL_MODULATE, 180.0f);
+	glPopName();
+	glPushName(METALSWING);
+	drawModel(23, -360.581f, -180.24f, -343.365f);
+	glPopName();
+	glPushName(CHECK);
+	drawModel(24, 122.562f, -101.406f, 48.416f, 18);
 	glPopName();
 }
 

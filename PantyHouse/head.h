@@ -59,6 +59,7 @@ extern char texFileName[400][100];
 extern unsigned int texturevideo[10];
 extern GLfloat light_pos0[4];
 extern GLfloat light_pos1[4];
+extern GLfloat light_pos2[4];
 extern GLfloat spot[4];
 extern GLMmodel* model[50];
 extern GLfloat currentcolor[4];
@@ -77,19 +78,10 @@ enum {
 
 // Define emun for pick name
 enum {
-	SOFA,  
-	PLANT, 
-	SHELL, 
-	FLOOR, 
-	TV, 
-	DOOR, 
-	SQUAREDESK, 
-	GLASSBOARD, 
-	SHELF, 
-	GARDEN, 
-	SWING, 
-	WINDOW, 
-	WALL
+	SOFA, PLANT, SHELL, FLOOR, TV, DOOR, 
+	SQUAREDESK, GLASSBOARD, SHELF, GARDEN, 
+	SWING, WINDOW, WALL, SOFATABLE, TABLE, 
+	MILK, STANDINGPLATE, METALSWING, CHECK
 };
 
 // These functions are defined in Draw.cpp
@@ -116,6 +108,7 @@ void loadObjectTextures();
 void initLight();
 void initLight0();
 void initLight1();
+void initLight2();
 
 // These functions are defined in Util.cpp
 void callList(GLint listcode);

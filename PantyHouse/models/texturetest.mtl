@@ -4,17 +4,17 @@ Kd 1.00 0.95 0.65
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 Ni 1.00
-Ks 0.50 0.50 0.50
+Ks 0.10 0.10 0.10
 newmtl blinn7SG1
 illum 4
 Kd 0.26 0.09 0.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 Ni 1.00
-Ks 0.50 0.50 0.50
+Ks 0.10 0.10 0.10
 newmtl blinn11SG1
 illum 4
-Kd 0.00 0.00 0.00
+Kd 1.00 1.00 1.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 Ni 1.00
@@ -29,7 +29,7 @@ Ni 1.00
 Ks 0.10 0.10 0.10
 newmtl _Door_Double:blinn39SG1
 illum 4
-Kd 0.90 0.90 0.90
+Kd 0.60 0.60 0.60
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd textures/door1.bmp
@@ -105,7 +105,7 @@ Ks 0.26 0.21 0.20
 Ns 8.25
 newmtl blinn25SG1
 illum 4
-Kd 1.00 1.00 1.00
+Kd 0.60 0.60 0.60
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd textures/swing.bmp
@@ -133,5 +133,52 @@ Kd 1.00 1.00 1.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd textures/wall1.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl _TeaTable:blinn18SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/sofatable.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl _Table1:blinn6SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/table.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl blinn37SG1
+illum 4
+Kd 0.60 0.60 0.60
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/milk.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl blinn27SG1
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/standingplate.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl blinn26SG1
+illum 4
+Kd 0.76 0.76 0.76
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl _Check:blinn51SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/check.bmp
 Ni 1.00
 Ks 0.10 0.10 0.10
