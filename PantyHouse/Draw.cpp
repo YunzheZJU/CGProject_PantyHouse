@@ -20,7 +20,7 @@ void initObj() {
 	model[2] = glmReadOBJ("models/plantleaf.obj");
 	model[11] = glmReadOBJ("models/plantmain.obj");
 	model[12] = glmReadOBJ("models/plantflower.obj");
-	model[3] = glmReadOBJ("models/shell.obj");
+	//model[3] = glmReadOBJ("models/shell.obj");
 	model[4] = glmReadOBJ("models/floor1.obj");
 	model[5] = glmReadOBJ("models/floor2.obj");
 	model[6] = glmReadOBJ("models/TVsurface.obj");
@@ -30,9 +30,10 @@ void initObj() {
 	model[10] = glmReadOBJ("models/shelf.obj");
 	model[13] = glmReadOBJ("models/gardenleaf.obj");
 	model[14] = glmReadOBJ("models/gardenmain.obj");
+	model[17] = glmReadOBJ("models/garden.obj");
 	model[15] = glmReadOBJ("models/swing.obj");
 	model[16] = glmReadOBJ("models/window.obj");
-	model[17] = glmReadOBJ("models/garden.obj");
+	model[18] = glmReadOBJ("models/wall.obj");
 }
 
 void init_nurbs_surface() {
@@ -65,11 +66,11 @@ void drawScene(bool picking) {
 	drawModel(12, 31.38f, -25.635f, 57.706f, 7, GL_REPLACE);
 	glPopName();
 	glPushName(SHELL);
-	drawModel(3, 0.0f, -150.0f, -1.062f);
+	//drawModel(3, 0.0f, -150.0f, -1.062f);
 	glPopName();
 	glPushName(FLOOR);
-	drawModel(4, -1.0f, -0.1f, 0.0f);
-	drawModel(5, 0.0f, -15.0f, 280.914f);
+	//drawModel(4, -1.0f, -0.1f, 0.0f);
+	//drawModel(5, 0.0f, -15.0f, 280.914f);
 	glPopName();
 	glPushName(DOOR);
 	drawModel(7, -337.0f, 0.0f, -20.403f, 1);
@@ -98,6 +99,9 @@ void drawScene(bool picking) {
 	drawModel(16, -4.694f, -176.866f, 494.763f, 11, GL_MODULATE, 90);
 	drawModel(16, -204.694f, -176.866f, 494.763f, 11, GL_MODULATE, 90);
 	drawModel(16, -226.863f, -176.866f, -288.768f, 11);
+	glPopName();
+	glPushName(WALL);
+	drawModel(18, 0.0f, -150.0f, -1.062f, 13);
 	glPopName();
 }
 

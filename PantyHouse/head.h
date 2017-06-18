@@ -88,7 +88,8 @@ enum {
 	SHELF, 
 	GARDEN, 
 	SWING, 
-	WINDOW
+	WINDOW, 
+	WALL
 };
 
 // These functions are defined in Draw.cpp
