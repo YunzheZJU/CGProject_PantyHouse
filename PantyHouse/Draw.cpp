@@ -42,6 +42,18 @@ void initObj() {
 	model[23] = glmReadOBJ("models/metal_swing.obj");
 	model[24] = glmReadOBJ("models/check.obj");
 	model[25] = glmReadOBJ("models/open.obj");
+	model[26] = glmReadOBJ("models/drawing.obj");
+	model[27] = glmReadOBJ("models/carpet.obj");
+	model[28] = glmReadOBJ("models/rope.obj");
+	model[29] = glmReadOBJ("models/cup.obj");
+	model[30] = glmReadOBJ("models/strew.obj");
+	model[31] = glmReadOBJ("models/tv.obj");
+	model[32] = glmReadOBJ("models/cupboard.obj");
+	model[33] = glmReadOBJ("models/light.obj");
+	model[34] = glmReadOBJ("models/umbrella.obj");
+	model[35] = glmReadOBJ("models/drawing2.obj");
+	model[36] = glmReadOBJ("models/floor1.obj");
+	model[37] = glmReadOBJ("models/shelf2.obj");
 }
 
 void init_nurbs_surface() {
@@ -83,6 +95,7 @@ void drawScene() {
 	glPopName();
 	glPushName(SHELF);
 	drawModel(10, -315.612f, -130.0f, 300.0f, 4);
+	drawModel(37, -315.0f, -130.0f, 300.0f, 27);
 	glPopName();
 	glPushName(GARDEN);
 	drawModel(13, -279.904f, -21.351f, -323.509f, 8, GL_REPLACE);
@@ -133,6 +146,31 @@ void drawScene() {
 	glPopName();
 	glPushName(CHECK);
 	drawModel(24, 122.562f, -101.406f, 48.416f, 18);
+	glPopName();
+	glPushName(DRAWING);
+	drawModel(26, 321.348f, -193.038f, 337.094f, 20);
+	drawModel(35, 321.348f, -193.038f, 337.094f, 24);
+	glPopName();
+	glPushName(CARPET);
+	drawModel(27, -140.523f, -3.774f, -404.13f, 22, GL_MODULATE, 180);
+	glPopName();
+	glPushName(CUP);
+	drawModel(29, 259.378f, -167.0f, -45.0f);
+	glPopName();
+	glPushName(TV);
+	drawModel(31, -75.0f, -122.482f, -487.885f, 23);
+	glPopName();
+	glPushName(CUPBOARD);
+	drawModel(32, 249.91f, -150.0f, -45.0f, 21);
+	glPopName();
+	glPushName(LIGHT);
+	drawModel(33, 52.448f, -266.0f, -91.872f, 26);
+	glPopName();
+	glPushName(UMBRELLA);
+	drawModel(34, -290.15f, -29.981f, -128.367f, 28);
+	glPopName();
+	glPushName(FLOOR);
+	drawModel(36, 0.0f, 0.0f, 0.0f, 25);
 	glPopName();
 }
 
@@ -199,6 +237,12 @@ void drawDoor() {
 	if (openangle == 0) {
 		glPushName(OPEN);
 		drawModel(25, -340.608f, -146.535f, -28.236f, 19);
+		glPopName();
+		glPushName(ROPE);
+		drawModel(28, -340.599f, -153.456f, -27.728f);
+		glPopName();
+		glPushName(STREW);
+		drawModel(30, -339.517f, -165.745f, -28.184f);
 		glPopName();
 	}
 }

@@ -86,7 +86,8 @@ enum {
 	SQUAREDESK, GLASSBOARD, SHELF, GARDEN, 
 	SWING, WINDOW, WALL, SOFATABLE, TABLE, 
 	MILK, STANDINGPLATE, METALSWING, CHECK, 
-	OPEN
+	OPEN, DRAWING, CUPBOARD, CUP, CARPET, 
+	STREW, ROPE, LIGHT, UMBRELLA
 };
 
 enum {
@@ -125,7 +126,7 @@ void initLight2();
 
 // These functions are defined in Util.cpp
 void callList(GLint listcode);
-void updateList(GLint listcode, int type);
+void updateList(GLint* listcode, int type);
 void initMap();
 void cameraMakeZero(GLfloat* camera, GLfloat* target, GLfloat* polar);
 void updateCamera(GLfloat* camera, GLfloat* target, GLfloat* polar);
