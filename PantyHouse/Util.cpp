@@ -305,6 +305,29 @@ void processHits(GLint hits, GLuint buffer[]) {
 	}
 	printf("\n");
 	ptr--;
+	focus = *ptr;
+	switch (focus) {
+		case TV: {
+			cout << "TV is chosen." << endl;
+			break;
+		}
+		case CARPET: {
+			cout << "Carpet is chosen." << endl;
+			break;
+		}
+		case TABLE: {
+			cout << "Table is chosen." << endl;
+			break;
+		}
+		case DRAWING: {
+			cout << "Drawing is chosen." << endl;
+			break;
+		}
+		case STANDINGPLATE: {
+			cout << "Standing plate is chosen." << endl;
+			break;
+		}
+	}
 	if (*ptr == TV) {
 		cout << "TV is chosen." << endl;
 		focus = TV;

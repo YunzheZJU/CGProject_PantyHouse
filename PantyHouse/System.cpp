@@ -488,22 +488,35 @@ void processNormalKey(unsigned char k, int x, int y) {
 			}
 			cout << "F pressed." << endl;
 			switch (focus) {
-				case NONE: {
-					strcpy(message, "Something should be chosen!");
-					break;
-				}
 				case TV: {
 					strcpy(message, "F pressed. Zoom to TV!");
 					// 移动准心
 					updateWindowcenter(window, windowcenter);
 					SetCursorPos(windowcenter[X] + window[W] * 0.25, windowcenter[Y]);
-					target[X] = 75.0f;
-					target[Y] = 150.0f;
-					target[Z] = 481.143f;
-					camera_polar[A] = PI;
-					camera[X] = 80.0f;
-					camera[Y] = 150.0f;
-					camera[Z] = 245.0f;
+					target[X] = 75.0f;target[Y] = 150.0f;target[Z] = 481.143f;
+					camera[X] = 80.0f;camera[Y] = 150.0f;camera[Z] = 245.0f;
+					break;
+				}
+				case CARPET: {
+					strcpy(message, "F pressed. Zoom to Carpet!");
+					// 移动准心
+					updateWindowcenter(window, windowcenter);
+					SetCursorPos(windowcenter[X] + window[W] * 0.25, windowcenter[Y] + window[H] * 0.174);
+					target[X] = 146.7f; target[Y] = -204.8f; target[Z] = 496.6f;
+					camera[X] = 148.7f; camera[Y] = 150.0f; camera[Z] = 311.8f;
+					break;
+				}
+				case DRAWING: {
+					strcpy(message, "F pressed. Zoom to drawing!");
+					// 移动准心
+					updateWindowcenter(window, windowcenter);
+					SetCursorPos(windowcenter[X] + window[W] * 0.125, windowcenter[Y]);
+					target[X] = -496.6f; target[Y] = 180.0f; target[Z] = -336.1f;
+					camera[X] = 96.6f; camera[Y] = 180.0f; camera[Z] = 335.9f;
+					break;
+				}
+				default: {
+					strcpy(message, "Something selectable should be shooted by RMB!");
 					break;
 				}
 			}
