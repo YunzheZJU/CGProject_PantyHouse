@@ -249,32 +249,106 @@ Kd 1.00 1.00 1.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd textures/drawing2.bmp
-Ni 1.00Ks 0.10 0.10 0.10
+Ni 1.00
+Ks 0.10 0.10 0.10
 newmtl blinn9SG
 illum 4
 Kd 1.00 1.00 1.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd textures/wall1.bmp
-Ni 1.00Ks 0.10 0.10 0.10
+Ni 1.00
+Ks 0.10 0.10 0.10
 newmtl blinn53SG1
 illum 4
 Kd 1.00 1.00 1.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd textures/light.bmp
-Ni 1.00Ks 0.10 0.10 0.10
+Ni 1.00
+Ks 0.10 0.10 0.10
 newmtl _Shelf:blinn44SG
 illum 4
 Kd 1.00 1.00 1.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd textures/shlef2.bmp
-Ni 1.00Ks 0.10 0.10 0.10
+Ni 1.00
+Ks 0.10 0.10 0.10
 newmtl _umbrella:blinn38SG
 illum 4
 Kd 1.00 1.00 1.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd textures/umbrella.bmp
-Ni 1.00Ks 0.10 0.10 0.10
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl blinn48SG1
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl blinn47SG1
+illum 4
+Kd 0.35 0.83 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl blinn50SG1
+illum 4
+Kd 0.40 1.00 0.40
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl blinn49SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/taili.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl blinn34SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/tex_jam1.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl blinn34SG4
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/tex_jam2.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl _Jar:blinn34SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/tex_jam3.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl blinn34SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/tex_jam4.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl blinn34SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/tex_jam5.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10

@@ -54,6 +54,15 @@ void initObj() {
 	model[35] = glmReadOBJ("models/drawing2.obj");
 	model[36] = glmReadOBJ("models/floor1.obj");
 	model[37] = glmReadOBJ("models/shelf2.obj");
+	model[38] = glmReadOBJ("models/taili.obj");
+	model[39] = glmReadOBJ("models/paper_taili3.obj");
+	model[40] = glmReadOBJ("models/paper_taili1.obj");
+	model[41] = glmReadOBJ("models/metal_taili.obj");
+	model[42] = glmReadOBJ("models/tex_jam1.obj");
+	model[43] = glmReadOBJ("models/tex_jam2.obj");
+	model[44] = glmReadOBJ("models/tex_jam3.obj");
+	model[45] = glmReadOBJ("models/tex_jam4.obj");
+	model[46] = glmReadOBJ("models/tex_jam5.obj");
 }
 
 void init_nurbs_surface() {
@@ -145,7 +154,7 @@ void drawScene() {
 	drawModel(23, -360.581f, -180.24f, -343.365f);
 	glPopName();
 	glPushName(CHECK);
-	drawModel(24, 122.562f, -101.406f, 48.416f, 18);
+	drawModel(24, 122.562f, -101.406f, 50.416f, 18);
 	glPopName();
 	glPushName(DRAWING);
 	drawModel(26, 321.348f, -193.038f, 337.094f, 20);
@@ -171,6 +180,19 @@ void drawScene() {
 	glPopName();
 	glPushName(FLOOR);
 	drawModel(36, 0.0f, 0.0f, 0.0f, 25);
+	glPopName();
+	glPushName(TAILI);
+	drawModel(38, 115.024f, -96.154f, 20.485f, 29);
+	drawModel(39, 115.682f, -97.318f, 20.485f);
+	drawModel(40, 117.68f, -96.094f, 20.467f);
+	drawModel(41, 117.668f, -94.599f, 20.488f);
+	glPopName();
+	glPushName(JAM);
+	drawModel(42, 258.599f, -229.854f, 19.408f, 30);
+	drawModel(43, 258.599f, -229.854f, -2.733f, 31);
+	drawModel(44, 258.599f, -229.854f, -24.875f, 32);
+	drawModel(45, 258.599f, -233.104f, -73.041f, 33);
+	drawModel(46, 258.599f, -233.104f, -104.3568f, 34);
 	glPopName();
 }
 

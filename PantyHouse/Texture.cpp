@@ -19,11 +19,6 @@ void initTexture() {
 	cout << "readMTL OK." << endl;
 	loadObjectTextures();
 	cout << "loadObjectTextures OK." << endl;
-
-	// Uncomment if you want to enable multitexturing
-	//glActiveTextureARB = (PFNGLCLIENTACTIVETEXTUREARBPROC)wglGetProcAddress("glActiveTextureARB");
-	//glMultiTexCoord2fARB = (PFNGLMULTITEXCOORD2FARBPROC)wglGetProcAddress("glMultiTexCoord2fARB");
-	//glClientActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)wglGetProcAddress("glClientActiveTextureARB");
 }
 
 void initVideo() {
@@ -45,11 +40,6 @@ void readMTL(char * fileName) {
 	string s;
 	while (getline(fin, s)) {
 		string stemp = s.substr(0, 6);
-		/*if (stemp=="newmtl"){
-		string sNum=s.substr()
-		textureNum==
-		}*/
-		//cout << "readMTL" << endl;
 		if (stemp == "map_Kd") {
 			string st = s.substr(7);
 			st[st.length()/* - 1*/] = '\0';

@@ -101,6 +101,7 @@ void redraw() {
 	}
 	// Draw light
 	drawLocator(light_pos0, 5);
+	drawLocator(light_pos1, 5);
 	drawLocator(light_pos2, 5);
 
 	showSysStatus();
