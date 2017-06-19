@@ -511,9 +511,9 @@ void processNormalKey(unsigned char k, int x, int y) {
 					strcpy(message, "F pressed. Zoom to drawing!");
 					// ÒÆ¶¯×¼ÐÄ
 					updateWindowcenter(window, windowcenter);
-					SetCursorPos(windowcenter[X] + window[W] * 0.125, windowcenter[Y]);
+					SetCursorPos(windowcenter[X] - window[W] * 0.125, windowcenter[Y]);
 					target[X] = -496.6f; target[Y] = 180.0f; target[Z] = -336.1f;
-					camera[X] = 96.6f; camera[Y] = 180.0f; camera[Z] = 335.9f;
+					camera[X] = -96.6f; camera[Y] = 180.0f; camera[Z] = -335.9f;
 					break;
 				}
 				default: {
