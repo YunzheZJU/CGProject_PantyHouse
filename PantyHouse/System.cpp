@@ -23,6 +23,7 @@ int fpsmode = 0;							// 0:off, 1:on, 2:waiting
 int window[2] = { 1280, 720 };
 int windowcenter[2];
 char message[70] = "Welcome!";				// Message string to be shown
+int focus = NONE;
 
 void init() {
 	// Initiate color
@@ -479,6 +480,35 @@ void processNormalKey(unsigned char k, int x, int y) {
 			}
 			break;
 		}
+		// 缩放以适应
+		case 'F':
+		case 'f': {
+			if (!fpsmode) {
+				break;
+			}
+			cout << "F pressed." << endl;
+			switch (focus) {
+				case NONE: {
+					strcpy(message, "Something should be chosen!");
+					break;
+				}
+				case TV: {
+					strcpy(message, "F pressed. Zoom to TV!");
+					// 移动准心
+					updateWindowcenter(window, windowcenter);
+					SetCursorPos(windowcenter[X] + window[W] * 0.25, windowcenter[Y]);
+					target[X] = 75.0f;
+					target[Y] = 150.0f;
+					target[Z] = 481.143f;
+					camera_polar[A] = PI;
+					camera[X] = 80.0f;
+					camera[Y] = 150.0f;
+					camera[Z] = 245.0f;
+					break;
+				}
+			}
+			break;
+		}
 		// 输出Obj
 		case '.':
 		{
@@ -582,26 +612,4 @@ void showSysStatus() {
 	glPopMatrix();							// 重置为原保存矩阵
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
-}
-
-void exportObj() {
-	ifstream file1("models/door1.obj");
-	if (!file1) {
-		cerr << "Cannot open file!" << endl;;
-	}
-	else
-		cout << "Open success" << endl;
-	ofstream file2;
-	file2.open("output/out.obj", ios::trunc);
-	if (!file2) {
-		cerr << "Cannot open file!" << endl;;
-	}
-	else {
-		cout << "Open success" << endl;
-	}
-	while (!file1.eof()) {
-		char c[200];
-		file1.getline(c, 999);
-		file2 << c << endl;
-	}
 }

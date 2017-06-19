@@ -300,10 +300,15 @@ void processHits(GLint hits, GLuint buffer[]) {
 
 	printf("The closest hit names are ");
 	ptr = ptrNames;
-	for (j = 0; j<numberOfNames; j++, ptr++) {
+	for (j = 0; j < numberOfNames; j++, ptr++) {
 		printf("%d ", *ptr);
 	}
 	printf("\n");
+	ptr--;
+	if (*ptr == TV) {
+		cout << "TV is chosen." << endl;
+		focus = TV;
+	}
 }
 
 void timer(int value) {
@@ -322,5 +327,27 @@ void timer(int value) {
 		else {
 			glutTimerFunc(33, timer, CLOSING);
 		}
+	}
+}
+
+void exportObj() {
+	ifstream file1("models/door1.obj");
+	if (!file1) {
+		cerr << "Cannot open file!" << endl;;
+	}
+	else
+		cout << "Open success" << endl;
+	ofstream file2;
+	file2.open("output/out.obj", ios::trunc);
+	if (!file2) {
+		cerr << "Cannot open file!" << endl;;
+	}
+	else {
+		cout << "Open success" << endl;
+	}
+	while (!file1.eof()) {
+		char c[200];
+		file1.getline(c, 999);
+		file2 << c << endl;
 	}
 }

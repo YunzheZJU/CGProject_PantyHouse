@@ -67,6 +67,7 @@ extern GLfloat constantattenuation;
 extern GLboolean bopening;
 extern GLfloat openangle;
 extern GLint listcode_door;
+extern int focus;
 
 // TODO:Define enum for menu items
 enum {
@@ -82,6 +83,7 @@ enum {
 
 // Define emun for pick name
 enum {
+	NONE, 
 	SOFA, PLANT, SHELL, FLOOR, TV, DOORDOUBLE, 
 	SQUAREDESK, GLASSBOARD, SHELF, GARDEN, 
 	SWING, WINDOW, WALL, SOFATABLE, TABLE, 
@@ -144,6 +146,7 @@ void startPicking(GLint * window);
 void stopPicking();
 void processHits(GLint hits, GLuint buffer[]);
 void timer(int value);
+void exportObj();
 
 // These functions are defined in System.cpp
 void init();
@@ -159,4 +162,3 @@ void processFocus(int state);
 void processNormalKey(unsigned char k, int x, int y);
 void processSpecialKey(int k, int x, int y);
 void showSysStatus();
-void exportObj();

@@ -8,10 +8,10 @@ GLMmodel* model[50];
 
 GLUnurbsObj *nurbsobject;
 
-int videoframe = 0;
-
 static GLfloat ctlpoints[4][4][3];
 static GLfloat tcoords[2][2][2] = { 0, 0, 0, 1, 1, 0, 1, 1 };
+
+int videoframe = 0;
 
 GLfloat openangle = 0;
 
@@ -112,7 +112,7 @@ void drawScene() {
 	drawModel(16, -226.863f, -176.866f, -288.768f, 11);
 	glPopName();
 	glPushName(WALL);
-	drawModel(18, 0.0f, -150.0f, -1.062f, 13, GL_MODULATE);
+	drawModel(18, 0.0f, -150.0f, -1.062f, 13);
 	glPopName();
 	glPushName(SOFATABLE);
 	drawModel(19, -16.732f, -20.0f, -327.229f, 14);
@@ -158,7 +158,7 @@ void drawScene() {
 	drawModel(29, 259.378f, -167.0f, -45.0f);
 	glPopName();
 	glPushName(TV);
-	drawModel(31, -75.0f, -122.482f, -487.885f, 23);
+	drawModel(31, -75.0f, -150.0f, -487.885f, 23);
 	glPopName();
 	glPushName(CUPBOARD);
 	drawModel(32, 249.91f, -150.0f, -45.0f, 21);
@@ -209,7 +209,7 @@ void drawVideo() {
 		}
 	}
 	glPushMatrix();
-		glTranslatef(75.0f, 122.482f, 481.143f);
+		glTranslatef(75.0f, 150.0f, 481.143f);
 		glRotated(180, 0, 1, 0);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 		glEnable(GL_TEXTURE_2D);
