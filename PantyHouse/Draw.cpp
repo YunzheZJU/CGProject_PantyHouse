@@ -10,6 +10,9 @@ GLUnurbsObj *nurbsobject;
 
 static GLfloat ctlpoints[4][4][3];
 static GLfloat tcoords[2][2][2] = { 0, 0, 0, 1, 1, 0, 1, 1 };
+GLfloat glass_location[3] = { 50.0f, 150.0f, 0.0f };
+GLfloat glass_size[3] = { 20.0f, 20.0f, 20.0f };
+GLfloat red_t[4] = { 1.0f, 0.0f, 0.0f, 0.5f };
 
 int videoframe = 0;
 
@@ -84,7 +87,6 @@ void init_nurbs_surface() {
 
 void drawScene() {
 	glColor3f(1.0f, 1.0f, 1.0f);
-	//cout << "textureObjectCnt: " << textureObjectCnt << endl;
 	glPushName(SOFA);
 	drawModel(0, 39.169f, -93.1f, 340.861f);
 	drawModel(1, 39.169f, -43.131f, 340.861f, 5);
@@ -206,11 +208,7 @@ void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, int texturenum, in
 	else {
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, mode);
 		glEnable(GL_TEXTURE_2D);
-		//GLfloat emission[4] = { 0.9f, 0.9f, 0.2f, 0.0f };
-		//GLfloat noemission[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-		//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emission);
 		glBindTexture(GL_TEXTURE_2D, textureObjects[texturenum]);
-		//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, noemission);
 		glmDraw(model[modelnum], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
 		glDisable(GL_TEXTURE_2D);
 	}
@@ -267,6 +265,25 @@ void drawDoor() {
 		drawModel(30, -339.517f, -165.745f, -28.184f);
 		glPopName();
 	}
+}
+
+void drawTransparantCube(GLfloat* location, GLfloat* size, GLfloat* color) {
+	glPushMatrix();
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);  // 基于源象素alpha通道值的半透明混合函数
+		glEnable(GL_BLEND);  // 打开混合
+		glDisable(GL_DEPTH_TEST); // 关闭深度测试
+		glDisable(GL_LIGHTING);
+		//glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, black);
+		//glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, color);
+		//glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, black);
+		glColor4fv(color);
+		glTranslatef(location[X], location[Y], location[Z]);
+		glScalef(size[X], size[Y], size[Z]);
+		drawCube();
+		glDisable(GL_BLEND);  // 关闭混合
+		glEnable(GL_DEPTH_TEST); // 打开深度测试
+		glEnable(GL_LIGHTING);
+	glPopMatrix();
 }
 
 GLint genDisplayList(int type) {
@@ -351,4 +368,50 @@ void draw_nurbs_surface() {
 
 	gluEndSurface(nurbsobject);
 	glDisable(GL_TEXTURE_2D);
+}
+
+void drawCube() {
+	glScalef(0.5, 0.5, 0.5);
+
+	glBegin(GL_QUADS);
+	glNormal3f(0, 0, 1);
+	glTexCoord2i(1, 1); glVertex3i(1, 1, 1);
+	glTexCoord2i(0, 1); glVertex3i(-1, 1, 1);
+	glTexCoord2i(0, 0); glVertex3i(-1, -1, 1);
+	glTexCoord2i(1, 0); glVertex3i(1, -1, 1);
+
+	glNormal3f(0, 1, 0);
+	glTexCoord2i(1, 1); glVertex3i(1, 1, 1);
+	glTexCoord2i(0, 1); glVertex3i(1, 1, -1);
+	glTexCoord2i(0, 0); glVertex3i(-1, 1, -1);
+	glTexCoord2i(1, 0); glVertex3i(-1, 1, 1);
+
+	glNormal3f(1, 0, 0);
+	glTexCoord2i(1, 1); glVertex3i(1, -1, 1);
+	glTexCoord2i(0, 1); glVertex3i(1, -1, -1);
+	glTexCoord2i(0, 0); glVertex3i(1, 1, -1);
+	glTexCoord2i(1, 0); glVertex3i(1, 1, 1);
+
+	glNormal3f(-1, 0, 0);
+	glTexCoord2i(1, 1); glVertex3i(-1, 1, 1);
+	glTexCoord2i(0, 1); glVertex3i(-1, 1, -1);
+	glTexCoord2i(0, 0); glVertex3i(-1, -1, -1);
+	glTexCoord2i(1, 0); glVertex3i(-1, -1, 1);
+
+	glNormal3f(0, -1, 0);
+	glTexCoord2i(1, 1); glVertex3i(-1, -1, 1);
+	glTexCoord2i(0, 1); glVertex3i(-1, -1, -1);
+	glTexCoord2i(0, 0); glVertex3i(1, -1, -1);
+	glTexCoord2i(1, 0); glVertex3i(1, -1, 1);
+
+	glNormal3f(0, 0, -1);
+	glTexCoord2i(1, 1); glVertex3i(-1, 1, -1);
+	glTexCoord2i(0, 1); glVertex3i(1, 1, -1);
+	glTexCoord2i(0, 0); glVertex3i(1, -1, -1);
+	glTexCoord2i(1, 0); glVertex3i(-1, -1, -1);
+	glEnd();
+}
+
+void drawTransparentObject() {
+	drawTransparantCube(glass_location, glass_size, red_t);
 }

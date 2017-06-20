@@ -52,6 +52,9 @@ using namespace std;
 // Define moving pace in fps mode
 #define PACE 5
 
+// Define buffer size for picking stack
+#define BUFSIZE 512
+
 // Define variables for texturing
 extern int textureObjectCnt;
 extern GLuint textureObjects[400];
@@ -63,6 +66,7 @@ extern GLfloat light_pos2[4];
 extern GLfloat spot[4];
 extern GLMmodel* model[50];
 extern GLfloat currentcolor[4];
+extern GLfloat black[4];
 extern GLfloat constantattenuation;
 extern GLboolean bopening;
 extern GLfloat openangle;
@@ -110,6 +114,9 @@ GLint genDisplayList(int type);
 void drawLocator(GLfloat* center, GLfloat radius);
 void drawCrosshair();
 void draw_nurbs_surface();
+void drawCube();
+void drawTransparantCube(GLfloat* location, GLfloat* size, GLfloat* color);
+void drawTransparentObject();
 
 // These functions are defined in Texture.cpp
 void initTexture();

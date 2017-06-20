@@ -87,6 +87,7 @@ void redraw() {
 	callList(listcode_scene);						// Draw Scene with display List
 	callList(listcode_door);						// Draw Scene with display List
 	drawVideo();
+	drawTransparentObject();
 	if (fpsmode == 1) {
 		drawCrosshair();
 		camera_locator[X] = camera[X];

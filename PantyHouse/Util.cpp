@@ -5,7 +5,6 @@
 
 #pragma warning(disable:4996)
 
-#define BUFSIZE 512
 GLuint selectBuf[BUFSIZE];
 
 GLfloat cameramatrix[3][3];
