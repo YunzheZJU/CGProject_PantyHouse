@@ -254,7 +254,7 @@ void startPicking(GLint * window){
 	glLoadIdentity();
 
 	glGetIntegerv(GL_VIEWPORT, viewport);
-	gluPickMatrix(window[X] / 2.0, viewport[3] - window[Y] / 2.0, 10, 10, viewport);
+	gluPickMatrix(window[X] / 2.0, viewport[3] - window[Y] / 2.0, 5, 5, viewport);
 	gluPerspective(45.0f, 1.7778f, 0.1f, 3000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glInitNames();
@@ -327,30 +327,50 @@ void processHits(GLint hits, GLuint buffer[]) {
 			cout << "Standing plate is chosen." << endl;
 			break;
 		}
-	}
-	if (*ptr == TV) {
-		cout << "TV is chosen." << endl;
-		focus = TV;
+		case PANGCI: {
+			cout << "Pangci is chosen." << endl;
+			break;
+		}
 	}
 }
 
 void timer(int value) {
-	if (value == OPENING) {
-		openangle += 3;
-	}
-	else if(value == CLOSING) {
-		openangle -= 3;
-	}
-	updateList(&listcode_door, DOOR);
+	if (value == DOOROPENING || value == DOORCLOSING) {
+		if (value == DOOROPENING) {
+			doorangle += 3;
+		}
+		else if (value == DOORCLOSING) {
+			doorangle -= 3;
+		}
+		updateList(&listcode_door, DOOR);
 
-	if (openangle < 90 && openangle >0) {
-		if (bopening) {
-			glutTimerFunc(33, timer, OPENING);
-		}
-		else {
-			glutTimerFunc(33, timer, CLOSING);
+		if (doorangle < 90 && doorangle > 0) {
+			if (bdooropening) {
+				glutTimerFunc(33, timer, DOOROPENING);
+			}
+			else {
+				glutTimerFunc(33, timer, DOORCLOSING);
+			}
 		}
 	}
+	else {
+		if (value == CURTAINOPENING) {
+			curtainwidth -= 0.02;
+		}
+		else if (value == CURTAINCLOSING) {
+			curtainwidth += 0.02;
+		}
+
+		if (curtainwidth < 1.0f && curtainwidth > 0.4f) {
+			if (bcurtainopening) {
+				glutTimerFunc(33, timer, CURTAINOPENING);
+			}
+			else {
+				glutTimerFunc(33, timer, CURTAINCLOSING);
+			}
+		}
+	}
+
 }
 
 void exportObj() {

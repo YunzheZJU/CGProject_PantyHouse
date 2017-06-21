@@ -18,7 +18,8 @@ GLboolean bmouse = GL_FALSE;
 GLboolean bnurbs = GL_FALSE;
 GLboolean bmsaa = GL_FALSE;
 GLboolean bmusic = GL_TRUE;
-GLboolean bopening = GL_FALSE;
+GLboolean bdooropening = GL_FALSE;
+GLboolean bcurtainopening = GL_FALSE;
 int fpsmode = 0;							// 0:off, 1:on, 2:waiting
 int window[2] = { 1280, 720 };
 int windowcenter[2];
@@ -472,13 +473,27 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'O':
 		case 'o': {
 			cout << "O pressed." << endl;
-			if (openangle == 0) {
-				bopening = GL_TRUE;
-				glutTimerFunc(33, timer, OPENING);
+			if (doorangle == 0) {
+				bdooropening = GL_TRUE;
+				glutTimerFunc(33, timer, DOOROPENING);
 			}
-			else if (openangle == 90) {
-				bopening = GL_FALSE;
-				glutTimerFunc(33, timer, CLOSING);
+			else if (doorangle == 90) {
+				bdooropening = GL_FALSE;
+				glutTimerFunc(33, timer, DOORCLOSING);
+			}
+			break;
+		}
+		// ´°Á±¶¯»­
+		case 'P':
+		case 'p': {
+			cout << "P pressed." << endl;
+			if (curtainwidth == 1) {
+				bcurtainopening = GL_TRUE;
+				glutTimerFunc(33, timer, CURTAINOPENING);
+			}
+			else if (curtainwidth <= 0.4f) {
+				bcurtainopening = GL_FALSE;
+				glutTimerFunc(33, timer, CURTAINCLOSING);
 			}
 			break;
 		}

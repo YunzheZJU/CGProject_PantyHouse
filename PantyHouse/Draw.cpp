@@ -10,13 +10,13 @@ GLUnurbsObj *nurbsobject;
 
 static GLfloat ctlpoints[4][4][3];
 static GLfloat tcoords[2][2][2] = { 0, 0, 0, 1, 1, 0, 1, 1 };
-GLfloat glass_location[3] = { 50.0f, 150.0f, 0.0f };
-GLfloat glass_size[3] = { 20.0f, 20.0f, 20.0f };
-GLfloat red_t[4] = { 1.0f, 0.0f, 0.0f, 0.5f };
+GLfloat coffee[4] = { 0.756f, 0.557f, 0.404f, 1.0f };
+GLfloat darkcoffee[4] = { 0.376f, 0.306f, 0.310f, 1.0f };
 
 int videoframe = 0;
 
-GLfloat openangle = 0;
+GLfloat doorangle = 0;
+GLfloat curtainwidth = 1.0f;
 
 // Set model objects
 void initObj() {
@@ -73,6 +73,9 @@ void initObj() {
 	model[51] = glmReadOBJ("models/glass.obj");
 	model[52] = glmReadOBJ("models/doorglassright.obj");
 	model[53] = glmReadOBJ("models/doorglassleft.obj");
+	model[54] = glmReadOBJ("models/curtain1.obj");
+	model[55] = glmReadOBJ("models/curtain2.obj");
+	model[56] = glmReadOBJ("models/pangci.obj");
 }
 
 void init_nurbs_surface() {
@@ -212,6 +215,9 @@ void drawScene() {
 	glPushName(CUSHION3);
 	drawModel(49, -153.524f, -57.519f, -249.374f, 37);
 	glPopName();
+	glPushName(PANGCI);
+	drawModel(56, -117.39f, -1.402f, -342.882f, 40);
+	glPopName();
 
 	drawGeometry();
 }
@@ -266,30 +272,30 @@ void drawNurbs() {
 }
 
 void drawDoor() {
-	cout << "openangle: " << openangle << endl;
+	//cout << "doorangle: " << doorangle << endl;
 	glPushName(DOORDOUBLE);
 	drawModel(7, -337.0f, 0.0f, -20.403f, 1);
-	drawModel(4, -337.0f, 0.0f, 60.403f, 1, GL_MODULATE, openangle);
-	drawModel(3, -337.0f, 0.0f, -100.403f, 1, GL_MODULATE, -openangle);
+	drawModel(4, -337.0f, 0.0f, 60.403f, 1, GL_MODULATE, doorangle);
+	drawModel(3, -337.0f, 0.0f, -100.403f, 1, GL_MODULATE, -doorangle);
 	glPopName();
 	glPushName(OPEN);
-	drawModel(25, -337.0f, -146.535f, -100.403f, 19, GL_MODULATE, -openangle);
+	drawModel(25, -337.0f, -146.535f, -100.403f, 19, GL_MODULATE, -doorangle);
 	glPopName();
 	glPushName(ROPE);
-	drawModel(28, -337.0f, -153.456f, -100.403f, -1, GL_MODULATE, -openangle);
+	drawModel(28, -337.0f, -153.456f, -100.403f, -1, GL_MODULATE, -doorangle);
 	glPopName();
 	glPushName(STREW);
-	drawModel(30, -337.0f, -165.745f, -100.403f, -1, GL_MODULATE, -openangle);
+	drawModel(30, -337.0f, -165.745f, -100.403f, -1, GL_MODULATE, -doorangle);
 	glPopName();
 	glPushName(DOORGLASS);
 	glPushMatrix();
 	glTranslatef(337.0f, 153.75f, 100.403f);
-	glRotatef(-openangle, 0, 1, 0);
+	glRotatef(-doorangle, 0, 1, 0);
 	glmDrawTransparency(model[52], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.4);
 	glPopMatrix();
 	glPushMatrix();
 	glTranslatef(337.0f, 153.75f, -59.597f);
-	glRotatef(openangle, 0, 1, 0);
+	glRotatef(doorangle, 0, 1, 0);
 	glmDrawTransparency(model[53], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.4);
 	glPopMatrix();
 	glPopName();
@@ -460,11 +466,70 @@ void drawTransparentObject() {
 	glmDrawTransparency(model[51], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.2);
 	glPopMatrix();
 	glPopName();
+	glPushName(CURTAIN);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glEnable(GL_TEXTURE_2D);
+
+	glPushMatrix();
+	glTranslatef(-270.061f, 178.254f, -487.622f);
+	glScalef(curtainwidth, 1.0f, 1.0f);
+	glBindTexture(GL_TEXTURE_2D, textureObjects[38]);
+	glmDrawTransparency(model[54], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-120.306f, 179.044f, -487.633f);
+	glScalef(curtainwidth, 1.0f, 1.0f);
+	glBindTexture(GL_TEXTURE_2D, textureObjects[39]);
+	glmDrawTransparency(model[55], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-70.061f, 178.254f, -487.622f);
+	glScalef(curtainwidth, 1.0f, 1.0f);
+	glBindTexture(GL_TEXTURE_2D, textureObjects[38]);
+	glmDrawTransparency(model[54], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(80.306f, 179.044f, -487.633f);
+	glScalef(curtainwidth, 1.0f, 1.0f);
+	glBindTexture(GL_TEXTURE_2D, textureObjects[39]);
+	glmDrawTransparency(model[55], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(129.939f, 178.254f, -487.622f);
+	glScalef(curtainwidth, 1.0f, 1.0f);
+	glBindTexture(GL_TEXTURE_2D, textureObjects[38]);
+	glmDrawTransparency(model[54], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(279.694f, 179.044f, -487.633f);
+	glScalef(curtainwidth, 1.0f, 1.0f);
+	glBindTexture(GL_TEXTURE_2D, textureObjects[39]);
+	glmDrawTransparency(model[55], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(217.889f, 178.254f, 214.012f);
+	glRotatef(-90.0f, 0, 1, 0);
+	glScalef(curtainwidth, 1.0f, 1.0f);
+	glBindTexture(GL_TEXTURE_2D, textureObjects[38]);
+	glmDrawTransparency(model[54], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(217.9f, 179.044f, 363.765f);
+	glRotatef(-90.0f, 0, 1, 0);
+	glScalef(curtainwidth, 1.0f, 1.0f);
+	glBindTexture(GL_TEXTURE_2D, textureObjects[39]);
+	glmDrawTransparency(model[55], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
+	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
+	glPopName();
 }
 
 void drawGeometry() {
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, gray);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, golden);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, black);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, coffee);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, black);
 	glPushMatrix();
 	glTranslatef(-189.69f, 50.0f, -81.53f);

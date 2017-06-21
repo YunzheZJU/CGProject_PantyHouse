@@ -71,8 +71,10 @@ extern GLfloat golden[4];
 extern GLfloat gray[4];
 extern GLfloat currentcolor[4];
 extern GLfloat constantattenuation;
-extern GLboolean bopening;
-extern GLfloat openangle;
+extern GLboolean bdooropening;
+extern GLboolean bcurtainopening;
+extern GLfloat doorangle;
+extern GLfloat curtainwidth;
 extern GLint listcode_door;
 extern int focus;
 
@@ -97,12 +99,15 @@ enum {
 	MILK, STANDINGPLATE, METALSWING, CHECK, 
 	OPEN, DRAWING, CUPBOARD, CUP, CARPET, 
 	STREW, ROPE, LIGHT, UMBRELLA, TAILI, JAM, 
-	CUSHION1, CUSHION2, CUSHION3, DOORGLASS
+	CUSHION1, CUSHION2, CUSHION3, DOORGLASS, 
+	CURTAIN, PANGCI
 };
 
 enum {
-	OPENING, 
-	CLOSING
+	DOOROPENING, 
+	DOORCLOSING, 
+	CURTAINOPENING, 
+	CURTAINCLOSING
 };
 
 // These functions are defined in Draw.cpp
