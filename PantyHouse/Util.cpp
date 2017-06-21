@@ -239,6 +239,7 @@ void processpick(GLint* window) {
 	startPicking(window);
 	drawScene();
 	drawDoor();
+	drawTransparentObject();
 	stopPicking();
 }
 

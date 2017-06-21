@@ -7,6 +7,7 @@
 GLfloat gray[4] = { 0.4f, 0.4f, 0.4f, 1.0f };
 GLfloat white[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 GLfloat black[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+GLfloat golden[4] = { 1.0f, 0.843f, 0.0f, 1.0f };
 GLfloat light_pos0[4] = { 0.0f, 200.0f, 0.0f, 1.0f };
 GLfloat light_pos1[4] = { 0.0f, 100.0f, 0.0f, 1.0f };
 GLfloat light_pos2[4] = { 600.0f, 150.0f, 0.0f, 1.0f };

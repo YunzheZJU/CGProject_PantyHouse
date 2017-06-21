@@ -4,7 +4,7 @@
 #include "head.h"
 
 // Declare model objects
-GLMmodel* model[50];
+GLMmodel* model[70];
 
 GLUnurbsObj *nurbsobject;
 
@@ -44,12 +44,12 @@ void initObj() {
 	model[22] = glmReadOBJ("models/standingplate.obj");
 	model[23] = glmReadOBJ("models/metal_swing.obj");
 	model[24] = glmReadOBJ("models/check.obj");
-	model[25] = glmReadOBJ("models/open.obj");
+	model[25] = glmReadOBJ("models/open2.obj");
 	model[26] = glmReadOBJ("models/drawing.obj");
 	model[27] = glmReadOBJ("models/carpet.obj");
-	model[28] = glmReadOBJ("models/rope.obj");
+	model[28] = glmReadOBJ("models/rope2.obj");
 	model[29] = glmReadOBJ("models/cup.obj");
-	model[30] = glmReadOBJ("models/strew.obj");
+	model[30] = glmReadOBJ("models/strew2.obj");
 	model[31] = glmReadOBJ("models/tv.obj");
 	model[32] = glmReadOBJ("models/cupboard.obj");
 	model[33] = glmReadOBJ("models/light.obj");
@@ -69,6 +69,10 @@ void initObj() {
 	model[47] = glmReadOBJ("models/cushion1.obj");
 	model[48] = glmReadOBJ("models/cushion2.obj");
 	model[49] = glmReadOBJ("models/cushion3.obj");
+	model[50] = glmReadOBJ("models/windowglass.obj");
+	model[51] = glmReadOBJ("models/glass.obj");
+	model[52] = glmReadOBJ("models/doorglassright.obj");
+	model[53] = glmReadOBJ("models/doorglassleft.obj");
 }
 
 void init_nurbs_surface() {
@@ -201,7 +205,6 @@ void drawScene() {
 	glPopName();
 	glPushName(CUSHION1);
 	drawModel(47, -44.054f, -70.587f, -190.17f, 35);
-	//drawModel(47, 199.979f, 44.054f, 0, 35);
 	glPopName();
 	glPushName(CUSHION2);
 	drawModel(48, -143.802f, -83.721f, -196.468f, 36);
@@ -209,6 +212,8 @@ void drawScene() {
 	glPushName(CUSHION3);
 	drawModel(49, -153.524f, -57.519f, -249.374f, 37);
 	glPopName();
+
+	drawGeometry();
 }
 
 void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, int texturenum, int mode, GLfloat rotate) {
@@ -264,20 +269,30 @@ void drawDoor() {
 	cout << "openangle: " << openangle << endl;
 	glPushName(DOORDOUBLE);
 	drawModel(7, -337.0f, 0.0f, -20.403f, 1);
-	drawModel(3, -337.0f, 0.0f, -100.403f, 1, GL_MODULATE, -openangle);
 	drawModel(4, -337.0f, 0.0f, 60.403f, 1, GL_MODULATE, openangle);
+	drawModel(3, -337.0f, 0.0f, -100.403f, 1, GL_MODULATE, -openangle);
 	glPopName();
-	if (openangle == 0) {
-		glPushName(OPEN);
-		drawModel(25, -340.608f, -146.535f, -28.236f, 19);
-		glPopName();
-		glPushName(ROPE);
-		drawModel(28, -340.599f, -153.456f, -27.728f);
-		glPopName();
-		glPushName(STREW);
-		drawModel(30, -339.517f, -165.745f, -28.184f);
-		glPopName();
-	}
+	glPushName(OPEN);
+	drawModel(25, -337.0f, -146.535f, -100.403f, 19, GL_MODULATE, -openangle);
+	glPopName();
+	glPushName(ROPE);
+	drawModel(28, -337.0f, -153.456f, -100.403f, -1, GL_MODULATE, -openangle);
+	glPopName();
+	glPushName(STREW);
+	drawModel(30, -337.0f, -165.745f, -100.403f, -1, GL_MODULATE, -openangle);
+	glPopName();
+	glPushName(DOORGLASS);
+	glPushMatrix();
+	glTranslatef(337.0f, 153.75f, 100.403f);
+	glRotatef(-openangle, 0, 1, 0);
+	glmDrawTransparency(model[52], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.4);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(337.0f, 153.75f, -59.597f);
+	glRotatef(openangle, 0, 1, 0);
+	glmDrawTransparency(model[53], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.4);
+	glPopMatrix();
+	glPopName();
 }
 
 void drawTransparantCube(GLfloat* location, GLfloat* size, GLfloat* color) {
@@ -427,15 +442,38 @@ void drawCube() {
 }
 
 void drawTransparentObject() {
+	glPushName(WINDOW);
 	//drawTransparantCube(glass_location, glass_size, red_t);
 	//drawModel(39, 115.682f, -97.318f, 20.485f);
 	glPushMatrix();
-	glTranslatef(glass_location[X], glass_location[Y], glass_location[Z]);
-	glScalef(5, 5, 5);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, textureObjects[29]);
-	glmDrawTransparency(model[38], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE, 0.8);
-	glDisable(GL_TEXTURE_2D);
+	glTranslatef(4.483f, 170.0f, -79.011f);
+	//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	//glEnable(GL_TEXTURE_2D);
+	//glBindTexture(GL_TEXTURE_2D, textureObjects[29]);
+	glmDrawTransparency(model[50], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE, 0.5);
+	//glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+	glPopName();
+	glPushName(GLASSBOARD);
+	glPushMatrix();
+	glTranslatef(-129.69f, 82.0f, 53.47f);
+	glmDrawTransparency(model[51], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.2);
+	glPopMatrix();
+	glPopName();
+}
+
+void drawGeometry() {
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, gray);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, golden);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, black);
+	glPushMatrix();
+	glTranslatef(-189.69f, 50.0f, -81.53f);
+	glScalef(160, 100, 30);
+	drawCube();
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-189.69f, 50.0f, 168.47f);
+	glScalef(160, 100, 30);
+	drawCube();
 	glPopMatrix();
 }

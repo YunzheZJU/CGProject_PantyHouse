@@ -358,18 +358,42 @@ Kd 1.00 1.00 1.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd textures/cushion1.bmp
-Ni 1.00Ks 0.10 0.10 0.10
+Ni 1.00
+Ks 0.10 0.10 0.10
 newmtl _Cushion_Large_0001:blinn22SG
 illum 4
 Kd 1.00 1.00 1.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd textures/cushion2.bmp
-Ni 1.00Ks 0.10 0.10 0.10
+Ni 1.00
+Ks 0.10 0.10 0.10
 newmtl blinn21SG2
 illum 4
 Kd 1.00 1.00 1.00
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 map_Kd textures/cushion3.bmp
-Ni 1.00Ks 0.10 0.10 0.10
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl _Window_with_curtain1:blinn1SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 0.30 0.30 0.30
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl blinn55SG1
+illum 4
+Kd 1.00 1.00 0.00
+Ka 0.00 0.00 0.00
+Tf 0.14 0.14 0.14
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl lambert2SG1
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 0.11 0.11 0.11
+Ni 1.00
+Ks 0.10 0.10 0.10

@@ -64,9 +64,12 @@ extern GLfloat light_pos0[4];
 extern GLfloat light_pos1[4];
 extern GLfloat light_pos2[4];
 extern GLfloat spot[4];
-extern GLMmodel* model[50];
-extern GLfloat currentcolor[4];
+extern GLMmodel* model[70];
 extern GLfloat black[4];
+extern GLfloat white[4];
+extern GLfloat golden[4];
+extern GLfloat gray[4];
+extern GLfloat currentcolor[4];
 extern GLfloat constantattenuation;
 extern GLboolean bopening;
 extern GLfloat openangle;
@@ -94,7 +97,7 @@ enum {
 	MILK, STANDINGPLATE, METALSWING, CHECK, 
 	OPEN, DRAWING, CUPBOARD, CUP, CARPET, 
 	STREW, ROPE, LIGHT, UMBRELLA, TAILI, JAM, 
-	CUSHION1, CUSHION2, CUSHION3
+	CUSHION1, CUSHION2, CUSHION3, DOORGLASS
 };
 
 enum {
@@ -118,6 +121,7 @@ void draw_nurbs_surface();
 void drawCube();
 void drawTransparantCube(GLfloat* location, GLfloat* size, GLfloat* color);
 void drawTransparentObject();
+void drawGeometry();
 
 // These functions are defined in Texture.cpp
 void initTexture();
