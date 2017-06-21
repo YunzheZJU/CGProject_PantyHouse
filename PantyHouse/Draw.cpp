@@ -81,6 +81,7 @@ void initObj() {
 	model[59] = glmReadOBJ("models/ground.obj");
 	model[60] = glmReadOBJ("models/sofa3.obj");
 	model[61] = glmReadOBJ("models/sofa.obj");
+	model[62] = glmReadOBJ("models/door2.obj");
 }
 
 void init_nurbs_surface() {
@@ -216,10 +217,10 @@ void drawScene() {
 	drawModel(47, -44.054f, -70.587f, -190.17f, 35);
 	glPopName();
 	glPushName(CUSHION2);
-	drawModel(48, -143.802f, -83.721f, -196.468f, 36);
+	drawModel(48, -133.802f, -83.721f, -196.468f, 36);
 	glPopName();
 	glPushName(CUSHION3);
-	drawModel(49, -153.524f, -57.519f, -249.374f, 37);
+	drawModel(49, -143.524f, -57.519f, -249.374f, 37);
 	glPopName();
 	glPushName(PANGCI);
 	drawModel(56, -117.39f, -1.402f, -342.882f, 40);
@@ -233,6 +234,21 @@ void drawScene() {
 	glPopName();
 	glPushName(SOFA3);
 	drawModel(61, -83.219f, -54.591f, -236.236f, 46);
+	glPopName();
+	glPushName(DOORSINGLE);
+	drawModel(62, 266.0f, -141.5f, 147.009f, 47);
+	glPopName();
+	glPushName(TEAPOT);
+	glPushMatrix();
+	glTranslatef(-258.599f, 190.0f, 73.041f);
+	glRotatef(-90.0f, 0, 1, 0);
+	glutSolidTeapot(10.0);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(-258.599f, 190.0f, 104.3568f);
+	glRotatef(-90.0f, 0, 1, 0);
+	glutSolidTeapot(10.0);
+	glPopMatrix();
 	glPopName();
 
 	drawGeometry();
