@@ -224,6 +224,8 @@ GLvoid
 glmDraw(GLMmodel* model, GLuint mode);
 GLvoid
 glmDrawGroup(GLMmodel*model, int g, GLuint mode);
+GLvoid
+glmDrawTransparency(GLMmodel* model, GLuint mode, GLfloat transparancy);
 /* glmList: Generates and returns a display list for the model using
 * the mode specified.
 *

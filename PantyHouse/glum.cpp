@@ -1855,6 +1855,152 @@ glmDrawGroup(GLMmodel* model, int g, GLuint mode)
 
 	glPopMatrix();
 }
+GLvoid
+glmDrawTransparency(GLMmodel* model, GLuint mode, GLfloat transparancy)
+{
+	GLuint i;
+	GLMgroup* group;
+	GLfloat ambient[4];
+	GLfloat diffuse[4];
+	GLfloat white[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	GLfloat black[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+
+	assert(model);
+	assert(model->vertices);
+
+	/* do a bit of warning */
+	if (mode & GLM_FLAT && !model->facetnorms) {
+		printf("glmDraw() warning: flat render mode requested "
+			"with no facet normals defined.\n");
+		mode &= ~GLM_FLAT;
+	}
+	if (mode & GLM_SMOOTH && !model->normals) {
+		printf("glmDraw() warning: smooth render mode requested "
+			"with no normals defined.\n");
+		mode &= ~GLM_SMOOTH;
+	}
+	if (mode & GLM_TEXTURE && !model->texcoords) {
+		printf("glmDraw() warning: texture render mode requested "
+			"with no texture coordinates defined.\n");
+		mode &= ~GLM_TEXTURE;
+	}
+	if (mode & GLM_FLAT && mode & GLM_SMOOTH) {
+		printf("glmDraw() warning: flat render mode requested "
+			"and smooth render mode requested (using smooth).\n");
+		mode &= ~GLM_FLAT;
+	}
+	if (mode & GLM_COLOR && !model->materials) {
+		printf("glmDraw() warning: color render mode requested "
+			"with no materials defined.\n");
+		mode &= ~GLM_COLOR;
+	}
+	if (mode & GLM_MATERIAL && !model->materials) {
+		printf("glmDraw() warning: material render mode requested "
+			"with no materials defined.\n");
+		mode &= ~GLM_MATERIAL;
+	}
+	if (mode & GLM_COLOR && mode & GLM_MATERIAL) {
+		printf("glmDraw() warning: color and material render mode requested "
+			"using only material mode\n");
+		mode &= ~GLM_COLOR;
+	}
+	if (mode & GLM_COLOR)
+		glEnable(GL_COLOR_MATERIAL);
+	if (mode & GLM_MATERIAL)
+		glDisable(GL_COLOR_MATERIAL);
+
+	glPushMatrix();
+	//glEnable(GL_TEXTURE_2D);
+	//glBindTexture(GL_TEXTURE_2D, GLuint texture);
+	glTranslatef(model->position[0], model->position[1], model->position[2]);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  // 基于源象素alpha通道值的半透明混合函数
+	glEnable(GL_BLEND);  // 打开混合
+	//glDisable(GL_LIGHTING);
+
+	glBegin(GL_TRIANGLES);
+
+	group = model->groups;
+
+	ambient[0] = model->materials[group->material].diffuse[0] * 0.2;
+	ambient[1] = model->materials[group->material].diffuse[1] * 0.2;
+	ambient[2] = model->materials[group->material].diffuse[2] * 0.2;
+	ambient[3] = 1.0;
+	diffuse[0] = model->materials[group->material].diffuse[0];
+	diffuse[1] = model->materials[group->material].diffuse[1];
+	diffuse[2] = model->materials[group->material].diffuse[2];
+	diffuse[3] = transparancy;
+
+	while (group) {
+		if (mode & GLM_MATERIAL) {
+			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,
+				/*model->materials[group->material].ambient*/
+				/*model->materials[group->material].diffuse*/
+				ambient);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,
+				/*model->materials[group->material].diffuse*/diffuse);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,
+				white);
+			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS,
+				/*model->materials[group->material].shininess*/60);
+		}
+
+		if (mode & GLM_COLOR) {
+			//glColor3fv(model->materials[group->material].diffuse);
+			glColor4fv(diffuse);
+		}
+
+		for (i = 0; i < group->numtriangles; i++) {
+			if (mode & GLM_FLAT)
+				glNormal3fv(&model->facetnorms[3 * T(group->triangles[i]).findex]);
+
+			if (mode & GLM_SMOOTH)
+				glNormal3fv(&model->normals[3 * T(group->triangles[i]).nindices[0]]);
+			if (mode & GLM_TEXTURE)
+				glTexCoord2fv(&model->texcoords[2 * T(group->triangles[i]).tindices[0]]);
+			glVertex3fv(&model->vertices[3 * T(group->triangles[i]).vindices[0]]);
+#if 0
+			printf("%f %f %f\n",
+				model->vertices[3 * T(group->triangles[i]).vindices[0] + X],
+				model->vertices[3 * T(group->triangles[i]).vindices[0] + Y],
+				model->vertices[3 * T(group->triangles[i]).vindices[0] + Z]);
+#endif
+
+			if (mode & GLM_SMOOTH)
+				glNormal3fv(&model->normals[3 * T(group->triangles[i]).nindices[1]]);
+			if (mode & GLM_TEXTURE)
+				glTexCoord2fv(&model->texcoords[2 * T(group->triangles[i]).tindices[1]]);
+			glVertex3fv(&model->vertices[3 * T(group->triangles[i]).vindices[1]]);
+#if 0
+			printf("%f %f %f\n",
+				model->vertices[3 * T(group->triangles[i]).vindices[1] + X],
+				model->vertices[3 * T(group->triangles[i]).vindices[1] + Y],
+				model->vertices[3 * T(group->triangles[i]).vindices[1] + Z]);
+#endif
+
+			if (mode & GLM_SMOOTH)
+				glNormal3fv(&model->normals[3 * T(group->triangles[i]).nindices[2]]);
+			if (mode & GLM_TEXTURE)
+				glTexCoord2fv(&model->texcoords[2 * T(group->triangles[i]).tindices[2]]);
+			glVertex3fv(&model->vertices[3 * T(group->triangles[i]).vindices[2]]);
+#if 0
+			printf("%f %f %f\n",
+				model->vertices[3 * T(group->triangles[i]).vindices[2] + X],
+				model->vertices[3 * T(group->triangles[i]).vindices[2] + Y],
+				model->vertices[3 * T(group->triangles[i]).vindices[2] + Z]);
+#endif
+
+		}
+
+		group = group->next;
+	}
+	glEnd();
+
+	glDisable(GL_BLEND);  // 关闭混合
+	//glEnable(GL_LIGHTING);
+
+	glPopMatrix();
+}
 /* glmList: Generates and returns a display list for the model using
 * the mode specified.
 *

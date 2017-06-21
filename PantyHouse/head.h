@@ -1,5 +1,5 @@
 // head.h
-// Global variables, classes and other things are claimed here
+// Global variables and other things are claimed here
 
 // When naming, please use lowercase for all variables 
 // and set first letter to lowercase for functions.

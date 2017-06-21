@@ -196,6 +196,7 @@ void drawScene() {
 	drawModel(45, 258.599f, -233.104f, -73.041f, 33);
 	drawModel(46, 258.599f, -233.104f, -104.3568f, 34);
 	glPopName();
+	//drawTransparentObject();
 }
 
 void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, int texturenum, int mode, GLfloat rotate) {
@@ -269,7 +270,7 @@ void drawDoor() {
 
 void drawTransparantCube(GLfloat* location, GLfloat* size, GLfloat* color) {
 	glPushMatrix();
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);  // 基于源象素alpha通道值的半透明混合函数
+		glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);  // 基于源象素alpha通道值的半透明混合函数
 		glEnable(GL_BLEND);  // 打开混合
 		glDisable(GL_DEPTH_TEST); // 关闭深度测试
 		glDisable(GL_LIGHTING);
@@ -341,6 +342,7 @@ void drawCrosshair() {
 		glPushMatrix();							// 保存原矩阵
 			glLoadIdentity();						// 装入单位矩阵
 			glPushAttrib(GL_LIGHTING_BIT);
+			glColor3f(0.1f, 1.0f, 0.1f);
 				glLineWidth(3);
 				glBegin(GL_LINES);
 					glVertex2f(-11.0f, 0.0f);
@@ -413,5 +415,15 @@ void drawCube() {
 }
 
 void drawTransparentObject() {
-	drawTransparantCube(glass_location, glass_size, red_t);
+	//drawTransparantCube(glass_location, glass_size, red_t);
+	//drawModel(39, 115.682f, -97.318f, 20.485f);
+	glPushMatrix();
+	glTranslatef(glass_location[X], glass_location[Y], glass_location[Z]);
+	glScalef(5, 5, 5);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, textureObjects[29]);
+	glmDrawTransparency(model[38], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE, 0.8);
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
 }

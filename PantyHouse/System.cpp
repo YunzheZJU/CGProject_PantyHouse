@@ -84,10 +84,10 @@ void redraw() {
 	}
 
 	updateLight();						// 更新光源信息并启用
-	callList(listcode_scene);						// Draw Scene with display List
-	callList(listcode_door);						// Draw Scene with display List
-	drawVideo();
-	drawTransparentObject();
+	callList(listcode_scene);						// Draw scene with display List
+	callList(listcode_door);						// Draw door with display List
+	drawVideo();									// Draw video frames
+	drawTransparentObject();						// AT LAST Draw transparent glass
 	if (fpsmode == 1) {
 		drawCrosshair();
 		camera_locator[X] = camera[X];
