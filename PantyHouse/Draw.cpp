@@ -79,6 +79,8 @@ void initObj() {
 	model[57] = glmReadOBJ("models/floor2.obj");
 	model[58] = glmReadOBJ("models/sky.obj");
 	model[59] = glmReadOBJ("models/ground.obj");
+	model[60] = glmReadOBJ("models/sofa3.obj");
+	model[61] = glmReadOBJ("models/sofa.obj");
 }
 
 void init_nurbs_surface() {
@@ -100,7 +102,7 @@ void init_nurbs_surface() {
 
 void drawScene() {
 	glColor3f(1.0f, 1.0f, 1.0f);
-	glPushName(SOFA);
+	glPushName(SOFA1);
 	drawModel(0, 39.169f, -93.1f, 340.861f, 44);
 	drawModel(1, 39.169f, -43.131f, 340.861f, 5);
 	glPopName();
@@ -225,6 +227,12 @@ void drawScene() {
 	glPushName(GROUND);
 	drawModel(58, 0.0f, 0.0f, 0.0f, 42);
 	drawModel(59, 0.0f, 0.0f, 0.0f, 43);
+	glPopName();
+	glPushName(SOFA2);
+	drawModel(60, 245.074f, -49.73f, -318.288f, 45);
+	glPopName();
+	glPushName(SOFA3);
+	drawModel(61, -83.219f, -54.591f, -236.236f, 46);
 	glPopName();
 
 	drawGeometry();

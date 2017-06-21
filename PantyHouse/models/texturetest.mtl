@@ -453,3 +453,19 @@ Tf 1.00 1.00 1.00
 map_Kd textures/sofa.bmp
 Ni 1.00
 Ks 0.10 0.10 0.10
+newmtl _Cassette2:blinn13SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/sofa3.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl blinn19SG
+illum 4
+Kd 1.00 0.87 0.62
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/sofa2.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
