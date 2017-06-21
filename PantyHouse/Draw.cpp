@@ -66,6 +66,9 @@ void initObj() {
 	model[44] = glmReadOBJ("models/tex_jam3.obj");
 	model[45] = glmReadOBJ("models/tex_jam4.obj");
 	model[46] = glmReadOBJ("models/tex_jam5.obj");
+	model[47] = glmReadOBJ("models/cushion1.obj");
+	model[48] = glmReadOBJ("models/cushion2.obj");
+	model[49] = glmReadOBJ("models/cushion3.obj");
 }
 
 void init_nurbs_surface() {
@@ -196,7 +199,16 @@ void drawScene() {
 	drawModel(45, 258.599f, -233.104f, -73.041f, 33);
 	drawModel(46, 258.599f, -233.104f, -104.3568f, 34);
 	glPopName();
-	//drawTransparentObject();
+	glPushName(CUSHION1);
+	drawModel(47, -44.054f, -70.587f, -190.17f, 35);
+	//drawModel(47, 199.979f, 44.054f, 0, 35);
+	glPopName();
+	glPushName(CUSHION2);
+	drawModel(48, -143.802f, -83.721f, -196.468f, 36);
+	glPopName();
+	glPushName(CUSHION3);
+	drawModel(49, -153.524f, -57.519f, -249.374f, 37);
+	glPopName();
 }
 
 void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, int texturenum, int mode, GLfloat rotate) {

@@ -352,3 +352,24 @@ Tf 1.00 1.00 1.00
 map_Kd textures/tex_jam5.bmp
 Ni 1.00
 Ks 0.10 0.10 0.10
+newmtl _Cushion_Small_0002:blinn20SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/cushion1.bmp
+Ni 1.00Ks 0.10 0.10 0.10
+newmtl _Cushion_Large_0001:blinn22SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/cushion2.bmp
+Ni 1.00Ks 0.10 0.10 0.10
+newmtl blinn21SG2
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/cushion3.bmp
+Ni 1.00Ks 0.10 0.10 0.10
