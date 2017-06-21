@@ -76,6 +76,7 @@ extern GLboolean bcurtainopening;
 extern GLfloat doorangle;
 extern GLfloat curtainwidth;
 extern GLint listcode_door;
+extern char message[70];
 extern int focus;
 
 // TODO:Define enum for menu items
@@ -100,7 +101,7 @@ enum {
 	OPEN, DRAWING, CUPBOARD, CUP, CARPET, 
 	STREW, ROPE, LIGHT, UMBRELLA, TAILI, JAM, 
 	CUSHION1, CUSHION2, CUSHION3, DOORGLASS, 
-	CURTAIN, PANGCI
+	CURTAIN, PANGCI, GROUND
 };
 
 enum {

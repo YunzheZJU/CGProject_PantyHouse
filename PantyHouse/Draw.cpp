@@ -20,7 +20,7 @@ GLfloat curtainwidth = 1.0f;
 
 // Set model objects
 void initObj() {
-	model[0] = glmReadOBJ("models/sofa.obj");
+	model[0] = glmReadOBJ("models/sofa2.obj");
 	model[1] = glmReadOBJ("models/sofaleg.obj");
 	model[2] = glmReadOBJ("models/plantleaf.obj");
 	model[11] = glmReadOBJ("models/plantmain.obj");
@@ -76,6 +76,9 @@ void initObj() {
 	model[54] = glmReadOBJ("models/curtain1.obj");
 	model[55] = glmReadOBJ("models/curtain2.obj");
 	model[56] = glmReadOBJ("models/pangci.obj");
+	model[57] = glmReadOBJ("models/floor2.obj");
+	model[58] = glmReadOBJ("models/sky.obj");
+	model[59] = glmReadOBJ("models/ground.obj");
 }
 
 void init_nurbs_surface() {
@@ -98,7 +101,7 @@ void init_nurbs_surface() {
 void drawScene() {
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glPushName(SOFA);
-	drawModel(0, 39.169f, -93.1f, 340.861f);
+	drawModel(0, 39.169f, -93.1f, 340.861f, 44);
 	drawModel(1, 39.169f, -43.131f, 340.861f, 5);
 	glPopName();
 	glPushName(PLANT);
@@ -192,6 +195,7 @@ void drawScene() {
 	glPopName();
 	glPushName(FLOOR);
 	drawModel(36, 0.0f, 0.0f, 0.0f, 25);
+	drawModel(57, 0.0f, -15.0f, 280.914f, 41);
 	glPopName();
 	glPushName(TAILI);
 	drawModel(38, 115.024f, -96.154f, 20.485f, 29);
@@ -217,6 +221,10 @@ void drawScene() {
 	glPopName();
 	glPushName(PANGCI);
 	drawModel(56, -117.39f, -1.402f, -342.882f, 40);
+	glPopName();
+	glPushName(GROUND);
+	drawModel(58, 0.0f, 0.0f, 0.0f, 42);
+	drawModel(59, 0.0f, 0.0f, 0.0f, 43);
 	glPopName();
 
 	drawGeometry();
@@ -294,7 +302,7 @@ void drawDoor() {
 	glmDrawTransparency(model[52], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.4);
 	glPopMatrix();
 	glPushMatrix();
-	glTranslatef(337.0f, 153.75f, -59.597f);
+	glTranslatef(337.0f, 153.75f, -60.597f);
 	glRotatef(doorangle, 0, 1, 0);
 	glmDrawTransparency(model[53], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.4);
 	glPopMatrix();

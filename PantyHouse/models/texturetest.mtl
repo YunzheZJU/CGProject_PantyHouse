@@ -421,3 +421,35 @@ Tf 1.00 1.00 1.00
 map_Kd textures/pangci.bmp
 Ni 1.00
 Ks 0.10 0.10 0.10
+newmtl blinn1SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/wall1.bmp
+Ni 1.00
+Ks 0.50 0.50 0.50
+newmtl blinn58SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/snowHDRI.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl blinn23SG1
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/file1-pPlane4.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10
+newmtl _Sofa3:blinn2SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/sofa.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10

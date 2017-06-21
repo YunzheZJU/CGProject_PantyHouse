@@ -8,10 +8,10 @@
 GLint listcode_scene = 0;							// Listcode of scene for display list
 GLint listcode_nurbs = 0;							// Listcode of nurbs for display list
 GLint listcode_door = 0;							// Listcode of door for display list
-GLfloat camera[3] = { 0, 150, 400 };			// Position of camera
-GLfloat target[3] = { 0, 150, 0 };		// Position of target of camera
-GLfloat camera_polar[3] = { 400, 0, 0 };			// Polar coordinates of camera
-GLfloat camera_locator[3] = { 0, 0, 400 };
+GLfloat camera[3] = { 320, 150, 0 };				// Position of camera
+GLfloat target[3] = { 0, 150, 0 };					// Position of target of camera
+GLfloat camera_polar[3] = { 320, 1.57, 0 };			// Polar coordinates of camera
+GLfloat camera_locator[3] = { 320, 0, 0 };
 GLboolean bcamera = GL_TRUE;
 GLboolean bfocus = GL_TRUE;
 GLboolean bmouse = GL_FALSE;
@@ -126,7 +126,7 @@ void updateView() {
 	glMatrixMode(GL_PROJECTION);			// Select The Projection Matrix
 	glLoadIdentity();						// Reset The Projection Matrix
 
-	gluPerspective(45.0f, 1.7778f, 0.1f, 3000.0f);	// 1.7778 = 1280 / 720
+	gluPerspective(45.0f, 1.7778f, 0.1f, 30000.0f);	// 1.7778 = 1280 / 720
 
 	glMatrixMode(GL_MODELVIEW);				// Select The Modelview Matrix
 }
@@ -238,7 +238,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 				}
 				//  Û±ÍŒª÷√æ”÷–
 				updateWindowcenter(window, windowcenter);
-				SetCursorPos(windowcenter[X], windowcenter[Y]);
+				SetCursorPos(windowcenter[X] - window[W] * 0.125, windowcenter[Y]);
 				glutSetCursor(GLUT_CURSOR_NONE);
 				fpsmode = 1;
 			}

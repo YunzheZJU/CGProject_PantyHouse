@@ -54,9 +54,10 @@ void initMap() {
 }
 
 void cameraMakeZero(GLfloat* camera, GLfloat* target, GLfloat* polar) {
-	camera[X] = camera[Z] = target[X] = target[Z] = polar[A] = 0;
+	camera[Z] = target[X] = target[Z] = polar[T] = 0;
 	camera[Y] = target[Y] = 150;
-	camera[Z] = polar[R] = 400;
+	camera[X] = polar[R] = 320;
+	polar[A] = 1.57;
 }
 
 void updateCamera(GLfloat* camera, GLfloat* target, GLfloat* polar) {
@@ -329,6 +330,13 @@ void processHits(GLint hits, GLuint buffer[]) {
 		}
 		case PANGCI: {
 			cout << "Pangci is chosen." << endl;
+			if (!(bdooropening && bcurtainopening)) {
+				bdooropening = GL_TRUE;
+				bcurtainopening = GL_TRUE;
+				glutTimerFunc(2333, timer, DOOROPENING);
+				glutTimerFunc(2333, timer, CURTAINOPENING);
+				strcpy(message, "You Find the PANGCI! The door is opening!");
+			}
 			break;
 		}
 	}
