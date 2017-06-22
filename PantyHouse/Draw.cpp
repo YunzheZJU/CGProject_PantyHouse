@@ -89,6 +89,13 @@ void initObj() {
 	model[67] = glmReadOBJ("models/liushengji.obj");
 	model[68] = glmReadOBJ("models/lamb.obj");
 	model[69] = glmReadOBJ("models/lambglass.obj");
+	model[70] = glmReadOBJ("models/piano1.obj");
+	model[71] = glmReadOBJ("models/piano2.obj");
+	model[72] = glmReadOBJ("models/piano3.obj");
+	model[73] = glmReadOBJ("models/piano4.obj");
+	model[74] = glmReadOBJ("models/piano5.obj");
+	model[75] = glmReadOBJ("models/piano6.obj");
+	model[76] = glmReadOBJ("models/piano7.obj");
 }
 
 void init_nurbs_surface() {
@@ -252,6 +259,15 @@ void drawScene() {
 	glPopName();
 	glPushName(LAMB);
 	drawModel(68, -317.957f, -126.251f, 276.303f);
+	glPopName();
+	glPushName(PIANO);
+	drawModel(70, -310.477f, -100.906f, 352.293f);
+	drawModel(71, -310.47f, -100.159f, 354.563f);
+	drawModel(72, -310.5f, -99.731f, 362.701f);
+	drawModel(73, -310.499f, -99.872f, 362.402f);
+	drawModel(74, -311.126f, -94.275f, 369.266f);
+	drawModel(75, -311.152f, -96.838f, 369.278f);
+	drawModel(76, -311.128f, -96.518f, 369.292f);
 	glPopName();
 	glPushName(TEAPOT);
 	glPushMatrix();
