@@ -278,16 +278,16 @@ void drawScene() {
 	glPopMatrix();
 	glPopName();
 	glPushName(PLATE);
-	drawModel(77, 128.456f, -73.605f, -53.762f);
+	drawModel(77, 128.456f, -73.397f, -53.762f);
 	glPopName();
 	glPushName(CAKE);
-	drawModel(78, 128.456f, -108.008f, -16.617f, 48);
-	drawModel(78, 128.366f, -108.036f, -54.738f, 49);
-	drawModel(78, 128.366f, -108.036f, -90.948f, 50);
+	drawModel(78, 128.456f, -51.77f, -16.617f, 48);
+	drawModel(78, 128.366f, -51.77f, -54.738f, 49);
+	drawModel(78, 128.366f, -51.77f, -90.948f, 50);
 	drawModel(78, 128.366f, -83.036f, -90.948f, 51);
 	drawModel(79, 125.341f, -81.865f, -53.673f, 52);
 	drawModel(79, 125.341f, -81.865f, -16.229f, 53);
-	drawModel(79, 125.341f, -50.537f, -16.229f, 54);
+	drawModel(79, 125.341f, -106.026f, -16.229f, 54);
 	glPopName();
 
 	drawGeometry();
