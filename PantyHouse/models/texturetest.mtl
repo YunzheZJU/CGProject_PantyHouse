@@ -477,3 +477,31 @@ Tf 1.00 1.00 1.00
 map_Kd textures/door2.bmp
 Ni 1.00
 Ks 0.10 0.10 0.10
+newmtl blinn16SG
+illum 4
+Kd 0.94 0.94 0.94
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+newmtl blinn40SG
+illum 4
+Kd 0.94 0.94 0.94
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+newmtl blinn40SG
+illum 4
+Kd 0.94 0.94 0.94
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+newmtl blinn35SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50

@@ -82,6 +82,10 @@ void initObj() {
 	model[60] = glmReadOBJ("models/sofa3.obj");
 	model[61] = glmReadOBJ("models/sofa.obj");
 	model[62] = glmReadOBJ("models/door2.obj");
+	model[63] = glmReadOBJ("models/metal1.obj");
+	model[64] = glmReadOBJ("models/handleright.obj");
+	model[65] = glmReadOBJ("models/handleleft.obj");
+	model[66] = glmReadOBJ("models/jarmetal.obj");
 }
 
 void init_nurbs_surface() {
@@ -172,7 +176,7 @@ void drawScene() {
 	drawModel(23, -360.581f, -180.24f, -343.365f);
 	glPopName();
 	glPushName(CHECK);
-	drawModel(24, 122.562f, -101.406f, 50.416f, 18);
+	drawModel(24, 122.562f, -101.406f, 48.416f, 18);
 	glPopName();
 	glPushName(DRAWING);
 	drawModel(26, 321.348f, -193.038f, 337.094f, 20);
@@ -201,10 +205,10 @@ void drawScene() {
 	drawModel(57, 0.0f, -15.0f, 280.914f, 41);
 	glPopName();
 	glPushName(TAILI);
-	drawModel(38, 115.024f, -96.154f, 20.485f, 29);
-	drawModel(39, 115.682f, -97.318f, 20.485f);
-	drawModel(40, 117.68f, -96.094f, 20.467f);
-	drawModel(41, 117.668f, -94.599f, 20.488f);
+	drawModel(41, 127.668f, -135.599f, -36.488f);
+	drawModel(40, 127.68f, -127.094f, -36.467f);
+	drawModel(39, 125.682f, -128.318f, -36.485f);
+	drawModel(38, 125.024f, -127.154f, -36.485f, 29);
 	glPopName();
 	glPushName(JAM);
 	drawModel(42, 258.599f, -229.854f, 19.408f, 30);
@@ -212,6 +216,7 @@ void drawScene() {
 	drawModel(44, 258.599f, -229.854f, -24.875f, 32);
 	drawModel(45, 258.599f, -233.104f, -73.041f, 33);
 	drawModel(46, 258.599f, -233.104f, -104.3568f, 34);
+	drawModel(66, 258.599f, -241.173f, -43.724f);
 	glPopName();
 	glPushName(CUSHION1);
 	drawModel(47, -44.054f, -70.587f, -190.17f, 35);
@@ -225,10 +230,10 @@ void drawScene() {
 	glPushName(PANGCI);
 	drawModel(56, -117.39f, -1.402f, -342.882f, 40);
 	glPopName();
-	glPushName(GROUND);
-	drawModel(58, 0.0f, 0.0f, 0.0f, 42);
-	drawModel(59, 0.0f, 0.0f, 0.0f, 43);
-	glPopName();
+	//glPushName(GROUND);
+	//drawModel(58, 0.0f, 0.0f, 0.0f, 42);
+	//drawModel(59, 0.0f, 0.0f, 0.0f, 43);
+	//glPopName();
 	glPushName(SOFA2);
 	drawModel(60, 245.074f, -49.73f, -318.288f, 45);
 	glPopName();
@@ -237,6 +242,7 @@ void drawScene() {
 	glPopName();
 	glPushName(DOORSINGLE);
 	drawModel(62, 266.0f, -141.5f, 147.009f, 47);
+	drawModel(63, 268.5f, -140.0f, 181.311f);
 	glPopName();
 	glPushName(TEAPOT);
 	glPushMatrix();
@@ -309,6 +315,8 @@ void drawDoor() {
 	drawModel(7, -337.0f, 0.0f, -20.403f, 1);
 	drawModel(4, -337.0f, 0.0f, 60.403f, 1, GL_MODULATE, doorangle);
 	drawModel(3, -337.0f, 0.0f, -100.403f, 1, GL_MODULATE, -doorangle);
+	drawModel(64, -337.0f, -93.89f, -100.403f, -1, GL_MODULATE, -doorangle);
+	drawModel(65, -337.0f, -88.304f, 59.597f, -1, GL_MODULATE, doorangle);
 	glPopName();
 	glPushName(OPEN);
 	drawModel(25, -337.0f, -146.535f, -100.403f, 19, GL_MODULATE, -doorangle);
