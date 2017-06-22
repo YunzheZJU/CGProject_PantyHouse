@@ -9,6 +9,8 @@ GLuint selectBuf[BUFSIZE];
 
 GLfloat cameramatrix[3][3];
 boolean collisionflag[134][200];
+boolean collisionflagout[134][200];
+GLboolean bout = GL_FALSE;
 
 void callList(GLint listcode) {
 	glCallList(listcode);
@@ -16,7 +18,6 @@ void callList(GLint listcode) {
 
 void updateList(GLint* listcode, int type) {
 	*listcode = genDisplayList(type);
-
 }
 
 void initMap() {
@@ -37,6 +38,35 @@ void initMap() {
 			}
 			case '1': {
 				collisionflag[i][j] = 1;
+				break;
+			}
+			case '\t': {
+				j++;
+				break;
+			}
+			case '\n': {
+				i++;
+				j = 0;
+				break;
+			}
+		}
+	}
+	fclose(fp);
+	i = 0;
+	j = 0;
+	fp = fopen("map/collapsing table out.txt", "r");
+	if (!fp) {
+		cout << "Fail to open collapsing map!";
+		exit(1);
+	}
+	while ((c = fgetc(fp)) != EOF) {
+		switch (c) {
+			case '0': {
+				collisionflagout[i][j] = 0;
+				break;
+			}
+			case '1': {
+				collisionflagout[i][j] = 1;
 				break;
 			}
 			case '\t': {
@@ -144,12 +174,26 @@ void updateLight() {
 bool detectCollision(GLfloat* camera) {
 	int i = (camera[X] + 335) / 5;
 	int j = (501 - camera[Z]) / 5;
-	if (collisionflag[i][j]) {
-		return false;
+	if (!bout) {
+		if (collisionflag[i][j]) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 	else {
-		return true;
+		if (i < 0 || i > 133 || j < 0 || j > 200) {
+			return false;
+		}
+		if (collisionflagout[i][j]) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
+
 }
 
 void updateWindowcenter(int* window, int* windowcenter) {
@@ -336,6 +380,7 @@ void processHits(GLint hits, GLuint buffer[]) {
 				glutTimerFunc(2333, timer, DOOROPENING);
 				glutTimerFunc(2333, timer, CURTAINOPENING);
 				strcpy(message, "You Find the PANGCI! The door is opening!");
+				bout = GL_TRUE;
 			}
 			break;
 		}

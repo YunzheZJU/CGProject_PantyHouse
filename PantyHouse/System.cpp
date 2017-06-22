@@ -10,7 +10,7 @@ GLint listcode_nurbs = 0;							// Listcode of nurbs for display list
 GLint listcode_door = 0;							// Listcode of door for display list
 GLfloat camera[3] = { 320, 150, 0 };				// Position of camera
 GLfloat target[3] = { 0, 150, 0 };					// Position of target of camera
-GLfloat camera_polar[3] = { 320, 1.57f, 0 };			// Polar coordinates of camera
+GLfloat camera_polar[3] = { 320, 1.57f, 0 };		// Polar coordinates of camera
 GLfloat camera_locator[3] = { 320, 0, 0 };
 GLboolean bcamera = GL_TRUE;
 GLboolean bfocus = GL_TRUE;
@@ -20,15 +20,15 @@ GLboolean bmsaa = GL_FALSE;
 GLboolean bmusic = GL_TRUE;
 GLboolean bdooropening = GL_FALSE;
 GLboolean bcurtainopening = GL_FALSE;
-int fpsmode = 0;							// 0:off, 1:on, 2:waiting
+int fpsmode = 0;									// 0:off, 1:on, 2:waiting
 int window[2] = { 1280, 720 };
 int windowcenter[2];
-char message[70] = "Welcome!";				// Message string to be shown
+char message[70] = "Welcome!";						// Message string to be shown
 int focus = NONE;
 
 void init() {
 	// Initiate color
-	glColor3f(1.0f, 1.0f, 1.0f);	// Maybe this is not important
+	glColor3f(1.0f, 1.0f, 1.0f);
 	// Initiate collision map
 	initMap();
 	// Initiate texture
@@ -74,7 +74,7 @@ void redraw() {
 		glDisable(GL_MULTISAMPLE_ARB);
 	}
 
-	updateLight();						// 更新光源信息并启用
+	updateLight();									// 更新光源信息并启用
 	callList(listcode_scene);						// Draw scene with display List
 	callList(listcode_door);						// Draw door with display List
 	drawVideo();									// Draw video frames
