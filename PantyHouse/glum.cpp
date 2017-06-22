@@ -653,7 +653,7 @@ glmReadOBJ(char* filename)
 {
 	GLMmodel* model;
 	FILE*     file;
-
+	printf("%s\n", filename);
 	/* open the file */
 	file = fopen(filename, "r");
 	if (!file) {

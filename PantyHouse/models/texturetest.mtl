@@ -571,3 +571,24 @@ Kd 0.54 0.54 0.54
 Ka 0.00 0.00 0.00
 Tf 1.00 1.00 1.00
 Ni 1.00
+newmtl cake1_0001:blinn2SG
+illum 4
+Kd 0.92 0.92 0.92
+Ka 0.23 0.23 0.23
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.50 0.50 0.50
+newmtl cake3:blinn1SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd textures/cake1.bmp
+map_Kd textures/cake2.bmp
+map_Kd textures/cake3.bmp
+map_Kd textures/cake4.bmp
+map_Kd textures/cake5.bmp
+map_Kd textures/cake6.bmp
+map_Kd textures/cake7.bmp
+Ni 1.00
+Ks 0.10 0.10 0.10

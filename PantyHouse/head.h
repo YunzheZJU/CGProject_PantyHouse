@@ -64,7 +64,7 @@ extern GLfloat light_pos0[4];
 extern GLfloat light_pos1[4];
 extern GLfloat light_pos2[4];
 extern GLfloat spot[4];
-extern GLMmodel* model[80];
+extern GLMmodel* model[90];
 extern GLfloat black[4];
 extern GLfloat white[4];
 extern GLfloat golden[4];
@@ -73,6 +73,7 @@ extern GLfloat currentcolor[4];
 extern GLfloat constantattenuation;
 extern GLboolean bdooropening;
 extern GLboolean bcurtainopening;
+extern GLboolean bout;
 extern GLfloat doorangle;
 extern GLfloat curtainwidth;
 extern GLint listcode_door;
@@ -97,7 +98,8 @@ enum {
 	STREW, ROPE, LIGHT, UMBRELLA, TAILI, JAM, 
 	CUSHION1, CUSHION2, CUSHION3, DOORGLASS, 
 	CURTAIN, PANGCI, GROUND, SOFA2, SOFA3, 
-	DOORSINGLE, TEAPOT, LIUSHENGJI, LAMB, PIANO
+	DOORSINGLE, TEAPOT, LIUSHENGJI, LAMB, PIANO, 
+	PLATE, CAKE
 };
 
 enum {

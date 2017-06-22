@@ -4,7 +4,7 @@
 #include "head.h"
 
 // Declare model objects
-GLMmodel* model[80];
+GLMmodel* model[90];
 
 GLUnurbsObj *nurbsobject;
 
@@ -96,6 +96,9 @@ void initObj() {
 	model[74] = glmReadOBJ("models/piano5.obj");
 	model[75] = glmReadOBJ("models/piano6.obj");
 	model[76] = glmReadOBJ("models/piano7.obj");
+	model[77] = glmReadOBJ("models/plate.obj");
+	model[78] = glmReadOBJ("models/cake1.obj");
+	model[79] = glmReadOBJ("models/cake5.obj");
 }
 
 void init_nurbs_surface() {
@@ -237,13 +240,6 @@ void drawScene() {
 	glPushName(CUSHION3);
 	drawModel(49, -143.524f, -57.519f, -249.374f, 37);
 	glPopName();
-	glPushName(PANGCI);
-	drawModel(56, -117.39f, -1.402f, -342.882f, 40);
-	glPopName();
-	//glPushName(GROUND);
-	//drawModel(58, 0.0f, 0.0f, 0.0f, 42);
-	//drawModel(59, 0.0f, 0.0f, 0.0f, 43);
-	//glPopName();
 	glPushName(SOFA2);
 	drawModel(60, 245.074f, -49.73f, -318.288f, 45);
 	glPopName();
@@ -280,6 +276,18 @@ void drawScene() {
 	glRotatef(-90.0f, 0, 1, 0);
 	glutSolidTeapot(10.0);
 	glPopMatrix();
+	glPopName();
+	glPushName(PLATE);
+	drawModel(77, 128.456f, -73.605f, -53.762f);
+	glPopName();
+	glPushName(CAKE);
+	drawModel(78, 128.456f, -108.008f, -16.617f, 48);
+	drawModel(78, 128.366f, -108.036f, -54.738f, 49);
+	drawModel(78, 128.366f, -108.036f, -90.948f, 50);
+	drawModel(78, 128.366f, -83.036f, -90.948f, 51);
+	drawModel(79, 125.341f, -81.865f, -53.673f, 52);
+	drawModel(79, 125.341f, -81.865f, -16.229f, 53);
+	drawModel(79, 125.341f, -50.537f, -16.229f, 54);
 	glPopName();
 
 	drawGeometry();
@@ -351,6 +359,14 @@ void drawDoor() {
 	glPopName();
 	glPushName(STREW);
 	drawModel(30, -337.0f, -165.745f, -100.403f, -1, GL_MODULATE, -doorangle);
+	glPopName();
+	glPushName(PANGCI);
+	if (bout) {
+		drawModel(56, -117.39f, -100.402f, -342.882f, 40);
+	}
+	else {
+		drawModel(56, -117.39f, -1.402f, -342.882f, 40);
+	}
 	glPopName();
 	glPushName(DOORGLASS);
 	glPushMatrix();

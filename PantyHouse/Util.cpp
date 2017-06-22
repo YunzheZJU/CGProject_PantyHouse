@@ -377,10 +377,11 @@ void processHits(GLint hits, GLuint buffer[]) {
 			if (!(bdooropening && bcurtainopening)) {
 				bdooropening = GL_TRUE;
 				bcurtainopening = GL_TRUE;
+				bout = GL_TRUE;
+				updateList(&listcode_door, DOOR);
 				glutTimerFunc(2333, timer, DOOROPENING);
 				glutTimerFunc(2333, timer, CURTAINOPENING);
 				strcpy(message, "You Find the PANGCI! The door is opening!");
-				bout = GL_TRUE;
 			}
 			break;
 		}
