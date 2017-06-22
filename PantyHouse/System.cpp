@@ -37,8 +37,6 @@ void init() {
 	// Initiate video
 	initVideo();
 	cout << "initVideo OK" << endl;
-	// Initiate menu
-	initMenu();
 	// Initiate objects
 	initObj();
 	cout << "initObj OK." << endl;
@@ -57,14 +55,6 @@ void init() {
 
 void idle() {
 	glutPostRedisplay();
-}
-
-void initMenu() {
-	// TODO:initMenu()
-}
-
-void processMenu(int value) {
-	// TODO:processMenu()
 }
 
 void redraw() {

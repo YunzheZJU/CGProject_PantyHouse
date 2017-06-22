@@ -8,7 +8,7 @@
 
 #pragma once
 
-// TODO:Include related head files and IO classes
+// Include related head files and IO classes
 #include <Windows.h>
 #include <iostream>
 #include <fstream>
@@ -78,11 +78,6 @@ extern GLfloat curtainwidth;
 extern GLint listcode_door;
 extern char message[70];
 extern int focus;
-
-// TODO:Define enum for menu items
-enum {
-	EXIT
-};
 
 // Define enum for display list
 enum {
@@ -170,8 +165,6 @@ void exportObj();
 // These functions are defined in System.cpp
 void init();
 void idle();
-void initMenu(void);
-void processMenu(int value);
 void redraw();
 void reshape(int width, int height);
 void updateView();
