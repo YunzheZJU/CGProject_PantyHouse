@@ -92,99 +92,6 @@ typedef struct {
 
 /* public functions */
 
-/* glmUnitize: "unitize" a model by translating it to the origin and
-* scaling it to fit in a unit cube around the origin.  Returns the
-* scalefactor used.
-*
-* model - properly initialized GLMmodel structure
-*/
-GLfloat
-glmUnitize(GLMmodel* model);
-
-/* glmDimensions: Calculates the dimensions (width, height, depth) of
-* a model.
-*
-* model      - initialized GLMmodel structure
-* dimensions - array of 3 GLfloats (GLfloat dimensions[3])
-*/
-GLvoid
-glmDimensions(GLMmodel* model, GLfloat* dimensions);
-
-/* glmScale: Scales a model by a given amount.
-*
-* model - properly initialized GLMmodel structure
-* scale - scalefactor (0.5 = half as large, 2.0 = twice as large)
-*/
-GLvoid
-glmScale(GLMmodel* model, GLfloat scale);
-
-/* glmReverseWinding: Reverse the polygon winding for all polygons in
-* this model.  Default winding is counter-clockwise.  Also changes
-* the direction of the normals.
-*
-* model - properly initialized GLMmodel structure
-*/
-GLvoid
-glmReverseWinding(GLMmodel* model);
-
-/* glmFacetNormals: Generates facet normals for a model (by taking the
-* cross product of the two vectors derived from the sides of each
-* triangle).  Assumes a counter-clockwise winding.
-*
-* model - initialized GLMmodel structure
-*/
-GLvoid
-glmFacetNormals(GLMmodel* model);
-
-/* glmVertexNormals: Generates smooth vertex normals for a model.
-* First builds a list of all the triangles each vertex is in.  Then
-* loops through each vertex in the the list averaging all the facet
-* normals of the triangles each vertex is in.  Finally, sets the
-* normal index in the triangle for the vertex to the generated smooth
-* normal.  If the dot product of a facet normal and the facet normal
-* associated with the first triangle in the list of triangles the
-* current vertex is in is greater than the cosine of the angle
-* parameter to the function, that facet normal is not added into the
-* average normal calculation and the corresponding vertex is given
-* the facet normal.  This tends to preserve hard edges.  The angle to
-* use depends on the model, but 90 degrees is usually a good start.
-*
-* model - initialized GLMmodel structure
-* angle - maximum angle (in degrees) to smooth across
-*/
-GLvoid
-glmVertexNormals(GLMmodel* model, GLfloat angle);
-
-/* glmLinearTexture: Generates texture coordinates according to a
-* linear projection of the texture map.  It generates these by
-* linearly mapping the vertices onto a square.
-*
-* model - pointer to initialized GLMmodel structure
-*/
-GLvoid
-glmLinearTexture(GLMmodel* model);
-
-/* glmSpheremapTexture: Generates texture coordinates according to a
-* spherical projection of the texture map.  Sometimes referred to as
-* spheremap, or reflection map texture coordinates.  It generates
-* these by using the normal to calculate where that vertex would map
-* onto a sphere.  Since it is impossible to map something flat
-* perfectly onto something spherical, there is distortion at the
-* poles.  This particular implementation causes the poles along the X
-* axis to be distorted.
-*
-* model - pointer to initialized GLMmodel structure
-*/
-GLvoid
-glmSpheremapTexture(GLMmodel* model);
-
-/* glmDelete: Deletes a GLMmodel structure.
-*
-* model - initialized GLMmodel structure
-*/
-GLvoid
-glmDelete(GLMmodel* model);
-
 /* glmReadOBJ: Reads a model description from a Wavefront .OBJ file.
 * Returns a pointer to the created object which should be free'd with
 * glmDelete().
@@ -222,34 +129,10 @@ glmWriteOBJ(GLMmodel* model, char* filename, GLuint mode);
 */
 GLvoid
 glmDraw(GLMmodel* model, GLuint mode);
-GLvoid
-glmDrawGroup(GLMmodel*model, int g, GLuint mode);
+
 GLvoid
 glmDrawTransparency(GLMmodel* model, GLuint mode, GLfloat transparancy);
-/* glmList: Generates and returns a display list for the model using
-* the mode specified.
-*
-* model    - initialized GLMmodel structure
-* mode     - a bitwise OR of values describing what is to be rendered.
-*            GLM_NONE    -  render with only vertices
-*            GLM_FLAT    -  render with facet normals
-*            GLM_SMOOTH  -  render with vertex normals
-*            GLM_TEXTURE -  render with texture coords
-*            GLM_FLAT and GLM_SMOOTH should not both be specified.
-*/
-GLuint
-glmList(GLMmodel* model, GLuint mode);
 
-/* glmWeld: eliminate (weld) vectors that are within an epsilon of
-* each other.
-*
-* model      - initialized GLMmodel structure
-* epsilon    - maximum difference between vertices
-*              ( 0.00001 is a good start for a unitized model)
-*
-*/
-GLvoid
-glmWeld(GLMmodel* model, GLfloat epsilon);
 
 
 
