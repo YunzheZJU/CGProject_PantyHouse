@@ -64,7 +64,7 @@ extern GLfloat light_pos0[4];
 extern GLfloat light_pos1[4];
 extern GLfloat light_pos2[4];
 extern GLfloat spot[4];
-extern GLMmodel* model[70];
+extern GLMmodel* model[80];
 extern GLfloat black[4];
 extern GLfloat white[4];
 extern GLfloat golden[4];
@@ -102,7 +102,7 @@ enum {
 	STREW, ROPE, LIGHT, UMBRELLA, TAILI, JAM, 
 	CUSHION1, CUSHION2, CUSHION3, DOORGLASS, 
 	CURTAIN, PANGCI, GROUND, SOFA2, SOFA3, 
-	DOORSINGLE, TEAPOT
+	DOORSINGLE, TEAPOT, LIUSHENGJI, LAMB
 };
 
 enum {

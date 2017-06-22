@@ -4,7 +4,7 @@
 #include "head.h"
 
 // Declare model objects
-GLMmodel* model[70];
+GLMmodel* model[80];
 
 GLUnurbsObj *nurbsobject;
 
@@ -86,6 +86,9 @@ void initObj() {
 	model[64] = glmReadOBJ("models/handleright.obj");
 	model[65] = glmReadOBJ("models/handleleft.obj");
 	model[66] = glmReadOBJ("models/jarmetal.obj");
+	model[67] = glmReadOBJ("models/liushengji.obj");
+	model[68] = glmReadOBJ("models/lamb.obj");
+	model[69] = glmReadOBJ("models/lambglass.obj");
 }
 
 void init_nurbs_surface() {
@@ -243,6 +246,12 @@ void drawScene() {
 	glPushName(DOORSINGLE);
 	drawModel(62, 266.0f, -141.5f, 147.009f, 47);
 	drawModel(63, 268.5f, -140.0f, 181.311f);
+	glPopName();
+	glPushName(LIUSHENGJI);
+	drawModel(67, -309.781f, -100.691f, 161.598f);
+	glPopName();
+	glPushName(LAMB);
+	drawModel(68, -317.957f, -126.251f, 276.303f);
 	glPopName();
 	glPushName(TEAPOT);
 	glPushMatrix();
@@ -489,15 +498,15 @@ void drawCube() {
 
 void drawTransparentObject() {
 	glPushName(WINDOW);
-	//drawTransparantCube(glass_location, glass_size, red_t);
-	//drawModel(39, 115.682f, -97.318f, 20.485f);
 	glPushMatrix();
 	glTranslatef(4.483f, 170.0f, -79.011f);
-	//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	//glEnable(GL_TEXTURE_2D);
-	//glBindTexture(GL_TEXTURE_2D, textureObjects[29]);
 	glmDrawTransparency(model[50], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE, 0.5);
-	//glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+	glPopName();
+	glPushName(LAMB);
+	glPushMatrix();
+	glTranslatef(317.957f, 127.396f, -276.303f);
+	glmDrawTransparency(model[69], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE, 0.3);
 	glPopMatrix();
 	glPopName();
 	glPushName(GLASSBOARD);
