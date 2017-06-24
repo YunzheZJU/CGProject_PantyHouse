@@ -3,22 +3,25 @@
 
 #include "head.h"
 
-// Declare model objects
-GLMmodel* model[90];
+// Model objects
+GLMmodel* model[80];
 
+// NURBS object
 GLUnurbsObj *nurbsobject;
-
 static GLfloat ctlpoints[4][4][3];
 static GLfloat tcoords[2][2][2] = { 0, 0, 0, 1, 1, 0, 1, 1 };
-GLfloat coffee[4] = { 0.756f, 0.557f, 0.404f, 1.0f };
-GLfloat darkcoffee[4] = { 0.376f, 0.306f, 0.310f, 1.0f };
 
+// Color to be used in drawGeometry()
+const GLfloat coffee[4] = { 0.756f, 0.557f, 0.404f, 1.0f };
+
+// Video frame counter
 int videoframe = 0;
 
+// Controlling parameter to be used in animation of door and curtain
 GLfloat doorangle = 0;
-GLfloat curtainwidth = 1.0f;
+GLfloat curtainratio = 1.0f;
 
-// Set model objects
+// Initiate model objects
 void initObj() {
 	model[0] = glmReadOBJ("models/sofa2.obj");
 	model[1] = glmReadOBJ("models/sofaleg.obj");
@@ -44,12 +47,12 @@ void initObj() {
 	model[22] = glmReadOBJ("models/standingplate.obj");
 	model[23] = glmReadOBJ("models/metal_swing.obj");
 	model[24] = glmReadOBJ("models/check.obj");
-	model[25] = glmReadOBJ("models/open2.obj");
+	model[25] = glmReadOBJ("models/open.obj");
 	model[26] = glmReadOBJ("models/drawing.obj");
 	model[27] = glmReadOBJ("models/carpet.obj");
-	model[28] = glmReadOBJ("models/rope2.obj");
+	model[28] = glmReadOBJ("models/rope.obj");
 	model[29] = glmReadOBJ("models/cup.obj");
-	model[30] = glmReadOBJ("models/strew2.obj");
+	model[30] = glmReadOBJ("models/strew.obj");
 	model[31] = glmReadOBJ("models/tv.obj");
 	model[32] = glmReadOBJ("models/cupboard.obj");
 	model[33] = glmReadOBJ("models/light.obj");
@@ -61,11 +64,11 @@ void initObj() {
 	model[39] = glmReadOBJ("models/paper_taili3.obj");
 	model[40] = glmReadOBJ("models/paper_taili1.obj");
 	model[41] = glmReadOBJ("models/metal_taili.obj");
-	model[42] = glmReadOBJ("models/tex_jam1.obj");
-	model[43] = glmReadOBJ("models/tex_jam2.obj");
-	model[44] = glmReadOBJ("models/tex_jam3.obj");
-	model[45] = glmReadOBJ("models/tex_jam4.obj");
-	model[46] = glmReadOBJ("models/tex_jam5.obj");
+	model[42] = glmReadOBJ("models/jam1.obj");
+	model[43] = glmReadOBJ("models/jam2.obj");
+	model[44] = glmReadOBJ("models/jam3.obj");
+	model[45] = glmReadOBJ("models/jam4.obj");
+	model[46] = glmReadOBJ("models/jam5.obj");
 	model[47] = glmReadOBJ("models/cushion1.obj");
 	model[48] = glmReadOBJ("models/cushion2.obj");
 	model[49] = glmReadOBJ("models/cushion3.obj");
@@ -101,7 +104,7 @@ void initObj() {
 	model[79] = glmReadOBJ("models/cake5.obj");
 }
 
-void init_nurbs_surface() {
+void initNurbsSurface() {
 	int u, v;
 
 	for (u = 0; u < 4; u++)
@@ -121,178 +124,186 @@ void init_nurbs_surface() {
 void drawScene() {
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glPushName(SOFA1);
-	drawModel(0, 39.169f, -93.1f, 340.861f, 44);
-	drawModel(1, 39.169f, -43.131f, 340.861f, 5);
+		drawModel(0, 39.169f, -93.1f, 340.861f, 44);
+		drawModel(1, 39.169f, -43.131f, 340.861f, 5);
 	glPopName();
 	glPushName(PLANT);
-	drawModel(2, 38.341f, -60.182f, 56.79f, 0, GL_REPLACE);
-	drawModel(11, 35.509f, -48.121f, 61.799f, 6, GL_REPLACE);
-	drawModel(12, 31.38f, -25.635f, 57.706f, 7, GL_REPLACE);
+		drawModel(2, 38.341f, -60.182f, 56.79f, 0, GL_REPLACE);
+		drawModel(11, 35.509f, -48.121f, 61.799f, 6, GL_REPLACE);
+		drawModel(12, 31.38f, -25.635f, 57.706f, 7, GL_REPLACE);
 	glPopName();
 	glPushName(SQUAREDESK);
-	drawModel(8, 169.754f, -35.096f, -440.152f, 2);
-	drawModel(8, 169.754f, -35.096f, -344.282f, 2);
-	drawModel(8, 169.754f, -35.096f, -248.412f, 2);
+		drawModel(8, 169.754f, -35.096f, -440.152f, 2);
+		drawModel(8, 169.754f, -35.096f, -344.282f, 2);
+		drawModel(8, 169.754f, -35.096f, -248.412f, 2);
 	glPopName();
 	glPushName(GLASSBOARD);
-	drawModel(9, 128.44f, -43.75f, -43.47f, 3);
+		drawModel(9, 128.44f, -43.75f, -43.47f, 3);
 	glPopName();
 	glPushName(SHELF);
-	drawModel(10, -315.612f, -130.0f, 300.0f, 4);
-	drawModel(37, -315.0f, -130.0f, 300.0f, 27);
+		drawModel(10, -315.612f, -130.0f, 300.0f, 4);
+		drawModel(37, -315.0f, -130.0f, 300.0f, 27);
 	glPopName();
 	glPushName(GARDEN);
-	drawModel(13, -279.904f, -21.351f, -323.509f, 8, GL_REPLACE);
-	drawModel(14, -275.286f, -15.766f, -322.688f, 9, GL_REPLACE);
-	drawModel(17, -279.52f, -6.474f, -326.062f, 12);
+		drawModel(13, -279.904f, -21.351f, -323.509f, 8, GL_REPLACE);
+		drawModel(14, -275.286f, -15.766f, -322.688f, 9, GL_REPLACE);
+		drawModel(17, -279.52f, -6.474f, -326.062f, 12);
 	glPopName();
 	glPushName(SWING);
-	drawModel(15, -371.593f, -101.526f, -358.718f, 10);
+		drawModel(15, -371.593f, -101.526f, -358.718f, 10);
 	glPopName();
 	glPushName(WINDOW);
-	drawModel(16, 195.306f, -176.866f, 494.763f, 11, GL_MODULATE, 90);
-	drawModel(16, -4.694f, -176.866f, 494.763f, 11, GL_MODULATE, 90);
-	drawModel(16, -204.694f, -176.866f, 494.763f, 11, GL_MODULATE, 90);
-	drawModel(16, -226.863f, -176.866f, -288.768f, 11);
+		drawModel(16, 195.306f, -176.866f, 494.763f, 11, GL_MODULATE, 90);
+		drawModel(16, -4.694f, -176.866f, 494.763f, 11, GL_MODULATE, 90);
+		drawModel(16, -204.694f, -176.866f, 494.763f, 11, GL_MODULATE, 90);
+		drawModel(16, -226.863f, -176.866f, -288.768f, 11);
 	glPopName();
 	glPushName(WALL);
-	drawModel(18, 0.0f, -150.0f, -1.062f, 13);
+		drawModel(18, 0.0f, -150.0f, -1.062f, 13);
 	glPopName();
 	glPushName(SOFATABLE);
-	drawModel(19, -16.732f, -20.0f, -327.229f, 14);
+		drawModel(19, -16.732f, -20.0f, -327.229f, 14);
 	glPopName();
 	glPushName(TABLE);
-	drawModel(20, 209.309f, -68.194f, 335.534f, 15);
-	drawModel(20, 39.03f, -68.194f, 335.534f, 15);
-	drawModel(20, -131.25f, -68.194f, 335.534f, 15);
+		drawModel(20, 209.309f, -68.194f, 335.534f, 15);
+		drawModel(20, 39.03f, -68.194f, 335.534f, 15);
+		drawModel(20, -131.25f, -68.194f, 335.534f, 15);
 	glPopName();
 	glPushName(MILK);
-	drawModel(21, 264.654f, -114.421f, 28.376f, 16);
-	drawModel(21, 264.654f, -114.421f, 16.376f, 16);
-	drawModel(21, 264.654f, -114.421f, 4.376f, 16);
-	drawModel(21, 264.654f, -114.421f, -7.624f, 16);
-	drawModel(21, 264.654f, -114.421f, -19.624f, 16);
-	drawModel(21, 264.654f, -114.421f, -31.624f, 16);
-	drawModel(21, 249.654f, -114.421f, 28.376f, 16);
-	drawModel(21, 249.654f, -114.421f, 16.376f, 16);
-	drawModel(21, 249.654f, -114.421f, 4.376f, 16);
-	drawModel(21, 249.654f, -114.421f, -7.624f, 16);
-	drawModel(21, 249.654f, -114.421f, -19.624f, 16);
-	drawModel(21, 249.654f, -114.421f, -31.624f, 16);
-	drawModel(21, 261.443f, -114.421f, -61.348f, 16);
-	drawModel(21, 250.679f, -114.421f, -83.816f, 16, GL_MODULATE, -22.308f);
+		drawModel(21, 264.654f, -114.421f, 28.376f, 16);
+		drawModel(21, 264.654f, -114.421f, 16.376f, 16);
+		drawModel(21, 264.654f, -114.421f, 4.376f, 16);
+		drawModel(21, 264.654f, -114.421f, -7.624f, 16);
+		drawModel(21, 264.654f, -114.421f, -19.624f, 16);
+		drawModel(21, 264.654f, -114.421f, -31.624f, 16);
+		drawModel(21, 249.654f, -114.421f, 28.376f, 16);
+		drawModel(21, 249.654f, -114.421f, 16.376f, 16);
+		drawModel(21, 249.654f, -114.421f, 4.376f, 16);
+		drawModel(21, 249.654f, -114.421f, -7.624f, 16);
+		drawModel(21, 249.654f, -114.421f, -19.624f, 16);
+		drawModel(21, 249.654f, -114.421f, -31.624f, 16);
+		drawModel(21, 261.443f, -114.421f, -61.348f, 16);
+		drawModel(21, 250.679f, -114.421f, -83.816f, 16, GL_MODULATE, -22.308f);
 	glPopName();
 	glPushName(STANDINGPLATE);
-	drawModel(22, -391.2f, -29.196f, -193.617f, 17, GL_MODULATE, 180.0f);
+		drawModel(22, -391.2f, -29.196f, -193.617f, 17, GL_MODULATE, 180.0f);
 	glPopName();
 	glPushName(METALSWING);
-	drawModel(23, -360.581f, -180.24f, -343.365f);
+		drawModel(23, -360.581f, -180.24f, -343.365f);
 	glPopName();
 	glPushName(CHECK);
-	drawModel(24, 122.562f, -101.406f, 48.416f, 18);
+		drawModel(24, 122.562f, -101.406f, 48.416f, 18);
 	glPopName();
 	glPushName(DRAWING);
-	drawModel(26, 321.348f, -193.038f, 337.094f, 20);
-	drawModel(35, 321.348f, -193.038f, 337.094f, 24);
+		drawModel(26, 321.348f, -193.038f, 337.094f, 20);
+		drawModel(35, 321.348f, -193.038f, 337.094f, 24);
 	glPopName();
 	glPushName(CARPET);
-	drawModel(27, -140.523f, -3.774f, -404.13f, 22, GL_MODULATE, 180);
+		drawModel(27, -140.523f, -3.774f, -404.13f, 22, GL_MODULATE, 180);
 	glPopName();
 	glPushName(CUP);
-	drawModel(29, 259.378f, -167.0f, -45.0f);
+		drawModel(29, 259.378f, -167.0f, -45.0f);
 	glPopName();
 	glPushName(TV);
-	drawModel(31, -75.0f, -150.0f, -487.885f, 23);
+		drawModel(31, -75.0f, -150.0f, -487.885f, 23);
 	glPopName();
 	glPushName(CUPBOARD);
-	drawModel(32, 249.91f, -150.0f, -45.0f, 21);
+		drawModel(32, 249.91f, -150.0f, -45.0f, 21);
 	glPopName();
 	glPushName(LIGHT);
-	drawModel(33, 52.448f, -266.0f, -91.872f, 26);
+		drawModel(33, 52.448f, -266.0f, -91.872f, 26, GL_REPLACE);
 	glPopName();
 	glPushName(UMBRELLA);
-	drawModel(34, -290.15f, -29.981f, -128.367f, 28);
+		drawModel(34, -290.15f, -29.981f, -128.367f, 28);
 	glPopName();
 	glPushName(FLOOR);
-	drawModel(36, 0.0f, 0.0f, 0.0f, 25);
-	drawModel(57, 0.0f, -15.0f, 280.914f, 41);
+		drawModel(36, 0.0f, 0.0f, 0.0f, 25);
+		drawModel(57, 0.0f, -15.0f, 280.914f, 41);
 	glPopName();
 	glPushName(TAILI);
-	drawModel(41, 127.668f, -135.599f, -36.488f);
-	drawModel(40, 127.68f, -127.094f, -36.467f);
-	drawModel(39, 125.682f, -128.318f, -36.485f);
-	drawModel(38, 125.024f, -127.154f, -36.485f, 29);
+		drawModel(41, 127.668f, -135.599f, -36.488f);
+		drawModel(40, 127.68f, -127.094f, -36.467f);
+		drawModel(39, 125.682f, -128.318f, -36.485f);
+		drawModel(38, 125.024f, -127.154f, -36.485f, 29);
 	glPopName();
 	glPushName(JAM);
-	drawModel(42, 258.599f, -229.854f, 19.408f, 30);
-	drawModel(43, 258.599f, -229.854f, -2.733f, 31);
-	drawModel(44, 258.599f, -229.854f, -24.875f, 32);
-	drawModel(45, 258.599f, -233.104f, -73.041f, 33);
-	drawModel(46, 258.599f, -233.104f, -104.3568f, 34);
-	drawModel(66, 258.599f, -241.173f, -43.724f);
+		drawModel(42, 258.599f, -229.854f, 19.408f, 30);
+		drawModel(43, 258.599f, -229.854f, -2.733f, 31);
+		drawModel(44, 258.599f, -229.854f, -24.875f, 32);
+		drawModel(45, 258.599f, -233.104f, -73.041f, 33);
+		drawModel(46, 258.599f, -233.104f, -104.3568f, 34);
+		drawModel(66, 258.599f, -241.173f, -43.724f);
 	glPopName();
 	glPushName(CUSHION1);
-	drawModel(47, -44.054f, -70.587f, -190.17f, 35);
+		drawModel(47, -44.054f, -70.587f, -190.17f, 35);
 	glPopName();
 	glPushName(CUSHION2);
-	drawModel(48, -133.802f, -83.721f, -196.468f, 36);
+		drawModel(48, -133.802f, -83.721f, -196.468f, 36);
 	glPopName();
 	glPushName(CUSHION3);
-	drawModel(49, -143.524f, -57.519f, -249.374f, 37);
+		drawModel(49, -143.524f, -57.519f, -249.374f, 37);
 	glPopName();
 	glPushName(SOFA2);
-	drawModel(60, 245.074f, -49.73f, -318.288f, 45);
+		drawModel(60, 245.074f, -49.73f, -318.288f, 45);
 	glPopName();
 	glPushName(SOFA3);
-	drawModel(61, -83.219f, -54.591f, -236.236f, 46);
+		drawModel(61, -83.219f, -54.591f, -236.236f, 46);
 	glPopName();
 	glPushName(DOORSINGLE);
-	drawModel(62, 266.0f, -141.5f, 147.009f, 47);
-	drawModel(63, 268.5f, -140.0f, 181.311f);
+		drawModel(62, 266.0f, -141.5f, 147.009f, 47);
+		drawModel(63, 268.5f, -140.0f, 181.311f);
 	glPopName();
 	glPushName(LIUSHENGJI);
-	drawModel(67, -309.781f, -100.691f, 161.598f);
+		drawModel(67, -309.781f, -100.691f, 161.598f);
 	glPopName();
 	glPushName(LAMB);
-	drawModel(68, -317.957f, -126.251f, 276.303f);
+		drawModel(68, -317.957f, -126.251f, 276.303f);
 	glPopName();
 	glPushName(PIANO);
-	drawModel(70, -310.477f, -100.906f, 352.293f);
-	drawModel(71, -310.47f, -100.159f, 354.563f);
-	drawModel(72, -310.5f, -99.731f, 362.701f);
-	drawModel(73, -310.499f, -99.872f, 362.402f);
-	drawModel(74, -311.126f, -94.275f, 369.266f);
-	drawModel(75, -311.152f, -96.838f, 369.278f);
-	drawModel(76, -311.128f, -96.518f, 369.292f);
+		drawModel(70, -310.477f, -100.906f, 352.293f);
+		drawModel(71, -310.47f, -100.159f, 354.563f);
+		drawModel(72, -310.5f, -99.731f, 362.701f);
+		drawModel(73, -310.499f, -99.872f, 362.402f);
+		drawModel(74, -311.126f, -94.275f, 369.266f);
+		drawModel(75, -311.152f, -96.838f, 369.278f);
+		drawModel(76, -311.128f, -96.518f, 369.292f);
 	glPopName();
 	glPushName(TEAPOT);
-	glPushMatrix();
-	glTranslatef(-258.599f, 190.0f, 73.041f);
-	glRotatef(-90.0f, 0, 1, 0);
-	glutSolidTeapot(10.0);
-	glPopMatrix();
-	glPushMatrix();
-	glTranslatef(-258.599f, 190.0f, 104.3568f);
-	glRotatef(-90.0f, 0, 1, 0);
-	glutSolidTeapot(10.0);
-	glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-258.599f, 190.0f, 73.041f);
+			glRotatef(-90.0f, 0, 1, 0);
+			glutSolidTeapot(10.0);
+		glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-258.599f, 190.0f, 104.3568f);
+			glRotatef(-90.0f, 0, 1, 0);
+			glutSolidTeapot(10.0);
+		glPopMatrix();
 	glPopName();
 	glPushName(PLATE);
-	drawModel(77, 128.456f, -73.397f, -53.762f);
+		drawModel(77, 128.456f, -73.397f, -53.762f);
 	glPopName();
 	glPushName(CAKE);
-	drawModel(78, 128.456f, -51.77f, -16.617f, 48);
-	drawModel(78, 128.366f, -51.77f, -54.738f, 49);
-	drawModel(78, 128.366f, -51.77f, -90.948f, 50);
-	drawModel(78, 128.366f, -83.036f, -90.948f, 51);
-	drawModel(79, 125.341f, -81.865f, -53.673f, 52);
-	drawModel(79, 125.341f, -81.865f, -16.229f, 53);
-	drawModel(79, 125.341f, -106.026f, -16.229f, 54);
+		drawModel(78, 128.456f, -51.77f, -16.617f, 48);
+		drawModel(78, 128.366f, -51.77f, -54.738f, 49);
+		drawModel(78, 128.366f, -51.77f, -90.948f, 50);
+		drawModel(78, 128.366f, -83.036f, -90.948f, 51);
+		drawModel(79, 125.341f, -81.865f, -53.673f, 52);
+		drawModel(79, 125.341f, -81.865f, -16.229f, 53);
+		drawModel(79, 125.341f, -106.026f, -16.229f, 54);
 	glPopName();
 
 	drawGeometry();
 }
 
+/*	drawModel：调用glmDraw绘制模型
+*
+*	modelnum	- 模型序号
+*	x, y, z		- (0, 0, 0)相对于当前模型中心点的坐标
+*	texturenum	- 贴图纹理在.mtl文件中的序号，缺省值-1（无贴图）
+*	mode		- GL_MODULATE或GL_REPLACE，前者为缺省值，后者用于解决盆栽贴图过暗的问题
+*	rotate		- 模型绕(0, 1, 0)按右手定则旋转角度，缺省值为0
+*/
 void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, int texturenum, int mode, GLfloat rotate) {
 	glPushMatrix();
 	glTranslatef(-x, -y, -z);
@@ -310,17 +321,17 @@ void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, int texturenum, in
 	glPopMatrix();
 }
 
+// Change the texture of screen every 1000ms
 void drawVideo() {
-	static int currenttime;
 	static int timebase = 0;
+	static int currenttime;
+
 	currenttime = glutGet(GLUT_ELAPSED_TIME);
 	if (currenttime - timebase > 1000) {
 		timebase = currenttime;
-		if (videoframe == 5) {
+		videoframe++;
+		if (videoframe == 32) {
 			videoframe = 0;
-		}
-		else {
-			videoframe++;
 		}
 	}
 	glPushMatrix();
@@ -334,16 +345,18 @@ void drawVideo() {
 	glPopMatrix();
 }
 
+// Draw an ugly NURBS surface above the house
+// By default it is not shown...Hahaha
+// Until you press 'N'
 void drawNurbs() {
 	glPushMatrix();
 	glTranslatef(0.0f, 500.0f, 0.0f);
 	glScalef(100.0f, 100.0f, 100.0f);
-	draw_nurbs_surface();
+	drawNurbsSurface();
 	glPopMatrix();
 }
 
 void drawDoor() {
-	//cout << "doorangle: " << doorangle << endl;
 	glPushName(DOORDOUBLE);
 	drawModel(7, -337.0f, 0.0f, -20.403f, 1);
 	drawModel(4, -337.0f, 0.0f, 60.403f, 1, GL_MODULATE, doorangle);
@@ -382,25 +395,6 @@ void drawDoor() {
 	glPopName();
 }
 
-void drawTransparantCube(GLfloat* location, GLfloat* size, GLfloat* color) {
-	glPushMatrix();
-		glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);  // 基于源象素alpha通道值的半透明混合函数
-		glEnable(GL_BLEND);  // 打开混合
-		glDisable(GL_DEPTH_TEST); // 关闭深度测试
-		glDisable(GL_LIGHTING);
-		//glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, black);
-		//glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, color);
-		//glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, black);
-		glColor4fv(color);
-		glTranslatef(location[X], location[Y], location[Z]);
-		glScalef(size[X], size[Y], size[Z]);
-		drawCube();
-		glDisable(GL_BLEND);  // 关闭混合
-		glEnable(GL_DEPTH_TEST); // 打开深度测试
-		glEnable(GL_LIGHTING);
-	glPopMatrix();
-}
-
 GLint genDisplayList(int type) {
 	GLint lid = glGenLists(1);
 
@@ -419,7 +413,6 @@ GLint genDisplayList(int type) {
 }
 
 void drawLocator(GLfloat* center, GLfloat radius) {
-	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glPushMatrix();
@@ -442,7 +435,6 @@ void drawLocator(GLfloat* center, GLfloat radius) {
 		glEnd();
 	glPopMatrix();
 	glEnable(GL_LIGHTING);
-	glEnable(GL_DEPTH_TEST);
 }
 
 void drawCrosshair() {
@@ -475,7 +467,7 @@ void drawCrosshair() {
 	glEnable(GL_DEPTH_TEST);
 }
 
-void draw_nurbs_surface() {
+void drawNurbsSurface() {
 	GLfloat knots[8] = { 0.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0 };
 	glEnable(GL_TEXTURE_2D);
 	gluBeginSurface(nurbsobject);
@@ -486,140 +478,142 @@ void draw_nurbs_surface() {
 	glDisable(GL_TEXTURE_2D);
 }
 
+// Draw a cube with texture coordinate
 void drawCube() {
 	glScalef(0.5, 0.5, 0.5);
 
 	glBegin(GL_QUADS);
-	glNormal3f(0, 0, 1);
-	glTexCoord2i(1, 1); glVertex3i(1, 1, 1);
-	glTexCoord2i(0, 1); glVertex3i(-1, 1, 1);
-	glTexCoord2i(0, 0); glVertex3i(-1, -1, 1);
-	glTexCoord2i(1, 0); glVertex3i(1, -1, 1);
+		glNormal3f(0, 0, 1);
+		glTexCoord2i(1, 1); glVertex3i(1, 1, 1);
+		glTexCoord2i(0, 1); glVertex3i(-1, 1, 1);
+		glTexCoord2i(0, 0); glVertex3i(-1, -1, 1);
+		glTexCoord2i(1, 0); glVertex3i(1, -1, 1);
 
-	glNormal3f(0, 1, 0);
-	glTexCoord2i(1, 1); glVertex3i(1, 1, 1);
-	glTexCoord2i(0, 1); glVertex3i(1, 1, -1);
-	glTexCoord2i(0, 0); glVertex3i(-1, 1, -1);
-	glTexCoord2i(1, 0); glVertex3i(-1, 1, 1);
+		glNormal3f(0, 1, 0);
+		glTexCoord2i(1, 1); glVertex3i(1, 1, 1);
+		glTexCoord2i(0, 1); glVertex3i(1, 1, -1);
+		glTexCoord2i(0, 0); glVertex3i(-1, 1, -1);
+		glTexCoord2i(1, 0); glVertex3i(-1, 1, 1);
 
-	glNormal3f(1, 0, 0);
-	glTexCoord2i(1, 1); glVertex3i(1, -1, 1);
-	glTexCoord2i(0, 1); glVertex3i(1, -1, -1);
-	glTexCoord2i(0, 0); glVertex3i(1, 1, -1);
-	glTexCoord2i(1, 0); glVertex3i(1, 1, 1);
+		glNormal3f(1, 0, 0);
+		glTexCoord2i(1, 1); glVertex3i(1, -1, 1);
+		glTexCoord2i(0, 1); glVertex3i(1, -1, -1);
+		glTexCoord2i(0, 0); glVertex3i(1, 1, -1);
+		glTexCoord2i(1, 0); glVertex3i(1, 1, 1);
 
-	glNormal3f(-1, 0, 0);
-	glTexCoord2i(1, 1); glVertex3i(-1, 1, 1);
-	glTexCoord2i(0, 1); glVertex3i(-1, 1, -1);
-	glTexCoord2i(0, 0); glVertex3i(-1, -1, -1);
-	glTexCoord2i(1, 0); glVertex3i(-1, -1, 1);
+		glNormal3f(-1, 0, 0);
+		glTexCoord2i(1, 1); glVertex3i(-1, 1, 1);
+		glTexCoord2i(0, 1); glVertex3i(-1, 1, -1);
+		glTexCoord2i(0, 0); glVertex3i(-1, -1, -1);
+		glTexCoord2i(1, 0); glVertex3i(-1, -1, 1);
 
-	glNormal3f(0, -1, 0);
-	glTexCoord2i(1, 1); glVertex3i(-1, -1, 1);
-	glTexCoord2i(0, 1); glVertex3i(-1, -1, -1);
-	glTexCoord2i(0, 0); glVertex3i(1, -1, -1);
-	glTexCoord2i(1, 0); glVertex3i(1, -1, 1);
+		glNormal3f(0, -1, 0);
+		glTexCoord2i(1, 1); glVertex3i(-1, -1, 1);
+		glTexCoord2i(0, 1); glVertex3i(-1, -1, -1);
+		glTexCoord2i(0, 0); glVertex3i(1, -1, -1);
+		glTexCoord2i(1, 0); glVertex3i(1, -1, 1);
 
-	glNormal3f(0, 0, -1);
-	glTexCoord2i(1, 1); glVertex3i(-1, 1, -1);
-	glTexCoord2i(0, 1); glVertex3i(1, 1, -1);
-	glTexCoord2i(0, 0); glVertex3i(1, -1, -1);
-	glTexCoord2i(1, 0); glVertex3i(-1, -1, -1);
+		glNormal3f(0, 0, -1);
+		glTexCoord2i(1, 1); glVertex3i(-1, 1, -1);
+		glTexCoord2i(0, 1); glVertex3i(1, 1, -1);
+		glTexCoord2i(0, 0); glVertex3i(1, -1, -1);
+		glTexCoord2i(1, 0); glVertex3i(-1, -1, -1);
 	glEnd();
 }
 
+// Draw transparent objects
 void drawTransparentObject() {
 	glPushName(WINDOW);
-	glPushMatrix();
-	glTranslatef(4.483f, 170.0f, -79.011f);
-	glmDrawTransparency(model[50], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE, 0.5);
-	glPopMatrix();
+		glPushMatrix();
+			glTranslatef(4.483f, 170.0f, -79.011f);
+			glmDrawTransparency(model[50], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE, 0.5);
+		glPopMatrix();
 	glPopName();
 	glPushName(LAMB);
-	glPushMatrix();
-	glTranslatef(317.957f, 127.396f, -276.303f);
-	glmDrawTransparency(model[69], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE, 0.3);
-	glPopMatrix();
+		glPushMatrix();
+			glTranslatef(317.957f, 127.396f, -276.303f);
+			glmDrawTransparency(model[69], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE, 0.3);
+		glPopMatrix();
 	glPopName();
 	glPushName(GLASSBOARD);
-	glPushMatrix();
-	glTranslatef(-129.69f, 82.0f, 53.47f);
-	glmDrawTransparency(model[51], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.2);
-	glPopMatrix();
+		glPushMatrix();
+			glTranslatef(-129.69f, 82.0f, 53.47f);
+			glmDrawTransparency(model[51], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.2);
+		glPopMatrix();
 	glPopName();
 	glPushName(CURTAIN);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glEnable(GL_TEXTURE_2D);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		glEnable(GL_TEXTURE_2D);
+			glPushMatrix();
+				glTranslatef(-270.061f, 178.254f, -487.622f);
+				glScalef(curtainratio, 1.0f, 1.0f);
+				glBindTexture(GL_TEXTURE_2D, textureObjects[38]);
+				glmDrawTransparency(model[54], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(-120.306f, 179.044f, -487.633f);
+				glScalef(curtainratio, 1.0f, 1.0f);
+				glBindTexture(GL_TEXTURE_2D, textureObjects[39]);
+				glmDrawTransparency(model[55], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
+			glPopMatrix();
 
-	glPushMatrix();
-	glTranslatef(-270.061f, 178.254f, -487.622f);
-	glScalef(curtainwidth, 1.0f, 1.0f);
-	glBindTexture(GL_TEXTURE_2D, textureObjects[38]);
-	glmDrawTransparency(model[54], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
-	glPopMatrix();
-	glPushMatrix();
-	glTranslatef(-120.306f, 179.044f, -487.633f);
-	glScalef(curtainwidth, 1.0f, 1.0f);
-	glBindTexture(GL_TEXTURE_2D, textureObjects[39]);
-	glmDrawTransparency(model[55], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
-	glPopMatrix();
+			glPushMatrix();
+				glTranslatef(-70.061f, 178.254f, -487.622f);
+				glScalef(curtainratio, 1.0f, 1.0f);
+				glBindTexture(GL_TEXTURE_2D, textureObjects[38]);
+				glmDrawTransparency(model[54], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(80.306f, 179.044f, -487.633f);
+				glScalef(curtainratio, 1.0f, 1.0f);
+				glBindTexture(GL_TEXTURE_2D, textureObjects[39]);
+				glmDrawTransparency(model[55], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
+			glPopMatrix();
 
-	glPushMatrix();
-	glTranslatef(-70.061f, 178.254f, -487.622f);
-	glScalef(curtainwidth, 1.0f, 1.0f);
-	glBindTexture(GL_TEXTURE_2D, textureObjects[38]);
-	glmDrawTransparency(model[54], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
-	glPopMatrix();
-	glPushMatrix();
-	glTranslatef(80.306f, 179.044f, -487.633f);
-	glScalef(curtainwidth, 1.0f, 1.0f);
-	glBindTexture(GL_TEXTURE_2D, textureObjects[39]);
-	glmDrawTransparency(model[55], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
-	glPopMatrix();
+			glPushMatrix();
+				glTranslatef(129.939f, 178.254f, -487.622f);
+				glScalef(curtainratio, 1.0f, 1.0f);
+				glBindTexture(GL_TEXTURE_2D, textureObjects[38]);
+				glmDrawTransparency(model[54], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(279.694f, 179.044f, -487.633f);
+				glScalef(curtainratio, 1.0f, 1.0f);
+				glBindTexture(GL_TEXTURE_2D, textureObjects[39]);
+				glmDrawTransparency(model[55], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
+			glPopMatrix();
 
-	glPushMatrix();
-	glTranslatef(129.939f, 178.254f, -487.622f);
-	glScalef(curtainwidth, 1.0f, 1.0f);
-	glBindTexture(GL_TEXTURE_2D, textureObjects[38]);
-	glmDrawTransparency(model[54], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
-	glPopMatrix();
-	glPushMatrix();
-	glTranslatef(279.694f, 179.044f, -487.633f);
-	glScalef(curtainwidth, 1.0f, 1.0f);
-	glBindTexture(GL_TEXTURE_2D, textureObjects[39]);
-	glmDrawTransparency(model[55], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(217.889f, 178.254f, 214.012f);
-	glRotatef(-90.0f, 0, 1, 0);
-	glScalef(curtainwidth, 1.0f, 1.0f);
-	glBindTexture(GL_TEXTURE_2D, textureObjects[38]);
-	glmDrawTransparency(model[54], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
-	glPopMatrix();
-	glPushMatrix();
-	glTranslatef(217.9f, 179.044f, 363.765f);
-	glRotatef(-90.0f, 0, 1, 0);
-	glScalef(curtainwidth, 1.0f, 1.0f);
-	glBindTexture(GL_TEXTURE_2D, textureObjects[39]);
-	glmDrawTransparency(model[55], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
-	glPopMatrix();
-	glDisable(GL_TEXTURE_2D);
+			glPushMatrix();
+				glTranslatef(217.889f, 178.254f, 214.012f);
+				glRotatef(-90.0f, 0, 1, 0);
+				glScalef(curtainratio, 1.0f, 1.0f);
+				glBindTexture(GL_TEXTURE_2D, textureObjects[38]);
+				glmDrawTransparency(model[54], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
+			glPopMatrix();
+			glPushMatrix();
+				glTranslatef(217.9f, 179.044f, 363.765f);
+				glRotatef(-90.0f, 0, 1, 0);
+				glScalef(curtainratio, 1.0f, 1.0f);
+				glBindTexture(GL_TEXTURE_2D, textureObjects[39]);
+				glmDrawTransparency(model[55], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
+			glPopMatrix();
+		glDisable(GL_TEXTURE_2D);
 	glPopName();
 }
 
+// Draw geometries
 void drawGeometry() {
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, black);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, coffee);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, black);
 	glPushMatrix();
-	glTranslatef(-189.69f, 50.0f, -81.53f);
-	glScalef(160, 100, 30);
-	drawCube();
+		glTranslatef(-189.69f, 50.0f, -81.53f);
+		glScalef(160, 100, 30);
+		drawCube();
 	glPopMatrix();
 	glPushMatrix();
-	glTranslatef(-189.69f, 50.0f, 168.47f);
-	glScalef(160, 100, 30);
-	drawCube();
+		glTranslatef(-189.69f, 50.0f, 168.47f);
+		glScalef(160, 100, 30);
+		drawCube();
 	glPopMatrix();
 }

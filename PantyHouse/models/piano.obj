@@ -1,6 +1,6 @@
 # This file uses centimeters as units for non-parametric coordinates.
 
-mtllib texturetest.mtl
+mtllib texture.mtl
 g default
 v 8.004952 -2.191381 8.837125
 v 8.004952 1.527415 8.837125

@@ -174,26 +174,13 @@ void updateLight() {
 bool detectCollision(GLfloat* camera) {
 	int i = (camera[X] + 335) / 5;
 	int j = (501 - camera[Z]) / 5;
-	if (!bout) {
-		if (collisionflag[i][j]) {
-			return false;
-		}
-		else {
-			return true;
-		}
+	if (!bout && collisionflag[i][j]) {
+		return false;
 	}
-	else {
-		if (i < 0 || i > 133 || j < 0 || j > 200) {
-			return false;
-		}
-		if (collisionflagout[i][j]) {
-			return false;
-		}
-		else {
-			return true;
-		}
+	else if (bout && (i < 0 || i > 133 || j < 0 || j > 200 || collisionflagout[i][j])) {
+		return false;
 	}
-
+	return true;
 }
 
 void updateWindowcenter(int* window, int* windowcenter) {
@@ -280,11 +267,11 @@ void processMusic(int value) {
 	}
 }
 
-void processpick(GLint* window) {
+void processPick(GLint* window) {
 	startPicking(window);
-	drawScene();
-	drawDoor();
-	drawTransparentObject();
+		drawScene();
+		drawDoor();
+		drawTransparentObject();
 	stopPicking();
 }
 
@@ -379,8 +366,8 @@ void processHits(GLint hits, GLuint buffer[]) {
 				bcurtainopening = GL_TRUE;
 				bout = GL_TRUE;
 				updateList(&listcode_door, DOOR);
-				glutTimerFunc(2333, timer, DOOROPENING);
-				glutTimerFunc(2333, timer, CURTAINOPENING);
+				glutTimerFunc(2333, animationTimer, DOOROPENING);
+				glutTimerFunc(2333, animationTimer, CURTAINOPENING);
 				strcpy(message, "You Find the PANGCI! The door is opening!");
 			}
 			break;
@@ -388,7 +375,7 @@ void processHits(GLint hits, GLuint buffer[]) {
 	}
 }
 
-void timer(int value) {
+void animationTimer(int value) {
 	if (value == DOOROPENING || value == DOORCLOSING) {
 		if (value == DOOROPENING) {
 			doorangle += 3;
@@ -400,27 +387,27 @@ void timer(int value) {
 
 		if (doorangle < 90 && doorangle > 0) {
 			if (bdooropening) {
-				glutTimerFunc(33, timer, DOOROPENING);
+				glutTimerFunc(33, animationTimer, DOOROPENING);
 			}
 			else {
-				glutTimerFunc(33, timer, DOORCLOSING);
+				glutTimerFunc(33, animationTimer, DOORCLOSING);
 			}
 		}
 	}
 	else {
 		if (value == CURTAINOPENING) {
-			curtainwidth -= 0.02;
+			curtainratio -= 0.02;
 		}
 		else if (value == CURTAINCLOSING) {
-			curtainwidth += 0.02;
+			curtainratio += 0.02;
 		}
 
-		if (curtainwidth < 1.0f && curtainwidth > 0.4f) {
+		if (curtainratio < 1.0f && curtainratio > 0.4f) {
 			if (bcurtainopening) {
-				glutTimerFunc(33, timer, CURTAINOPENING);
+				glutTimerFunc(33, animationTimer, CURTAINOPENING);
 			}
 			else {
-				glutTimerFunc(33, timer, CURTAINCLOSING);
+				glutTimerFunc(33, animationTimer, CURTAINCLOSING);
 			}
 		}
 	}
@@ -430,17 +417,12 @@ void timer(int value) {
 void exportObj() {
 	ifstream file1("models/door1.obj");
 	if (!file1) {
-		cerr << "Cannot open file!" << endl;;
+		cerr << "Cannot open file!" << endl;
 	}
-	else
-		cout << "Open success" << endl;
 	ofstream file2;
 	file2.open("output/out.obj", ios::trunc);
 	if (!file2) {
-		cerr << "Cannot open file!" << endl;;
-	}
-	else {
-		cout << "Open success" << endl;
+		cerr << "Cannot open file!" << endl;
 	}
 	while (!file1.eof()) {
 		char c[200];

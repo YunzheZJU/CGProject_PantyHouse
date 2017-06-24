@@ -1,11 +1,6 @@
 // head.h
 // Global variables and other things are claimed here
 
-// When naming, please use lowercase for all variables 
-// and set first letter to lowercase for functions.
-// Names of functions are composed by a verb or a verb and a noun, 
-// like init(),  initLight() and genTableList().
-
 #pragma once
 
 // Include related head files and IO classes
@@ -16,16 +11,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iomanip>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <vector>
-#include <memory.h>
 
 // Include glew.h and glut.h
 #include <gl/glew.h>
 #include <gl/glut.h>
+
+// Include glm.h
 #include "glm.h"
 
 // Using namespace std for cout
@@ -55,27 +46,24 @@ using namespace std;
 // Define buffer size for picking stack
 #define BUFSIZE 512
 
-// Define variables for texturing
+// Define global variables
 extern int textureObjectCnt;
-extern GLuint textureObjects[400];
-extern char texFileName[400][100];
-extern unsigned int texturevideo[10];
+extern GLuint textureObjects[60];
+extern char texFileName[60][100];
+extern unsigned int texturevideo[32];
 extern GLfloat light_pos0[4];
 extern GLfloat light_pos1[4];
 extern GLfloat light_pos2[4];
 extern GLfloat spot[4];
-extern GLMmodel* model[90];
+extern GLMmodel* model[80];
 extern GLfloat black[4];
-extern GLfloat white[4];
-extern GLfloat golden[4];
-extern GLfloat gray[4];
 extern GLfloat currentcolor[4];
 extern GLfloat constantattenuation;
 extern GLboolean bdooropening;
 extern GLboolean bcurtainopening;
 extern GLboolean bout;
 extern GLfloat doorangle;
-extern GLfloat curtainwidth;
+extern GLfloat curtainratio;
 extern GLint listcode_door;
 extern char message[70];
 extern int focus;
@@ -102,6 +90,7 @@ enum {
 	PLATE, CAKE
 };
 
+// Define status for animation of door and curtain
 enum {
 	DOOROPENING, 
 	DOORCLOSING, 
@@ -111,19 +100,18 @@ enum {
 
 // These functions are defined in Draw.cpp
 void initObj();
-void init_nurbs_surface();
+void initNurbsSurface();
+GLint genDisplayList(int type);
 void drawScene();
 void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, 
 	int texturenum = -1, int mode = GL_MODULATE, GLfloat rotate = 0.0f);
 void drawVideo();
 void drawNurbs();
 void drawDoor();
-GLint genDisplayList(int type);
 void drawLocator(GLfloat* center, GLfloat radius);
 void drawCrosshair();
-void draw_nurbs_surface();
+void drawNurbsSurface();
 void drawCube();
-void drawTransparantCube(GLfloat* location, GLfloat* size, GLfloat* color);
 void drawTransparentObject();
 void drawGeometry();
 
@@ -132,9 +120,9 @@ void initTexture();
 void initVideo();
 void drawVideo();
 void readMTL(char * fileName);
+void loadObjectTextures();
 unsigned char *loadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader);
 void loadTexture(int i, char* filename, bool type);
-void loadObjectTextures();
 
 // These functions are defined in Light.cpp
 void initLight();
@@ -157,11 +145,11 @@ bool detectCollision(GLfloat* camera);
 void updateWindowcenter(int* window, int* windowcenter);
 bool screenshot(int width, int height);
 void processMusic(int value);
-void processpick(GLint* window);
+void processPick(GLint* window);
 void startPicking(GLint * window);
 void stopPicking();
 void processHits(GLint hits, GLuint buffer[]);
-void timer(int value);
+void animationTimer(int value);
 void exportObj();
 
 // These functions are defined in System.cpp
@@ -169,7 +157,6 @@ void init();
 void idle();
 void redraw();
 void reshape(int width, int height);
-void updateView();
 void processMouseClick(int button, int state, int x, int y);
 void processMouseMove(int x, int y);
 void processFocus(int state);

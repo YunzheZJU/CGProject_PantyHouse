@@ -1,6 +1,6 @@
 # This file uses centimeters as units for non-parametric coordinates.
 
-mtllib texturetest.mtl
+mtllib texture.mtl
 g set4 tweakSet4
 v -5.229758 -50.349538 -63.371119
 v -5.229758 -50.349538 -123.519427

@@ -1,6 +1,6 @@
 # This file uses centimeters as units for non-parametric coordinates.
 
-mtllib texturetest.mtl
+mtllib texture.mtl
 g _Sofa3:set20 _Sofa3:tweakSet11
 v 226.520569 -37.593756 -81.625059
 v 170.139832 -37.593756 -81.625059

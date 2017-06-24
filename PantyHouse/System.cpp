@@ -11,20 +11,20 @@ GLint listcode_door = 0;							// Listcode of door for display list
 GLfloat camera[3] = { 320, 150, 0 };				// Position of camera
 GLfloat target[3] = { 0, 150, 0 };					// Position of target of camera
 GLfloat camera_polar[3] = { 320, 1.57f, 0 };		// Polar coordinates of camera
-GLfloat camera_locator[3] = { 320, 0, 0 };
-GLboolean bcamera = GL_TRUE;
-GLboolean bfocus = GL_TRUE;
-GLboolean bmouse = GL_FALSE;
-GLboolean bnurbs = GL_FALSE;
-GLboolean bmsaa = GL_FALSE;
-GLboolean bmusic = GL_TRUE;
-GLboolean bdooropening = GL_FALSE;
-GLboolean bcurtainopening = GL_FALSE;
+GLfloat camera_locator[3] = { 320, 0, 0 };			// Position of shadow of camera
+GLboolean bcamera = GL_TRUE;						// Switch of camera/target control
+GLboolean bfocus = GL_TRUE;							// Status of window focus
+GLboolean bmusic = GL_TRUE;							// Switch of background music
+GLboolean bmouse = GL_FALSE;						// Whether mouse postion should be moved
+GLboolean bnurbs = GL_FALSE;						// Switch of NURBS visibility
+GLboolean bmsaa = GL_FALSE;							// Switch of Multisampling anti-alias
+GLboolean bdooropening = GL_FALSE;					// Status of door opening animation
+GLboolean bcurtainopening = GL_FALSE;				// Status of curtain opening animation
 int fpsmode = 0;									// 0:off, 1:on, 2:waiting
-int window[2] = { 1280, 720 };
-int windowcenter[2];
+int window[2] = { 1280, 720 };						// Window size
+int windowcenter[2];								// Center of this window, to be updated
 char message[70] = "Welcome!";						// Message string to be shown
-int focus = NONE;
+int focus = NONE;									// Focus object by clicking RMB
 
 void init() {
 	// Initiate color
@@ -41,8 +41,8 @@ void init() {
 	initObj();
 	cout << "initObj OK." << endl;
 	// Initiate NURBS
-	init_nurbs_surface();
-	cout << "init_nurbs_surface OK." << endl;
+	initNurbsSurface();
+	cout << "initNurbsSurface OK." << endl;
 	// Initiate lighting
 	initLight();
 	cout << "initLight OK." << endl;
@@ -79,23 +79,33 @@ void redraw() {
 	callList(listcode_door);						// Draw door with display List
 	drawVideo();									// Draw video frames
 	drawTransparentObject();						// AT LAST Draw transparent glass
+
+	// Show NURBS object
+	if (bnurbs) {
+		callList(listcode_nurbs);
+	}
+
+	// Draw crosshair and locator in fps mode, or target when not in fps mode.
 	if (fpsmode == 1) {
 		drawCrosshair();
 		camera_locator[X] = camera[X];
 		camera_locator[Z] = camera[Z];
+		glDisable(GL_DEPTH_TEST);
 		drawLocator(camera_locator, 2);
+		glEnable(GL_DEPTH_TEST);
 	}
 	else {
+		glDisable(GL_DEPTH_TEST);
 		drawLocator(target, 2);
+		glEnable(GL_DEPTH_TEST);
 	}
-	if (bnurbs) {
-		callList(listcode_nurbs);
-	}
-	// Draw light
+
+	// Draw lights
 	drawLocator(light_pos0, 5);
 	drawLocator(light_pos1, 5);
 	drawLocator(light_pos2, 5);
 
+	// Show fps, message and other information
 	showSysStatus();
 
 	glutSwapBuffers();
@@ -109,15 +119,10 @@ void reshape(int width, int height) {
 	window[W] = width;
 	window[H] = height;
 	updateWindowcenter(window, windowcenter);
-	updateView();
-}
 
-void updateView() {
 	glMatrixMode(GL_PROJECTION);			// Select The Projection Matrix
 	glLoadIdentity();						// Reset The Projection Matrix
-
 	gluPerspective(45.0f, 1.7778f, 0.1f, 30000.0f);	// 1.7778 = 1280 / 720
-
 	glMatrixMode(GL_MODELVIEW);				// Select The Modelview Matrix
 }
 
@@ -129,7 +134,7 @@ void processMouseClick(int button, int state, int x, int y) {
 		glutPostRedisplay();
 	}
 	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN && fpsmode) {
-		processpick(window);
+		processPick(window);
 	}
 }
 
@@ -182,9 +187,6 @@ void processFocus(int state) {
 	else if (state == GLUT_ENTERED) {
 		bfocus = GL_TRUE;
 		cout << "Focus is on this window." << endl;
-	}
-	else {
-		cout << state << endl;
 	}
 }
 
@@ -350,7 +352,7 @@ void processNormalKey(unsigned char k, int x, int y) {
 				else {
 					target[Y] -= 10;
 					updatePolar(camera, target, camera_polar);
-					cout << fixed << setprecision(1) << "D pressed.\n\tPosition of camera target is set to (" <<
+					cout << fixed << setprecision(1) << "S pressed.\n\tPosition of camera target is set to (" <<
 						target[X] << ", " << target[Y] << ", " << target[Z] << ")." << endl;
 				}
 			}
@@ -465,11 +467,11 @@ void processNormalKey(unsigned char k, int x, int y) {
 			cout << "O pressed." << endl;
 			if (doorangle == 0) {
 				bdooropening = GL_TRUE;
-				glutTimerFunc(33, timer, DOOROPENING);
+				glutTimerFunc(33, animationTimer, DOOROPENING);
 			}
 			else if (doorangle == 90) {
 				bdooropening = GL_FALSE;
-				glutTimerFunc(33, timer, DOORCLOSING);
+				glutTimerFunc(33, animationTimer, DOORCLOSING);
 			}
 			break;
 		}
@@ -477,13 +479,13 @@ void processNormalKey(unsigned char k, int x, int y) {
 		case 'P':
 		case 'p': {
 			cout << "P pressed." << endl;
-			if (curtainwidth == 1) {
+			if (curtainratio == 1) {
 				bcurtainopening = GL_TRUE;
-				glutTimerFunc(33, timer, CURTAINOPENING);
+				glutTimerFunc(33, animationTimer, CURTAINOPENING);
 			}
-			else if (curtainwidth <= 0.4f) {
+			else if (curtainratio <= 0.4f) {
 				bcurtainopening = GL_FALSE;
-				glutTimerFunc(33, timer, CURTAINCLOSING);
+				glutTimerFunc(33, animationTimer, CURTAINCLOSING);
 			}
 			break;
 		}
