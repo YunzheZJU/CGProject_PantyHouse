@@ -80,8 +80,6 @@ void initObj() {
 	model[55] = glmReadOBJ("models/curtain2.obj");
 	model[56] = glmReadOBJ("models/pangci.obj");
 	model[57] = glmReadOBJ("models/floor2.obj");
-	model[58] = glmReadOBJ("models/sky.obj");
-	model[59] = glmReadOBJ("models/ground.obj");
 	model[60] = glmReadOBJ("models/sofa3.obj");
 	model[61] = glmReadOBJ("models/sofa.obj");
 	model[62] = glmReadOBJ("models/door2.obj");
