@@ -664,7 +664,7 @@ glmReadOBJ(char* filename)
 
 #if 1
 	/* announce the model name */
-	printf("Model: %s\n", filename);
+	printf("Load model: %s\n", filename);
 #endif
 
 	/* allocate a new model */

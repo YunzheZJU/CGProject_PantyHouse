@@ -415,7 +415,7 @@ void animationTimer(int value) {
 }
 
 void exportObj() {
-	ifstream file1("models/door1.obj");
+	ifstream file1("models/milk.obj");
 	if (!file1) {
 		cerr << "Cannot open file!" << endl;
 	}
@@ -429,4 +429,5 @@ void exportObj() {
 		file1.getline(c, 999);
 		file2 << c << endl;
 	}
+	cout << "Export obj successfully." << endl;
 }

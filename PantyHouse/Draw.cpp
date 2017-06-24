@@ -88,7 +88,7 @@ void initObj() {
 	model[63] = glmReadOBJ("models/metal1.obj");
 	model[64] = glmReadOBJ("models/handleright.obj");
 	model[65] = glmReadOBJ("models/handleleft.obj");
-	model[66] = glmReadOBJ("models/jarmetal.obj");
+	model[66] = glmReadOBJ("models/metal_jam.obj");
 	model[67] = glmReadOBJ("models/liushengji.obj");
 	model[68] = glmReadOBJ("models/lamb.obj");
 	model[69] = glmReadOBJ("models/lambglass.obj");
