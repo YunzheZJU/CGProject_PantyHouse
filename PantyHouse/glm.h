@@ -132,8 +132,4 @@ glmDraw(GLMmodel* model, GLuint mode);
 *          - transparency of the model
 */
 GLvoid
-glmDrawTransparency(GLMmodel* model, GLuint mode, GLfloat transparancy);
-
-
-
-
+glmDrawTransparency(GLMmodel* model, GLuint mode, GLfloat transparency);

@@ -7,13 +7,13 @@
 #pragma warning(disable:4018)
 
 // Count textures
-int textureObjectCnt = 0;
+int textureobjectcount = 0;
 
 // Texture Objects
-GLuint textureObjects[60];
+GLuint textureobjects[60];
 
 // Texture picture filename
-char texFileName[60][100];
+char texturefilename[60][100];
 
 // Video frame texture
 unsigned int texturevideo[32];
@@ -22,7 +22,32 @@ void initTexture() {
 	readMTL("models/texture.mtl");
 	cout << "readMTL OK." << endl;
 	loadObjectTextures();
-	cout << "loadObjectTextures OK." << endl;
+}
+
+// Read texture scr from .mtl file into texturefilename and count textureobjectcount
+void readMTL(char * fileName) {
+	ifstream fin(fileName);
+
+	string s;
+	while (getline(fin, s)) {
+		string stemp = s.substr(0, 6);
+		if (stemp == "map_Kd") {
+			string st = s.substr(7);
+			st[st.length()] = '\0';
+			strcpy_s(texturefilename[textureobjectcount], st.c_str());
+			cout << "Find texture " << textureobjectcount  << ": " << texturefilename[textureobjectcount] << endl;
+			textureobjectcount++;
+		}
+	}
+
+}
+
+// Generate textures from texturefilename into textureobjects
+void loadObjectTextures() {
+	glGenTextures(textureobjectcount, textureobjects);
+
+	for (int i = 0; i<textureobjectcount; i++)
+		loadTexture(i, texturefilename[i], false);
 }
 
 void initVideo() {
@@ -35,25 +60,6 @@ void initVideo() {
 		cout << "Find video texture: " << videoLoc << endl;
 		loadTexture(i - 1, videoLoc, true);
 	}
-	cout << "loadVideoTextures OK." << endl;
-}
-
-// Read texture scr from .mtl file into texFileName and count textureObjectCnt
-void readMTL(char * fileName) {
-	ifstream fin(fileName);
-
-	string s;
-	while (getline(fin, s)) {
-		string stemp = s.substr(0, 6);
-		if (stemp == "map_Kd") {
-			string st = s.substr(7);
-			st[st.length()] = '\0';
-			strcpy_s(texFileName[textureObjectCnt], st.c_str());
-			cout << "Find texture " << textureObjectCnt  << ": " << texFileName[textureObjectCnt] << endl;
-			textureObjectCnt++;
-		}
-	}
-
 }
 
 // Load texture from bitmap file scr into memory
@@ -99,23 +105,15 @@ unsigned char *loadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
 	return bitmapImage;
 }
 
-// Load texture from bitmap file scr into textureObjects
+// Load texture from bitmap file scr into textureobjects
 void loadTexture(int i, char* filename, bool type) {
 	BITMAPINFOHEADER bitmapInfoHeader;
 	unsigned char*   bitmapData;
 	bitmapData = loadBitmapFile(filename, &bitmapInfoHeader);
 	printf("Load texture: %s\n", filename);
 	// bind the texture
-	glBindTexture(GL_TEXTURE_2D, type ? texturevideo[i] : textureObjects[i]);
+	glBindTexture(GL_TEXTURE_2D, type ? texturevideo[i] : textureobjects[i]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
-}
-
-// Generate textures from texFileName into textureObjects
-void loadObjectTextures() {
-	glGenTextures(textureObjectCnt, textureObjects);
-
-	for (int i = 0; i<textureObjectCnt; i++)
-		loadTexture(i, texFileName[i], false);
 }

@@ -312,7 +312,7 @@ void drawModel(int modelnum, GLfloat x, GLfloat y, GLfloat z, int texturenum, in
 	else {
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, mode);
 		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, textureObjects[texturenum]);
+		glBindTexture(GL_TEXTURE_2D, textureobjects[texturenum]);
 		glmDraw(model[modelnum], GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
 		glDisable(GL_TEXTURE_2D);
 	}
@@ -545,39 +545,39 @@ void drawTransparentObject() {
 			glPushMatrix();
 				glTranslatef(-270.061f, 178.254f, -487.622f);
 				glScalef(curtainratio, 1.0f, 1.0f);
-				glBindTexture(GL_TEXTURE_2D, textureObjects[38]);
+				glBindTexture(GL_TEXTURE_2D, textureobjects[38]);
 				glmDrawTransparency(model[54], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
 			glPopMatrix();
 			glPushMatrix();
 				glTranslatef(-120.306f, 179.044f, -487.633f);
 				glScalef(curtainratio, 1.0f, 1.0f);
-				glBindTexture(GL_TEXTURE_2D, textureObjects[39]);
+				glBindTexture(GL_TEXTURE_2D, textureobjects[39]);
 				glmDrawTransparency(model[55], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
 			glPopMatrix();
 
 			glPushMatrix();
 				glTranslatef(-70.061f, 178.254f, -487.622f);
 				glScalef(curtainratio, 1.0f, 1.0f);
-				glBindTexture(GL_TEXTURE_2D, textureObjects[38]);
+				glBindTexture(GL_TEXTURE_2D, textureobjects[38]);
 				glmDrawTransparency(model[54], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
 			glPopMatrix();
 			glPushMatrix();
 				glTranslatef(80.306f, 179.044f, -487.633f);
 				glScalef(curtainratio, 1.0f, 1.0f);
-				glBindTexture(GL_TEXTURE_2D, textureObjects[39]);
+				glBindTexture(GL_TEXTURE_2D, textureobjects[39]);
 				glmDrawTransparency(model[55], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
 			glPopMatrix();
 
 			glPushMatrix();
 				glTranslatef(129.939f, 178.254f, -487.622f);
 				glScalef(curtainratio, 1.0f, 1.0f);
-				glBindTexture(GL_TEXTURE_2D, textureObjects[38]);
+				glBindTexture(GL_TEXTURE_2D, textureobjects[38]);
 				glmDrawTransparency(model[54], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
 			glPopMatrix();
 			glPushMatrix();
 				glTranslatef(279.694f, 179.044f, -487.633f);
 				glScalef(curtainratio, 1.0f, 1.0f);
-				glBindTexture(GL_TEXTURE_2D, textureObjects[39]);
+				glBindTexture(GL_TEXTURE_2D, textureobjects[39]);
 				glmDrawTransparency(model[55], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
 			glPopMatrix();
 
@@ -585,14 +585,14 @@ void drawTransparentObject() {
 				glTranslatef(217.889f, 178.254f, 214.012f);
 				glRotatef(-90.0f, 0, 1, 0);
 				glScalef(curtainratio, 1.0f, 1.0f);
-				glBindTexture(GL_TEXTURE_2D, textureObjects[38]);
+				glBindTexture(GL_TEXTURE_2D, textureobjects[38]);
 				glmDrawTransparency(model[54], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
 			glPopMatrix();
 			glPushMatrix();
 				glTranslatef(217.9f, 179.044f, 363.765f);
 				glRotatef(-90.0f, 0, 1, 0);
 				glScalef(curtainratio, 1.0f, 1.0f);
-				glBindTexture(GL_TEXTURE_2D, textureObjects[39]);
+				glBindTexture(GL_TEXTURE_2D, textureobjects[39]);
 				glmDrawTransparency(model[55], GLM_SMOOTH | GLM_COLOR | GLM_TEXTURE, 0.9);
 			glPopMatrix();
 		glDisable(GL_TEXTURE_2D);

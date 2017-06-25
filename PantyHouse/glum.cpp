@@ -872,7 +872,7 @@ glmDraw(GLMmodel* model, GLuint mode)
 *          - transparency of the model
 */
 GLvoid
-glmDrawTransparency(GLMmodel* model, GLuint mode, GLfloat transparancy)
+glmDrawTransparency(GLMmodel* model, GLuint mode, GLfloat transparency)
 {
 	GLuint i;
 	GLMgroup* group;
@@ -942,7 +942,7 @@ glmDrawTransparency(GLMmodel* model, GLuint mode, GLfloat transparancy)
 	diffuse[0] = model->materials[group->material].diffuse[0];
 	diffuse[1] = model->materials[group->material].diffuse[1];
 	diffuse[2] = model->materials[group->material].diffuse[2];
-	diffuse[3] = transparancy;
+	diffuse[3] = transparency;
 
 	while (group) {
 		if (mode & GLM_MATERIAL) {
@@ -1007,4 +1007,3 @@ glmDrawTransparency(GLMmodel* model, GLuint mode, GLfloat transparancy)
 
 	glPopMatrix();
 }
-

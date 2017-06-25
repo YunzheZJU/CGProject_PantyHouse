@@ -31,15 +31,16 @@ void init() {
 	glColor3f(1.0f, 1.0f, 1.0f);
 	// Initiate collision map
 	initMap();
+	cout << "initMap OK." << endl;
 	// Initiate texture
 	initTexture();
-	cout << "initTexture OK." << endl;
+	cout << "initObjectTexture OK." << endl;
 	// Initiate video
 	initVideo();
-	cout << "initVideo OK" << endl;
+	cout << "initVideoTexture OK" << endl;
 	// Initiate objects
 	initObj();
-	cout << "initObj OK." << endl;
+	cout << "initModel OK." << endl;
 	// Initiate NURBS
 	initNurbsSurface();
 	cout << "initNurbsSurface OK." << endl;

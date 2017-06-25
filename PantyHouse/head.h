@@ -47,9 +47,9 @@ using namespace std;
 #define BUFSIZE 512
 
 // Define global variables
-extern int textureObjectCnt;
-extern GLuint textureObjects[60];
-extern char texFileName[60][100];
+extern int textureobjectcount;
+extern GLuint textureobjects[60];
+extern char texturefilename[60][100];
 extern unsigned int texturevideo[32];
 extern GLfloat light_pos0[4];
 extern GLfloat light_pos1[4];
@@ -117,10 +117,9 @@ void drawGeometry();
 
 // These functions are defined in Texture.cpp
 void initTexture();
-void initVideo();
-void drawVideo();
 void readMTL(char * fileName);
 void loadObjectTextures();
+void initVideo();
 unsigned char *loadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader);
 void loadTexture(int i, char* filename, bool type);
 

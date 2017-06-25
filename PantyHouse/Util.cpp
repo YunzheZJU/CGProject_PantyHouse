@@ -4,6 +4,7 @@
 #include "head.h"
 
 #pragma warning(disable:4996)
+#pragma warning(disable:4018)
 
 GLuint selectBuf[BUFSIZE];
 
