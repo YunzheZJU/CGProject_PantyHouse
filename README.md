@@ -52,6 +52,7 @@ PantyHouse
     ©À©¤textures
     ©¸©¤videoframes
 ```
+Here is an encoding bug related with Visual Studio!
 
 Snapshot
 --------
