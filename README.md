@@ -31,7 +31,7 @@ Usage
 
 Build and run with vs2015.
 
-For moe information, please see [System Document][System Document]
+For more information, please see [System Document][System Document]
 
 Structure
 -------------
@@ -42,6 +42,7 @@ PantyHouse
 ©À©¤documents
 ©¸©¤PantyHouse
     ©À©¤Debug
+    ©¦  ©¸©¤PantyHouse.tlog
     ©À©¤images
     ©À©¤map
     ©À©¤models
