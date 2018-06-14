@@ -31,7 +31,7 @@ Usage
 
 Build and run with vs2015.
 
-For moe information, please see [System Document][System Document] under `/documents`
+For moe information, please see [System Document][System Document]
 
 Structure
 -------------
