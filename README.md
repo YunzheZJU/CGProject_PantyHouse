@@ -5,7 +5,7 @@ PantyHouse
 
 Project of Computer Graphics 2017 @ ZJU. 
 
-For moe information, please see [System Document][System Document]
+For more information, please see [System Document][System Document]
 
 Table of Contents
 -----------------
