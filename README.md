@@ -105,24 +105,24 @@ For any question, please mail to [yunzhe@zju.edu.cn][Mail]
 
 [status]: https://img.shields.io/badge/status-finished-green.svg "Project Status: Finished"
 
-[System Document]: documents/system_document.md
+[System Document]: docs/system_document.md
 
-[S0]: documents/0.png
-[S1]: documents/1.png
-[S2]: documents/2.png
-[S3]: documents/3.png
-[S4]: documents/4.png
-[S5]: documents/5.png
-[S6]: documents/6.png
-[S7]: documents/7.png
-[S8]: documents/8.png
-[S9]: documents/9.png
-[S10]: documents/10.png
-[S11]: documents/11.png
-[S12]: documents/12.png
-[S13]: documents/13.png
-[S14]: documents/14.png
-[S15]: documents/15.png
+[S0]: docs/0.png
+[S1]: docs/1.png
+[S2]: docs/2.png
+[S3]: docs/3.png
+[S4]: docs/4.png
+[S5]: docs/5.png
+[S6]: docs/6.png
+[S7]: docs/7.png
+[S8]: docs/8.png
+[S9]: docs/9.png
+[S10]: docs/10.png
+[S11]: docs/11.png
+[S12]: docs/12.png
+[S13]: docs/13.png
+[S14]: docs/14.png
+[S15]: docs/15.png
 
 [MIT]: /LICENCE_MIT.md
 [CC BY-NC-ND 4.0]: /LICENCE_CC_BY_NC_ND_4_0.md
